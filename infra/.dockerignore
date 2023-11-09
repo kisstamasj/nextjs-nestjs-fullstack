@@ -1,0 +1,7 @@
+.git
+.gitignore
+*.md
+dist
+.next
+infra
+node_modules

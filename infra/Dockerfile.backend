@@ -1,0 +1,29 @@
+# Development stage
+FROM node:lts AS dev
+
+WORKDIR /app
+
+COPY package.json .
+COPY pnpm-lock.yaml .
+
+RUN npm install -g pnpm
+RUN pnpm install
+
+COPY . .
+
+CMD ["pnpm", "run", "start:dev"]
+
+# Production stage
+FROM node:lts AS prod
+
+WORKDIR /app
+
+COPY package.json .
+COPY pnpm-lock.yaml .
+
+RUN npm install -g pnpm
+RUN pnpm install --production
+
+COPY . .
+
+CMD ["pnpm", "run", "start:prod"]

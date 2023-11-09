@@ -1,4 +1,4 @@
-import { Tokens } from '@common/index';
+import { Tokens } from '@app/common';
 import { Expose } from 'class-transformer';
 
 export class UserDto {

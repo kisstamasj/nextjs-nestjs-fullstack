@@ -1,7 +1,7 @@
 import { DataSource, DataSourceOptions } from 'typeorm';
 import 'dotenv/config';
 
-const migrations = ['dist/apps/backend/db/migrations/*.js'];
+const migrations = ['dist/db/migrations/*.js'];
 
 let dbOptions: DataSourceOptions;
 

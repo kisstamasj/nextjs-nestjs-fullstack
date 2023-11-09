@@ -3,7 +3,7 @@ import { execSync } from 'child_process';
 global.beforeEach(async () => {
   try {
     execSync(
-      'cd .. && docker compose -f docker-compose-test.yml down && docker compose -f docker-compose-test.yml up -d',
+      'cd ../infra && docker compose -f docker-compose-test.yml down && docker compose -f docker-compose-test.yml up -d',
       {
         stdio: 'pipe',
       },
@@ -19,7 +19,7 @@ global.beforeEach(async () => {
 });
 
 global.afterAll(async () => {
-  execSync('cd .. && docker compose -f docker-compose-test.yml down', {
+  execSync('cd ../infra && docker compose -f docker-compose-test.yml down', {
     stdio: 'pipe',
   });
 });

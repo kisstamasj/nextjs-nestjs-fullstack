@@ -13,10 +13,8 @@ import { UsersService } from './users.service';
 import { CreateUserDto } from './dtos/create-user.dto';
 import { UserDto } from './dtos/user.dto';
 import { Request as ExpressRequest } from 'express';
-import { AccessTokenGuard } from '@backend-common/guards';
-import { Serialize } from '@backend-common/interceptors';
 import { UpdateUserDto } from './dtos/update-user.dto';
-import { sayHello } from '@common/index';
+import { AccessTokenGuard, Serialize } from '@app/common';
 
 /**
  * The UserController class handles HTTP requests related to user operations.
@@ -25,11 +23,6 @@ import { sayHello } from '@common/index';
 @Serialize(UserDto)
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
-
-  @Get('hello')
-  hello() {
-    return sayHello('Tomika');
-  }
 
   /**
    * Retrieves the user profile.

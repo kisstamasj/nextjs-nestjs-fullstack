@@ -1,0 +1,11 @@
+{
+    "scripts": {
+        "docker:dev:up": "cd infra && docker compose -f docker-compose.dev.yaml up",
+        "docker:dev:up:build": "cd infra && docker compose -f docker-compose.dev.yaml up --build",
+        "docker:prod:up": "cd infra && docker compose -f docker-compose.prod.yaml up --build",
+        "backend:migration:run": "cd backend && pnpm migration:run",
+        "backend:migration:generate": "cd backend && pnpm migration:generate",
+        "backend:migration:create": "cd backend && pnpm migration:create",
+        "backend:migration:revert": "cd backend && pnpm migration:revert"
+    }
+}
