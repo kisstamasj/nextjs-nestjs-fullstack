@@ -18,43 +18,23 @@ services:
     depends_on:
       - database
 
-  # NextJS user client
-  # user-client:
-  #   build:
-  #     context: ../
-  #     dockerfile: infra/Dockerfile
-  #     target: user-client-${ENV_TYPE}
-  #   ports:
-  #     - ${USER_CLIENT_EXTERNAL_PORT}:${USER_CLIENT_INTERNAL_PORT}
-  #   volumes:
-  #     - ../:/app
-  #     - /app/apps/user-client/.next
-  #     - /app/infra
-  #   env_file:
-  #     - ./.env
-  #   networks:
-  #     - backend_network
-  #   depends_on:
-  #     - backend
-
-  # NextJS admin client
-  # admin-client:
-  #   build:
-  #     context: ../
-  #     dockerfile: infra/Dockerfile
-  #     target: admin-client-${ENV_TYPE}
-  #   ports:
-  #     - ${ADMIN_CLIENT_EXTERNAL_PORT}:${ADMIN_CLIENT_INTERNAL_PORT}
-  #   volumes:
-  #     - ../:/app
-  #     - /app/apps/admin-client/.next
-  #     - /app/infra
-  #   env_file:
-  #     - ./.env
-  #   networks:
-  #     - backend_network
-  #   depends_on:
-  #     - backend
+  # NextJS frontend
+  frontend:
+    build:
+      context: ../frontend
+      dockerfile: ../infra/Dockerfile.frontend
+      target: ${ENV_TYPE}
+    ports:
+      - ${FRONTED_EXTERNAL_PORT}:${FRONTED_INTERNAL_PORT}
+    volumes:
+      - ../frontend:/app
+      - /app/.next
+    env_file:
+      - ./.env
+    networks:
+      - backend_network
+    depends_on:
+      - backend
 
   # PostgreSQL Database
   database:

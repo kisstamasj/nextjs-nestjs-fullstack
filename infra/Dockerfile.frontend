@@ -1,0 +1,48 @@
+FROM node:18-alpine AS base
+ARG FRONTEND_INTERNAL_PORT
+ENV NEXT_TELEMETRY_DISABLED 1
+# Check https://github.com/nodejs/docker-node/tree/b4117f9333da4138b03a546ec926ef50a31506c3#nodealpine to understand why libc6-compat might be needed.
+RUN apk add --no-cache libc6-compat
+RUN npm install -g pnpm
+COPY . .
+RUN pnpm i --frozen-lockfile
+
+# Development stage
+FROM base AS dev
+
+WORKDIR /app
+
+COPY --from=base . .
+
+EXPOSE $FRONTEND_INTERNAL_PORT
+
+ENV PORT $FRONTEND_INTERNAL_PORT
+# set hostname to localhost
+ENV HOSTNAME "0.0.0.0"
+
+CMD pnpm run dev
+
+# Production stage
+FROM base AS prod
+WORKDIR /app
+COPY --from=base . .
+
+ENV NODE_ENV production
+
+RUN pnpm run build
+
+RUN addgroup --system --gid 1001 nodejs
+RUN adduser --system --uid 1001 nextjs
+
+# Set the correct permission for prerender cache
+RUN chown nextjs:nodejs .next
+
+USER nextjs
+
+EXPOSE $FRONTEND_INTERNAL_PORT
+
+ENV PORT $FRONTEND_INTERNAL_PORT
+# set hostname to localhost
+ENV HOSTNAME "0.0.0.0"
+
+CMD pnpm run start
