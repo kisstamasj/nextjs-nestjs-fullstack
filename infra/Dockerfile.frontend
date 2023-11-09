@@ -4,15 +4,16 @@ ENV NEXT_TELEMETRY_DISABLED 1
 # Check https://github.com/nodejs/docker-node/tree/b4117f9333da4138b03a546ec926ef50a31506c3#nodealpine to understand why libc6-compat might be needed.
 RUN apk add --no-cache libc6-compat
 RUN npm install -g pnpm
-COPY . .
-RUN pnpm i --frozen-lockfile
 
 # Development stage
 FROM base AS dev
 
 WORKDIR /app
 
-COPY --from=base . .
+COPY package*.json pnpm-lock.yaml ./
+RUN pnpm i --frozen-lockfile
+
+COPY . .
 
 EXPOSE $FRONTEND_INTERNAL_PORT
 
@@ -22,22 +23,23 @@ ENV HOSTNAME "0.0.0.0"
 
 CMD pnpm run dev
 
+FROM base AS build
+WORKDIR /app
+COPY --chown=node:node package*.json pnpm-lock.yaml ./
+COPY --chown=node:node --from=dev /app/node_modules ./node_modules
+COPY --chown=node:node . .
+
+RUN pnpm run build
+ENV NODE_ENV production
+RUN pnpm i --frozen-lockfile --production
+USER node
+
 # Production stage
 FROM base AS prod
 WORKDIR /app
-COPY --from=base . .
 
-ENV NODE_ENV production
-
-RUN pnpm run build
-
-RUN addgroup --system --gid 1001 nodejs
-RUN adduser --system --uid 1001 nextjs
-
-# Set the correct permission for prerender cache
-RUN chown nextjs:nodejs .next
-
-USER nextjs
+COPY --chown=node:node --from=build /app/node_modules ./node_modules
+COPY --chown=node:node --from=build /app/.next ./.next
 
 EXPOSE $FRONTEND_INTERNAL_PORT
 

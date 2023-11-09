@@ -1,33 +1,37 @@
 # Base stage
 FROM node:lts AS base
 WORKDIR /app
-
-COPY package.json .
-COPY pnpm-lock.yaml .
-
 RUN npm install -g pnpm
 
 # Development stage
 FROM base AS dev
 
 WORKDIR /app
-RUN pnpm install
+COPY package*.json pnpm-lock.yaml ./
+RUN pnpm i --frozen-lockfile
 
 COPY . .
 
 CMD ["pnpm", "run", "start:dev"]
 
-# Production stage
-FROM base AS prod
+# Build stage
+FROM base AS build
 
 WORKDIR /app
 
-RUN pnpm install --production
+COPY --chown=node:node package*.json pnpm-lock.yaml ./
+COPY --chown=node:node --from=dev /app/node_modules ./node_modules
+COPY --chown=node:node . .
 
-COPY . .
+RUN pnpm run build
+ENV NODE_ENV production
+RUN pnpm i --frozen-lockfile --production
+USER node
 
-RUN addgroup --system --gid 1001 nodejs
-RUN adduser --system --uid 1001 nestjs
-USER nestjs
+# Production stage
+FROM base as prod
+
+COPY --chown=node:node --from=build /app/node_modules ./node_modules
+COPY --chown=node:node --from=build /app/dist ./dist
 
 CMD ["pnpm", "run", "start:prod"]
