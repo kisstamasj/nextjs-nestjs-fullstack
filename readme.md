@@ -5,7 +5,7 @@
 
 # Setup
 
-- create `infra/.env` from `infra/.env.example`
+- create `infra/.env` from `infra/.env.example` (`cp infra/.env.example infra/.env`)
 - `cd backend && pnpm install`
 - `cd frontend && pnpm install`
 - `pnpm run docker:up:build`
