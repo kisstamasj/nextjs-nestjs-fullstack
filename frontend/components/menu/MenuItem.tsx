@@ -1,7 +1,6 @@
 "use client";
 
 import { useSidebar } from "@/hooks/use-sidebar";
-import { LucideIcon } from "lucide-react";
 import Link from "next/link";
 import React, { FC } from "react";
 import Icon from "../ui/Icon";
