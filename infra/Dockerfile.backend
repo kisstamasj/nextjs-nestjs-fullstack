@@ -1,12 +1,16 @@
-# Development stage
-FROM node:lts AS dev
-
+# Base stage
+FROM node:lts AS base
 WORKDIR /app
 
 COPY package.json .
 COPY pnpm-lock.yaml .
 
 RUN npm install -g pnpm
+
+# Development stage
+FROM base AS dev
+
+WORKDIR /app
 RUN pnpm install
 
 COPY . .
@@ -14,14 +18,10 @@ COPY . .
 CMD ["pnpm", "run", "start:dev"]
 
 # Production stage
-FROM node:lts AS prod
+FROM base AS prod
 
 WORKDIR /app
 
-COPY package.json .
-COPY pnpm-lock.yaml .
-
-RUN npm install -g pnpm
 RUN pnpm install --production
 
 COPY . .
