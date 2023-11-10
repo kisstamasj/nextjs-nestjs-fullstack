@@ -5,9 +5,6 @@ const migrations = ['dist/db/migrations/*.js'];
 
 let dbOptions: DataSourceOptions;
 
-console.log('---------------- DATA SOURCE ----------------------');
-console.log(`--- ENV_TYPE: ${process.env.ENV_TYPE} ---`);
-
 switch (process.env.ENV_TYPE) {
   case 'dev':
     dbOptions = {
