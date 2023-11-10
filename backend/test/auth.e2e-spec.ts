@@ -131,7 +131,7 @@ describe('Auth module (e2e)', () => {
 
     await request(app.getHttpServer())
       .get('/auth/logout')
-      .set('Authorization', 'Bearer ' + tokens.refreshToken)
+      .set('Authorization', 'Bearer ' + tokens.accessToken)
       .send()
       .expect(200);
   });
