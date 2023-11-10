@@ -8,6 +8,7 @@ import { useState } from 'react';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
+import Link from '@/components/ui/link';
 
 const formSchema = z.object({
   email: z.string().min(2),
@@ -58,21 +59,18 @@ const SignInForm = ({}) => {
               </FormItem>
             )}
           />
-          <Button disabled={loading} type="submit">
-            {loading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-            Sing in
-          </Button>
+          <div className="flex w-full justify-between items-center">
+            <Button disabled={loading} type="submit">
+              {loading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+              Sing in
+            </Button>
+            <div className="flex flex-col items-end">
+              <span>You don't have an account?</span>
+              <Link href="/sign-up">Sign Up!</Link>
+            </div>
+          </div>
         </form>
       </Form>
-      {/* {errors && (
-        <>
-          <Alert className="mt-4" variant="destructive">
-            <AlertCircle className="h-4 w-4" />
-            <AlertTitle>Error</AlertTitle>
-            <AlertDescription>{errors}</AlertDescription>
-          </Alert>
-        </>
-      )} */}
     </>
   );
 };

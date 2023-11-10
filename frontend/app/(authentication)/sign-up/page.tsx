@@ -1,20 +1,19 @@
 
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import SignInForm from './components/sign-in-form';
+import SignUpForm from './components/sign-up-form';
 
 
-const SignInPage = async () => {
+const SignUpPage = async () => {
   return (
     <Card className="w-full border-0 md:border md:h-auto md:w-[500px]">
       <CardHeader>
-        <CardTitle>Sign In</CardTitle>
-        <CardDescription>Administration dashboard</CardDescription>
+        <CardTitle>Sign Up</CardTitle>
       </CardHeader>
       <CardContent>
-        <SignInForm />
+        <SignUpForm />
       </CardContent>
     </Card>
   );
 };
 
-export default SignInPage;
+export default SignUpPage;
