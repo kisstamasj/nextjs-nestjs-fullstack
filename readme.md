@@ -6,7 +6,7 @@
 # Setup
 
 - create `infra/.env` from `infra/.env.example` (`cp infra/.env.example infra/.env`)
-  - generate secret keys for JWT secrets (`JWT_ACCESS_TOKEN_SECRET`, `JWT_REFRESH_TOKEN_SECRET`, `NEXTAUTH_SECRET`): `openssl rand -base64 64 | paste --delimiters '' --serial`
+  - generate secret keys for JWT secrets (`JWT_ACCESS_TOKEN_SECRET`, `JWT_REFRESH_TOKEN_SECRET`, `NEXTAUTH_SECRET`): `openssl rand -base64 32`
 - `cd backend && pnpm install && cd ..`
 - `cd frontend && pnpm install && cd ..`
 - `pnpm run docker:up:build`
