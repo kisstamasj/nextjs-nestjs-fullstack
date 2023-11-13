@@ -1,3 +1,4 @@
+import "./globals.css";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 
@@ -8,14 +9,14 @@ export const metadata: Metadata = {
   description: "Learningage v2",
 };
 
-export default async function AuthLayout({
+export default async function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
   return (
-    <div className="flex w-full h-full items-center justify-center">
-      {children}
-    </div>
+    <html lang="en" suppressHydrationWarning>
+      <body className={inter.className}>{children}</body>
+    </html>
   );
 }

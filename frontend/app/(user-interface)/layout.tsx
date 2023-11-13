@@ -1,4 +1,3 @@
-import '../globals.css';
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 
@@ -15,10 +14,6 @@ export default async function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" suppressHydrationWarning>
-      <body className={inter.className}>
-          <div className="h-full w-full">{children}</div>
-      </body>
-    </html>
+    <div className="h-full w-full">{children}</div>
   );
 }
