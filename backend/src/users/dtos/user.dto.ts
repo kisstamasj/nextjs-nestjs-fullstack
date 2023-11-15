@@ -12,5 +12,5 @@ export class UserDto {
   name: string;
 
   @Expose()
-  tokens: Tokens;
+  backendTokens: Tokens;
 }

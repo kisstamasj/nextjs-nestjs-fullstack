@@ -1,16 +1,15 @@
+import { Password, Tokens } from '@app/common';
 import {
   BadRequestException,
   ForbiddenException,
   Injectable,
 } from '@nestjs/common';
-import { UsersService } from '../users/users.service';
-import { JwtService } from '@nestjs/jwt';
 import { ConfigService } from '@nestjs/config';
-import { AuthDto } from './dtos/auth.dto';
+import { JwtService } from '@nestjs/jwt';
 import { CreateUserDto } from '../users/dtos/create-user.dto';
 import { User } from '../users/entities/user.entity';
-import { DateTime } from 'luxon';
-import { Password, Tokens } from '@app/common';
+import { UsersService } from '../users/users.service';
+import { AuthDto } from './dtos/auth.dto';
 
 /**
  * The `AuthService` class is responsible for validating user credentials by checking if the provided email and password match a user in the database.
@@ -89,9 +88,9 @@ export class AuthService {
    * @returns A promise that resolves when the user's refresh token is updated.
    */
   async updateRefreshToken(userId: string, refreshToken: string) {
-    const hashedRefreshToken = await Password.toHash(refreshToken);
+    // const hashedRefreshToken = await Password.toHash(refreshToken);
     await this.userService.update(userId, {
-      refreshToken: hashedRefreshToken,
+      refreshToken: refreshToken,
     });
   }
 
@@ -129,14 +128,16 @@ export class AuthService {
       ),
     ]);
 
+    const accessTokenExpireIn = this.calculateExpireIn();
+
     return {
       accessToken,
       refreshToken,
+      expiresIn: accessTokenExpireIn,
     };
   }
 
-  calculateExpireDate() {
-    let date = DateTime.now();
+  calculateExpireIn() {
     const expiresIn = parseInt(
       this.configService
         .get<string>('JWT_ACCESS_TOKEN_EXPIRES_IN')
@@ -147,9 +148,8 @@ export class AuthService {
             .indexOf('m'),
         ),
     );
-    date = date.plus({ minutes: expiresIn });
 
-    return date.toFormat('yyyy-LL-dd TT');
+    return new Date().setTime(new Date().getTime() + expiresIn * 60000);
   }
 
   /**
@@ -163,10 +163,12 @@ export class AuthService {
     const user = await this.userService.findById(userId);
     if (!user || !user.refreshToken)
       throw new ForbiddenException('Access Denied');
-    const refreshTokenMatches = await Password.compare(
-      user.refreshToken,
-      refreshToken,
-    );
+    // const refreshTokenMatches = await Password.compare(
+    //   user.refreshToken,
+    //   refreshToken,
+    // );
+
+    const refreshTokenMatches = user.refreshToken === refreshToken;
     if (!refreshTokenMatches) throw new ForbiddenException('Access Denied');
     const tokens = await this.getTokens(user.id, user.email);
     await this.updateRefreshToken(user.id, tokens.refreshToken);

@@ -1,3 +1,4 @@
+import WithOutAuth from "@/components/auth/withOutAuth";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -12,7 +13,7 @@ export default async function AuthLayout({
 }) {
   return (
     <div className="flex w-full h-full items-center justify-center">
-      {children}
+      <WithOutAuth>{children}</WithOutAuth>
     </div>
   );
 }

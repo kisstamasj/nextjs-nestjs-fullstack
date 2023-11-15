@@ -135,4 +135,6 @@ describe('Auth module (e2e)', () => {
       .send()
       .expect(200);
   });
+
+  // TODO: refresh token test
 });

@@ -1,16 +1,4 @@
 import {
-  Body,
-  Controller,
-  Get,
-  HttpCode,
-  Post,
-  UseGuards,
-} from '@nestjs/common';
-import { AuthService } from './auth.service';
-import { UserDto } from '../users/dtos/user.dto';
-import { CreateUserDto } from '../users/dtos/create-user.dto';
-import { AuthDto } from './dtos/auth.dto';
-import {
   AccessTokenGuard,
   IRequestUser,
   RefreshTokenGuard,
@@ -18,6 +6,18 @@ import {
   Serialize,
   Tokens,
 } from '@app/common';
+import {
+  Body,
+  Controller,
+  Get,
+  HttpCode,
+  Post,
+  UseGuards,
+} from '@nestjs/common';
+import { CreateUserDto } from '../users/dtos/create-user.dto';
+import { UserDto } from '../users/dtos/user.dto';
+import { AuthService } from './auth.service';
+import { AuthDto } from './dtos/auth.dto';
 
 /**
  * Controller responsible for handling authentication-related requests.
@@ -36,7 +36,7 @@ export class AuthController {
   @HttpCode(201)
   async createUser(@Body() createUserDto: CreateUserDto) {
     const { user, tokens } = await this.authService.signUp(createUserDto);
-    return { ...user, tokens };
+    return { ...user, backendTokens: tokens };
   }
 
   /**
@@ -49,7 +49,7 @@ export class AuthController {
   @HttpCode(200)
   async signin(@Body() data: AuthDto) {
     const { user, tokens } = await this.authService.signIn(data);
-    return { ...user, tokens };
+    return { ...user, backendTokens: tokens };
   }
 
   /**
@@ -71,11 +71,10 @@ export class AuthController {
    * @returns 'success' if successful.
    */
   @UseGuards(RefreshTokenGuard)
-  @Get('refresh')
+  @Post('refresh')
   async refreshTokens(@RequestUser() user: IRequestUser): Promise<Tokens> {
     const userId = user['sub'];
     const refreshToken = user['refreshToken'];
-    const tokens = await this.authService.refreshTokens(userId, refreshToken);
-    return tokens;
+    return await this.authService.refreshTokens(userId, refreshToken);
   }
 }

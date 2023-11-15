@@ -1,3 +1,4 @@
+import WithAuth from "@/components/auth/withAuth";
 import Providers from "@/providers/Providers";
 import type { Metadata } from "next";
 
@@ -12,8 +13,10 @@ export default async function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <Providers>
-      <div className="h-full w-full">{children}</div>
-    </Providers>
+    <WithAuth>
+      <Providers>
+        <div className="h-full w-full">{children}</div>
+      </Providers>
+    </WithAuth>
   );
 }
