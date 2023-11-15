@@ -17,11 +17,17 @@ async function refreshToken(token: JWT): Promise<JWT> {
 
   const response = await res.json();
 
+  let error = '';
+  if(response.statusCode == 403){
+    error = "RefreshTokenError";
+  }
+
   console.log("refreshed", response);
 
   return {
     ...token,
     backendTokens: response,
+    error: error
   };
 }
 
@@ -54,6 +60,7 @@ const options: AuthOptions = {
     async session({ session, token }) {
       session.user = token.user;
       session.backendTokens = token.backendTokens;
+      session.error = token.error;
 
       return session;
     },

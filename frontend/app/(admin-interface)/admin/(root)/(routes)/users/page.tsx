@@ -23,6 +23,7 @@ const getUser = async (): Promise<User> => {
 
 export default async function AdminHomePage() {
   const session = await getServerSession(authOptions);
+  
   const response = await fetch(BACKEND_URL +`/users/profile`, {
     method: "GET",
     headers: {
