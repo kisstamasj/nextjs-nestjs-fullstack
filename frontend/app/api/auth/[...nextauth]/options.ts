@@ -6,8 +6,6 @@ import { BACKEND_URL } from "@/lib/constants";
 import type { AuthOptions } from "next-auth";
 import { JWT } from "next-auth/jwt";
 import CredentialsProvider from "next-auth/providers/credentials";
-import { signOut } from "next-auth/react";
-import { redirect } from "next/navigation";
 
 async function refreshToken(token: JWT): Promise<JWT> {
   const res = await fetch(BACKEND_URL + "/auth/refresh", {
@@ -18,10 +16,6 @@ async function refreshToken(token: JWT): Promise<JWT> {
   });
 
   const response = await res.json();
-
-  if(response.statusCode == 403) {
-    return redirect('/sign-in')
-  }
 
   console.log("refreshed", response);
 

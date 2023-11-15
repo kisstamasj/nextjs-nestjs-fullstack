@@ -10,7 +10,6 @@ import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import Link from '@/components/ui/link';
 import { signIn } from 'next-auth/react';
-import { redirect } from 'next/navigation';
 
 const formSchema = z.object({
   email: z.string().min(2),

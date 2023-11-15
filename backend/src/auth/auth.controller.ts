@@ -1,11 +1,4 @@
-import {
-  AccessTokenGuard,
-  IRequestUser,
-  RefreshTokenGuard,
-  RequestUser,
-  Serialize,
-  Tokens,
-} from '@app/common';
+import { IRequestUser, RequestUser, Serialize, Tokens } from '@app/common';
 import {
   Body,
   Controller,
@@ -18,6 +11,7 @@ import { CreateUserDto } from '../users/dtos/create-user.dto';
 import { UserDto } from '../users/dtos/user.dto';
 import { AuthService } from './auth.service';
 import { AuthDto } from './dtos/auth.dto';
+import { AccessTokenGuard, RefreshTokenGuard } from './guards';
 
 /**
  * Controller responsible for handling authentication-related requests.
