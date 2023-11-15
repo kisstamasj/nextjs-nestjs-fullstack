@@ -10,6 +10,6 @@
 - `cd backend && pnpm install && cd ..`
 - `cd frontend && pnpm install && cd ..`
 - `pnpm run docker:up:build`
-- `pnpm run backend:migration:run`
+- `pnpm run backend:migration:run` (in new terminal)
 - frontend: `http://localhost:{env.FRONTED_EXTERNAL_PORT}`
 - backend: `http://localhost:{env.BACKEND_EXTERNAL_PORT}`
