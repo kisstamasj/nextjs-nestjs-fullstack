@@ -52,14 +52,12 @@ const SignUpForm = ({}) => {
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     setLoading(true);
     try {
-      const resSignUp = await axiosClient.post("/auth/signup", values);
-      const resSignIn = await signIn(
+      await axiosClient.post("/auth/signup", values);
+      await signIn(
         "credentials",
         { redirect: true },
         values
       );
-      console.log({resSignUp});
-      console.log({resSignIn});
     } catch (error) {
       let e = error as FormError;
       alert(e.response?.data?.message);

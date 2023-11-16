@@ -65,7 +65,6 @@ const options: AuthOptions = {
       return session;
     },
     async jwt({ token, user, account }) {
-      console.log('jwt callback')
       if (user) return { ...token, ...user };
 
       if (new Date().getTime() < token.backendTokens.expiresIn)
