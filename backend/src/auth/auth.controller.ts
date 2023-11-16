@@ -55,7 +55,7 @@ export class AuthController {
   @Get('logout')
   @HttpCode(200)
   async logout(@RequestUser() user: IRequestUser) {
-    await this.authService.logout(user['sub']);
+    await this.authService.logout(user.sub);
     return 'success';
   }
 

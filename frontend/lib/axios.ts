@@ -1,4 +1,7 @@
+import options from "@/app/api/auth/[...nextauth]/options";
 import axios from "axios";
+import { getServerSession } from "next-auth";
+import { useSession } from "next-auth/react";
 
 const IS_SERVER = typeof window === "undefined";
 const BASE_URL = IS_SERVER
@@ -19,5 +22,20 @@ export const createAxios = () => {
 };
 
 const axiosClient = createAxios();
+
+axiosClient.interceptors.request.use(async (config) => {
+  let token = '';
+  if (IS_SERVER) {
+    const session = await getServerSession(options);
+    token = `Bearer ${session?.backendTokens.accessToken}`;
+  } else {
+    const { data } = useSession();
+    token = `Bearer ${data?.backendTokens.accessToken}`;
+  }
+
+  config.headers.Authorization = token;
+
+  return config;
+})
 
 export default axiosClient;

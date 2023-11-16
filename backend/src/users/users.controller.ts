@@ -15,7 +15,7 @@ import { UserDto } from './dtos/user.dto';
 import { Request as ExpressRequest } from 'express';
 import { UpdateUserDto } from './dtos/update-user.dto';
 import { Serialize } from '@app/common';
-import { AccessTokenGuard } from 'src/auth/guards';
+import { AccessTokenGuard } from '../auth/guards';
 
 /**
  * The UserController class handles HTTP requests related to user operations.

@@ -78,7 +78,7 @@ export class AuthService {
    * @returns A promise that resolves when the user's refresh token is updated.
    */
   async logout(userId: string) {
-    return this.userService.update(userId, { refreshToken: null });
+    await this.userService.update(userId, { refreshToken: null });
   }
 
   /**
