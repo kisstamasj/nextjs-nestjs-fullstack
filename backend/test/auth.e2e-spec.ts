@@ -52,10 +52,10 @@ describe('Auth module (e2e)', () => {
       password: 'asd1234',
     });
 
-    const { id, email, tokens } = res.body;
+    const { id, email, backendTokens } = res.body;
     expect(id).toBeDefined();
     expect(email).toEqual(testEmail);
-    expect(tokens).toBeDefined();
+    expect(backendTokens).toBeDefined();
   });
 
   it('Unsuccess signup with missing email and getting 400 error', async () => {
@@ -88,11 +88,11 @@ describe('Auth module (e2e)', () => {
     // signin the user
     const res = await signIn(app, credentials);
 
-    const { id, email, name, tokens } = res.body;
+    const { id, email, name, backendTokens } = res.body;
     expect(id).toBeDefined();
     expect(email).toEqual(credentials.email);
     expect(name).toEqual(name);
-    expect(tokens).toBeDefined();
+    expect(backendTokens).toBeDefined();
   });
 
   it('Unsuccess signin with wrong credentials and getting 400 error', async () => {
@@ -127,11 +127,11 @@ describe('Auth module (e2e)', () => {
     // signin the user with wrong email address
     const signinRes = await signIn(app, credentials);
 
-    const { tokens } = signinRes.body;
+    const { backendTokens } = signinRes.body;
 
     await request(app.getHttpServer())
       .get('/auth/logout')
-      .set('Authorization', 'Bearer ' + tokens.accessToken)
+      .set('Authorization', 'Bearer ' + backendTokens.accessToken)
       .send()
       .expect(200);
   });
