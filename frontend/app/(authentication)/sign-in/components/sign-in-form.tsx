@@ -10,6 +10,7 @@ import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import Link from '@/components/ui/link';
 import { signIn } from 'next-auth/react';
+import { FormError } from '@/lib/types/errors';
 
 const formSchema = z.object({
   email: z.string().min(2),
@@ -28,9 +29,15 @@ const SignInForm = ({}) => {
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     setLoading(true);
-    const res = await signIn('credentials', { redirect: true }, values);
-    console.log({ res });
-    setLoading(false);
+    try {
+      const res = await signIn('credentials', { redirect: true }, values);
+      console.log({ res });  
+    } catch (error) {
+      let e = error as FormError;
+      alert(e.response?.data?.message);
+    } finally {
+      setLoading(false);
+    }    
   };
 
   return (

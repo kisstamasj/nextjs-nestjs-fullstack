@@ -1,10 +1,6 @@
 "use client";
 
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import * as z from "zod";
-import { Loader2 } from "lucide-react";
-import { useState } from "react";
+import { Button } from "@/components/ui/button";
 import {
   Form,
   FormControl,
@@ -14,24 +10,32 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
 import Link from "@/components/ui/link";
+import axiosClient from "@/lib/axios";
+import { FormError } from "@/lib/types/errors";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { Loader2 } from "lucide-react";
+import { signIn } from "next-auth/react";
+import { useState } from "react";
+import { useForm } from "react-hook-form";
+import * as z from "zod";
 
 const formSchema = z
   .object({
     name: z.string().min(2),
     email: z.string().min(2),
     password: z.string().min(4),
-    passwordConfirm: z.string(),
+    confirmPassword: z.string().min(4),
   })
-  .superRefine(({ passwordConfirm, password }, ctx) => {
-    if (passwordConfirm !== password) {
-      ctx.addIssue({
-        code: "custom",
-        message: "The passwords did not match",
-      });
+  .refine(
+    (values) => {
+      return values.confirmPassword === values.password;
+    },
+    {
+      message: "Passwords must match!",
+      path: ["confirmPassword"],
     }
-  });
+  );
 
 const SignUpForm = ({}) => {
   const [loading, setLoading] = useState(false);
@@ -41,11 +45,28 @@ const SignUpForm = ({}) => {
       name: "",
       email: "",
       password: "",
-      passwordConfirm: "",
+      confirmPassword: "",
     },
   });
 
-  const onSubmit = async (values: z.infer<typeof formSchema>) => {};
+  const onSubmit = async (values: z.infer<typeof formSchema>) => {
+    setLoading(true);
+    try {
+      const resSignUp = await axiosClient.post("/auth/signup", values);
+      const resSignIn = await signIn(
+        "credentials",
+        { redirect: true },
+        values
+      );
+      console.log({resSignUp});
+      console.log({resSignIn});
+    } catch (error) {
+      let e = error as FormError;
+      alert(e.response?.data?.message);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <>
@@ -96,7 +117,7 @@ const SignUpForm = ({}) => {
           />
           <FormField
             control={form.control}
-            name="passwordConfirm"
+            name="confirmPassword"
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Confirm password</FormLabel>
