@@ -88,7 +88,6 @@ export class AuthService {
    * @returns A promise that resolves when the user's refresh token is updated.
    */
   async updateRefreshToken(userId: string, refreshToken: string) {
-    // const hashedRefreshToken = await Password.toHash(refreshToken);
     await this.userService.update(userId, {
       refreshToken: refreshToken,
     });
@@ -163,10 +162,6 @@ export class AuthService {
     const user = await this.userService.findById(userId);
     if (!user || !user.refreshToken)
       throw new ForbiddenException('Access Denied');
-    // const refreshTokenMatches = await Password.compare(
-    //   user.refreshToken,
-    //   refreshToken,
-    // );
 
     const refreshTokenMatches = user.refreshToken === refreshToken;
     if (!refreshTokenMatches) throw new ForbiddenException('Access Denied');

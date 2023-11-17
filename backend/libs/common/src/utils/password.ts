@@ -18,17 +18,13 @@ export class Password {
 
   /**
    * Compares a stored hashed password with a supplied plain text password.
-   * @param storedPassword - The stored hashed password.
-   * @param suppliedPassword - The supplied plain text password.
+   * @param hash - The stored hashed password.
+   * @param plainText - The supplied plain text password.
    * @returns A promise that resolves to a boolean indicating whether the passwords match.
    */
-  static async compare(
-    storedPassword: string,
-    suppliedPassword: string,
-  ): Promise<boolean> {
+  static async compare(hash: string, plainText: string): Promise<boolean> {
     try {
-      const isMatch = await bcrypt.compare(suppliedPassword, storedPassword);
-      return isMatch;
+      return await bcrypt.compare(plainText, hash);
     } catch (error) {
       throw new Error(`Error comparing password`);
     }
