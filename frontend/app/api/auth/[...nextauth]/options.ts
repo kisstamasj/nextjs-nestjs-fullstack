@@ -70,7 +70,13 @@ const options: AuthOptions = {
       if (new Date().getTime() < token.backendTokens.expiresIn)
         return token;
 
-      return await refreshToken(token);
+      token = await refreshToken(token);
+
+      if(token.error){
+        throw new Error('Unable to refresh token')
+      }
+
+      return token;
     },
   },
   events: {
