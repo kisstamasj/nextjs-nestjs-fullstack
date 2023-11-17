@@ -1,7 +1,7 @@
 // https://github.com/nextauthjs/next-auth/issues/8254
 // https://github.com/vahid-nejad/Refresh-Token-Next-Auth/tree/main
 
-import axiosClient, { createAxios } from "@/lib/axios";
+import axiosBase, { createAxios } from "@/lib/axios";
 import { BACKEND_URL } from "@/lib/constants";
 import type { NextAuthOptions } from "next-auth";
 import { JWT } from "next-auth/jwt";
@@ -39,7 +39,7 @@ const options: NextAuthOptions  = {
       async authorize(credentials, req) {
         if (typeof req.query === "undefined") return null;
         try {
-          const { data } = await axiosClient.post("/auth/signin", req.query);
+          const { data } = await axiosBase.post("/auth/signin", req.query);
           return { ...data };
         } catch (error) {
           console.log(error);
@@ -84,11 +84,8 @@ const options: NextAuthOptions  = {
     async signOut({ session, token }) {
       const axios = createAxios();
       const res = await axios.get('/auth/logout', {headers: {Authorization: `Bearer ${token.backendTokens.accessToken}`}})
-      console.log(res)
     },
   },
 };
-
-
 
 export default options;

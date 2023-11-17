@@ -11,7 +11,7 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import Link from "@/components/ui/link";
-import axiosClient from "@/lib/axios";
+import useAxios from "@/hooks/use-axios";
 import { FormError } from "@/lib/types/errors";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Loader2 } from "lucide-react";
@@ -39,6 +39,7 @@ const formSchema = z
 
 const SignUpForm = ({}) => {
   const [loading, setLoading] = useState(false);
+  const axios = useAxios()
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -52,7 +53,7 @@ const SignUpForm = ({}) => {
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     setLoading(true);
     try {
-      await axiosClient.post("/auth/signup", values);
+      await axios.post("/auth/signup", values);
       await signIn(
         "credentials",
         { redirect: true },
