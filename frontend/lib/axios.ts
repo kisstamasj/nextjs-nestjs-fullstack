@@ -1,11 +1,11 @@
-import axios from "axios";
+import axios, { AxiosInstance } from "axios";
 import { BACKEND_URL } from "./constants";
 
 /**
  * Creates an instance of the Axios HTTP client with a base URL and default headers.
  * @returns {AxiosInstance} - An instance of the Axios HTTP client.
  */
-export const createAxios = () => {
+export const createAxios = (): AxiosInstance => {
   return axios.create({
     baseURL: BACKEND_URL,
     headers: {
