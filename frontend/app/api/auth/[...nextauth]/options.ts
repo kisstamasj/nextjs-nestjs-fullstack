@@ -55,6 +55,7 @@ const options: AuthOptions = {
   session: {
     strategy: "jwt",
     maxAge: 604800 /* TODO: 7 days -> get from the env */,
+    updateAge: 0
   },
   callbacks: {
     async session({ session, token }) {
@@ -67,14 +68,14 @@ const options: AuthOptions = {
     async jwt({ token, user, account }) {
       if (user) return { ...token, ...user };
 
-      if (new Date().getTime() < token.backendTokens.expiresIn)
-        return token;
+      // if (new Date().getTime() < token.backendTokens.expiresIn)
+      //   return token;
 
-      token = await refreshToken(token);
+      // token = await refreshToken(token);
 
-      if(token.error){
-        throw new Error('Unable to refresh token')
-      }
+      // if(token.error){
+      //   throw new Error('Unable to refresh token')
+      // }
 
       return token;
     },
