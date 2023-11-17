@@ -60,6 +60,7 @@ const SignUpForm = ({}) => {
       );
     } catch (error) {
       let e = error as FormError;
+      console.log(error)
       alert(e.response?.data?.message);
     } finally {
       setLoading(false);

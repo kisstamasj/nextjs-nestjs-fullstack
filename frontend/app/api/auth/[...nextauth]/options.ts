@@ -3,7 +3,7 @@
 
 import axiosClient, { createAxios } from "@/lib/axios";
 import { BACKEND_URL } from "@/lib/constants";
-import type { AuthOptions } from "next-auth";
+import type { NextAuthOptions } from "next-auth";
 import { JWT } from "next-auth/jwt";
 import CredentialsProvider from "next-auth/providers/credentials";
 
@@ -31,7 +31,7 @@ async function refreshToken(token: JWT): Promise<JWT> {
   };
 }
 
-const options: AuthOptions = {
+const options: NextAuthOptions  = {
   providers: [
     CredentialsProvider({
       name: "Credentials",
