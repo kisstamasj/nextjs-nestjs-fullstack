@@ -56,16 +56,23 @@ export const middleware: NextMiddleware = async (request: NextRequest) => {
       maxAge: 604800 /* TODO: 7 days -> get from the env */
     });
 
+    // set request cookies for the incoming getServerSession to read new session
     request.cookies.set(sessionCookie, newSessionToken);
 
+    // updated request cookies can only be passed to server if its passdown here after setting its updates
     response = NextResponse.next({
       request: {
         headers: request.headers,
       },
     });
 
-    // Update session token with new access token
-    response.cookies.set(sessionCookie, newSessionToken);
+    // set response cookies to send back to browser
+    response.cookies.set(sessionCookie, newSessionToken, {
+        httpOnly: true,
+          maxAge: 604800 /* TODO: 7 days -> get from the env */,
+          secure: process.env.NODE_ENV === 'production',
+          sameSite: "lax",
+    });
   }
 
   return response;
