@@ -17,15 +17,12 @@ const sessionCookie = process.env.NEXTAUTH_URL?.startsWith("https://")
   : "next-auth.session-token";
 
 function signOut(request: NextRequest) {
-//   const response = NextResponse.redirect(
-//     new URL("/api/auth/signin", request.url)
-//   );
+  let response = NextResponse.next();
+  request.cookies.getAll().forEach((cookie) => {
+    if (cookie.name.includes("next-auth")) response.cookies.delete(cookie.name);
+  });
 
-//   request.cookies.getAll().forEach((cookie) => {
-//     if (cookie.name.includes("next-auth")) response.cookies.delete(cookie.name);
-//   });
-
-//   return response;
+  return response;
 }
 
 function shouldUpdateToken(tokens: BackendTokens) {
@@ -45,34 +42,20 @@ export const middleware: NextMiddleware = async (request: NextRequest) => {
 
   if (shouldUpdateToken(session.backendTokens)) {
     // Here yoy retrieve the new access token from your custom backend
-    const newTokens = await refreshToken(session);
-
-    const newSessionToken = await encode({
-      secret: process.env.NEXTAUTH_SECRET!,
-      token: {
-        ...session,
-        backendTokens: newTokens,
-      },
-      maxAge: 604800 /* TODO: 7 days -> get from the env */
-    });
-
-    // set request cookies for the incoming getServerSession to read new session
-    request.cookies.set(sessionCookie, newSessionToken);
-
-    // updated request cookies can only be passed to server if its passdown here after setting its updates
-    response = NextResponse.next({
-      request: {
-        headers: request.headers,
-      },
-    });
-
-    // set response cookies to send back to browser
-    response.cookies.set(sessionCookie, newSessionToken, {
-        httpOnly: true,
-          maxAge: 604800 /* TODO: 7 days -> get from the env */,
-          secure: process.env.NODE_ENV === 'production',
-          sameSite: "lax",
-    });
+    try {
+      const newTokens = await refreshToken(session);
+      const newSessionToken = await encode({
+        secret: process.env.NEXTAUTH_SECRET!,
+        token: {
+          ...session,
+          backendTokens: newTokens,
+        },
+        maxAge: 604800 /* TODO: 7 days -> get from the env */,
+      });
+      response = updateCookie(newSessionToken, request, response)
+    } catch (error) {
+        response = updateCookie(null, request, response)
+    }
   }
 
   return response;
@@ -88,7 +71,47 @@ async function refreshToken(token: JWT): Promise<BackendTokens> {
 
   const response = await res.json();
 
+  if (response.statusCode == 403) {
+    throw new Error("RefreshTokenError");
+  }
+
   console.log("refreshed", response);
+
+  return response;
+}
+
+function updateCookie(
+  sessionToken: string | null,
+  request: NextRequest,
+  response: NextResponse
+) {
+  if (sessionToken) {
+    // set request cookies for the incoming getServerSession to read new session
+    request.cookies.set(sessionCookie, sessionToken);
+
+    // updated request cookies can only be passed to server if its passdown here after setting its updates
+    response = NextResponse.next({
+      request: {
+        headers: request.headers,
+      },
+    });
+
+    // set response cookies to send back to browser
+    response.cookies.set(sessionCookie, sessionToken, {
+      httpOnly: true,
+      maxAge: 604800 /* TODO: 7 days -> get from the env */,
+      // secure: process.env.NODE_ENV === "production",
+      sameSite: "lax",
+    });
+  } else {
+    request.cookies.delete(sessionCookie);
+    response = NextResponse.next({
+        request: {
+          headers: request.headers,
+        },
+      });
+    response.cookies.delete(sessionCookie)
+  }
 
   return response;
 }
