@@ -2,34 +2,8 @@
 // https://github.com/vahid-nejad/Refresh-Token-Next-Auth/tree/main
 
 import axiosBase, { createAxios } from "@/lib/axios";
-import { BACKEND_URL } from "@/lib/constants";
 import type { NextAuthOptions } from "next-auth";
-import { JWT } from "next-auth/jwt";
 import CredentialsProvider from "next-auth/providers/credentials";
-
-async function refreshToken(token: JWT): Promise<JWT> {
-  const res = await fetch(BACKEND_URL + "/auth/refresh", {
-    method: "POST",
-    headers: {
-      authorization: `Bearer ${token.backendTokens.refreshToken}`,
-    },
-  });
-
-  const response = await res.json();
-
-  let error = '';
-  if(response.statusCode == 403){
-    error = "RefreshTokenError";
-  }
-
-  console.log("refreshed", response);
-
-  return {
-    ...token,
-    backendTokens: response,
-    error: error
-  };
-}
 
 const options: NextAuthOptions  = {
   providers: [
@@ -59,23 +33,15 @@ const options: NextAuthOptions  = {
   },
   callbacks: {
     async session({ session, token }) {
+      // console.log({token})
       session.user = token.user;
       session.backendTokens = token.backendTokens;
-      session.error = token.error;
 
       return session;
     },
     async jwt({ token, user, account }) {
+      console.log({token, user})
       if (user) return { ...token, ...user };
-
-      // if (new Date().getTime() < token.backendTokens.expiresIn)
-      //   return token;
-
-      // token = await refreshToken(token);
-
-      // if(token.error){
-      //   throw new Error('Unable to refresh token')
-      // }
 
       return token;
     },
