@@ -1,23 +1,19 @@
-import axios from "axios";
-
-const IS_SERVER = typeof window === "undefined";
-const BASE_URL = IS_SERVER
-  ? process.env.NEXT_INTERNAL_API_URL
-  : process.env.NEXT_PUBLIC_API_URL;
+import axios, { AxiosInstance } from "axios";
+import { BACKEND_URL } from "./constants";
 
 /**
  * Creates an instance of the Axios HTTP client with a base URL and default headers.
  * @returns {AxiosInstance} - An instance of the Axios HTTP client.
  */
-export const createAxios = () => {
+export const createAxios = (): AxiosInstance => {
   return axios.create({
-    baseURL: BASE_URL,
+    baseURL: BACKEND_URL,
     headers: {
       "Content-Type": "application/json",
     },
   });
 };
 
-const axiosClient = createAxios();
+const axiosBase = createAxios();
 
-export default axiosClient;
+export default axiosBase;

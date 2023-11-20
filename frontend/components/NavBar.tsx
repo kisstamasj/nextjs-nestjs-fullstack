@@ -1,12 +1,12 @@
 "use client";
 
-
 import { Button } from "./ui/button";
-import { Menu } from "lucide-react";
+import { Loader2, LogOutIcon, Menu } from "lucide-react";
 import { DarkModeToggle } from "./DarkModeToggle";
 import React from "react";
 import { useSidebar } from "../hooks/use-sidebar";
 import { cn } from "@/lib/utils";
+import { signOut, useSession } from "next-auth/react";
 
 interface NavBarProps {
   className?: string;
@@ -15,6 +15,7 @@ interface NavBarProps {
 
 const NavBar: React.FC<NavBarProps> = ({ className, toggleSideBar }) => {
   const sidebar = useSidebar();
+  const { status, data } = useSession();
   const setSidebar = () => {
     if (sidebar.isOpen) {
       return sidebar.onClose();
@@ -37,8 +38,17 @@ const NavBar: React.FC<NavBarProps> = ({ className, toggleSideBar }) => {
             </Button>
           )}
         </div>
-        <div className="flex flex-row justify-end">
-          <DarkModeToggle />
+        <div className="flex flex-row justify-end gap-3">
+          {data && (
+            <div>
+              <Button variant='link' onClick={() => signOut({ redirect: true })}>
+                Kijelentkezés <LogOutIcon size={20} className="ml-3"/>
+              </Button>
+            </div>
+          )}
+          <div className="flex flex-row justify-end">
+            <DarkModeToggle />
+          </div>
         </div>
       </div>
     </div>

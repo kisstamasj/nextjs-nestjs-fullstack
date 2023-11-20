@@ -1,16 +1,23 @@
-'use client';
+"use client";
 
-import { useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
-import * as z from 'zod';
-import { Loader2 } from 'lucide-react';
-import { useState } from 'react';
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
-import { Input } from '@/components/ui/input';
-import { Button } from '@/components/ui/button';
-import Link from '@/components/ui/link';
-import { signIn } from 'next-auth/react';
-import { FormError } from '@/lib/types/errors';
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import * as z from "zod";
+import { Loader2 } from "lucide-react";
+import { useState } from "react";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+import Link from "@/components/ui/link";
+import { signIn } from "next-auth/react";
+import { FormError } from "@/lib/types/errors";
 
 const formSchema = z.object({
   email: z.string().min(2),
@@ -22,22 +29,22 @@ const SignInForm = ({}) => {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      email: '',
-      password: '',
+      email: "",
+      password: "",
     },
   });
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     setLoading(true);
     try {
-      const res = await signIn('credentials', { redirect: true }, values);
-      console.log({ res });  
+      const res = await signIn("credentials", { redirect: true }, values);
+      console.log({ res });
     } catch (error) {
       let e = error as FormError;
       alert(e.response?.data?.message);
     } finally {
       setLoading(false);
-    }    
+    }
   };
 
   return (
@@ -76,7 +83,7 @@ const SignInForm = ({}) => {
               Sing in
             </Button>
             <div className="flex flex-col items-end">
-              <span>You don't have an account?</span>
+              <span>{`You don't have an account?`}</span>
               <Link href="/sign-up">Sign Up!</Link>
             </div>
           </div>

@@ -13,3 +13,11 @@
 - `pnpm run backend:migration:run` (in new terminal)
 - frontend: `http://localhost:{env.FRONTED_EXTERNAL_PORT}`
 - backend: `http://localhost:{env.BACKEND_EXTERNAL_PORT}`
+
+# Routes
+
+- `/`: unprotected
+- `/sign-in`: unprotected (without session), sign in
+- `/sign-up`: unprotected (without session), sign up
+- `/admin/*`: admin dashboard, protected
+- `/admin/users`: request to a protected backend API endpoint (/users/profile)
