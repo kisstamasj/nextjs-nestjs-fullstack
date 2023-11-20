@@ -33,14 +33,12 @@ const options: NextAuthOptions  = {
   },
   callbacks: {
     async session({ session, token }) {
-      // console.log({token})
       session.user = token.user;
       session.backendTokens = token.backendTokens;
 
       return session;
     },
     async jwt({ token, user, account }) {
-      console.log({token, user})
       if (user) return { ...token, ...user };
 
       return token;
