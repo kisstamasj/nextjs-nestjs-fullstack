@@ -52,9 +52,9 @@ describe('Auth module (e2e)', () => {
       password: 'asd1234',
     });
 
-    const { id, email, backendTokens } = res.body;
-    expect(id).toBeDefined();
-    expect(email).toEqual(testEmail);
+    const { user, backendTokens } = res.body;
+    expect(user.id).toBeDefined();
+    expect(user.email).toEqual(testEmail);
     expect(backendTokens).toBeDefined();
   });
 
@@ -88,10 +88,10 @@ describe('Auth module (e2e)', () => {
     // signin the user
     const res = await signIn(app, credentials);
 
-    const { id, email, name, backendTokens } = res.body;
-    expect(id).toBeDefined();
-    expect(email).toEqual(credentials.email);
-    expect(name).toEqual(name);
+    const { user, backendTokens } = res.body;
+    expect(user.id).toBeDefined();
+    expect(user.email).toEqual(credentials.email);
+    expect(user.name).toEqual(credentials.name);
     expect(backendTokens).toBeDefined();
   });
 
