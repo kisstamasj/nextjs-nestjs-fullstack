@@ -1,30 +1,13 @@
-import options from "@/app/api/auth/[...nextauth]/options";
 import H1 from "@/components/ui/H1";
 import PageContainer from "@/components/ui/PageContainer";
 import PageHeaderContainer from "@/components/ui/PageHeaderContainer";
 import PageHeaderSeparator from "@/components/ui/PageHeaderSeparator";
-import { axiosServer } from "@/lib/axiosServer";
-import { BACKEND_URL } from "@/lib/constants";
+import fetchApi from "@/lib/fetchApi";
 import { User } from "@/lib/types/user";
-import { getServerSession } from "next-auth";
 
 const getUser = async (): Promise<User> => {
   console.log('getUser requrest')
-  const session = await getServerSession(options);
-  console.log({session})
-  const response = await fetch(BACKEND_URL +`/users/profile`, {
-    method: "GET",
-    headers: {
-      authorization: `Bearer ${session?.backendTokens.accessToken}`,
-      "Content-Type": "application/json",
-    },
-    cache: "no-cache"
-  })
-
-  return await response.json()
-  // const axios = await axiosServer();
-  // const { data } = await axios.get('/users/profile');
-  // return data;
+  return await fetchApi('/users/profile', 'get')
 }
 
 export default async function AdminHomePage() {
