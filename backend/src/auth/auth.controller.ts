@@ -1,4 +1,4 @@
-import { IRequestUser, RequestUser, Serialize, Tokens } from '@app/common';
+import { IRequestUser, RequestUser, Tokens } from '@app/common';
 import {
   Body,
   Controller,
@@ -8,7 +8,6 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import { CreateUserDto } from '../users/dtos/create-user.dto';
-import { UserDto } from '../users/dtos/user.dto';
 import { AuthService } from './auth.service';
 import { AuthDto } from './dtos/auth.dto';
 import { AccessTokenGuard, RefreshTokenGuard } from './guards';
@@ -26,11 +25,13 @@ export class AuthController {
    * @returns A promise that resolves to the newly created user.
    */
   @Post('signup')
-  @Serialize(UserDto)
   @HttpCode(201)
   async createUser(@Body() createUserDto: CreateUserDto) {
     const { user, tokens } = await this.authService.signUp(createUserDto);
-    return { ...user, backendTokens: tokens };
+    return {
+      user: { id: user.id, name: user.name, email: user.email },
+      backendTokens: tokens,
+    };
   }
 
   /**
@@ -39,11 +40,13 @@ export class AuthController {
    * @returns The authenticated user object.
    */
   @Post('signin')
-  @Serialize(UserDto)
   @HttpCode(200)
   async signin(@Body() data: AuthDto) {
     const { user, tokens } = await this.authService.signIn(data);
-    return { ...user, backendTokens: tokens };
+    return {
+      user: { id: user.id, name: user.name, email: user.email },
+      backendTokens: tokens,
+    };
   }
 
   /**
