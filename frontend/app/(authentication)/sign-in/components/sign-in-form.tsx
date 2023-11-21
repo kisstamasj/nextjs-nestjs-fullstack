@@ -1,10 +1,7 @@
 "use client";
 
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import * as z from "zod";
-import { Loader2 } from "lucide-react";
-import { useState } from "react";
+import { Alert, AlertDescription } from "@/components/ui/alert";
+import { Button } from "@/components/ui/button";
 import {
   Form,
   FormControl,
@@ -14,10 +11,15 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
 import Link from "@/components/ui/link";
-import { signIn } from "next-auth/react";
 import { FormError } from "@/lib/types/errors";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { AlertCircle, Loader2 } from "lucide-react";
+import { signIn } from "next-auth/react";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
+import { useForm } from "react-hook-form";
+import * as z from "zod";
 
 const formSchema = z.object({
   email: z.string().min(2),
@@ -26,6 +28,8 @@ const formSchema = z.object({
 
 const SignInForm = ({}) => {
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+  const router = useRouter()
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -37,11 +41,15 @@ const SignInForm = ({}) => {
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     setLoading(true);
     try {
-      const res = await signIn("credentials", { redirect: true }, values);
-      console.log({ res });
+      const res = await signIn("credentials", { redirect: false }, values);
+      if (res?.status === 401) {
+        return setError("Your email or password are wrong!");
+      }
+
+      router.refresh()
     } catch (error) {
       let e = error as FormError;
-      alert(e.response?.data?.message);
+      alert(e);
     } finally {
       setLoading(false);
     }
@@ -87,6 +95,14 @@ const SignInForm = ({}) => {
               <Link href="/sign-up">Sign Up!</Link>
             </div>
           </div>
+          {error && (
+            <Alert variant="destructive">
+              <AlertCircle className="h-4 w-4" />
+              <AlertDescription>
+                {error}
+              </AlertDescription>
+            </Alert>
+          )}
         </form>
       </Form>
     </>

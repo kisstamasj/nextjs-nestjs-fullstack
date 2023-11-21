@@ -1,5 +1,6 @@
 "use client";
 
+import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -14,7 +15,7 @@ import Link from "@/components/ui/link";
 import useAxios from "@/hooks/use-axios";
 import { FormError } from "@/lib/types/errors";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Loader2 } from "lucide-react";
+import { AlertCircle, Loader2 } from "lucide-react";
 import { signIn } from "next-auth/react";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
@@ -39,6 +40,7 @@ const formSchema = z
 
 const SignUpForm = ({}) => {
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('')
   const axios = useAxios()
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -62,7 +64,7 @@ const SignUpForm = ({}) => {
     } catch (error) {
       let e = error as FormError;
       console.log(error)
-      alert(e.response?.data?.message);
+      setError(e.response?.data?.message);
     } finally {
       setLoading(false);
     }
@@ -138,6 +140,14 @@ const SignUpForm = ({}) => {
               <Link href="/sign-in">Sign in!</Link>
             </div>
           </div>
+          {error && (
+            <Alert variant="destructive">
+              <AlertCircle className="h-4 w-4" />
+              <AlertDescription>
+                {error}
+              </AlertDescription>
+            </Alert>
+          )}
         </form>
       </Form>
     </>
