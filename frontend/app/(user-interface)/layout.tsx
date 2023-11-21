@@ -1,3 +1,4 @@
+import UserNavBar from '@/components/NavBar/UserNavbar';
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 
@@ -14,6 +15,9 @@ export default async function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <div className="h-full w-full">{children}</div>
+    <div>
+      <UserNavBar/>
+      {children}
+    </div>
   );
 }

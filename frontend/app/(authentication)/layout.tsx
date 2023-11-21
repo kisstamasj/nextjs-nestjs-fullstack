@@ -1,3 +1,5 @@
+
+import UserNavBar from "@/components/NavBar/UserNavbar";
 import WithOutAuth from "@/components/auth/withOutAuth";
 import type { Metadata } from "next";
 
@@ -12,8 +14,11 @@ export default async function AuthLayout({
   children: React.ReactNode;
 }) {
   return (
-    <div className="flex w-full h-full items-center justify-center">
-      <WithOutAuth>{children}</WithOutAuth>
-    </div>
+    <>
+      <UserNavBar className="fixed"/>
+      <div className="flex items-center justify-center h-full">
+        <WithOutAuth>{children}</WithOutAuth>
+      </div>
+    </>
   );
 }
