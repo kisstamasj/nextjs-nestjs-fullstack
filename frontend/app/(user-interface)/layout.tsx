@@ -1,12 +1,13 @@
-import UserNavBar from '@/components/NavBar/UserNavbar';
-import type { Metadata } from 'next';
-import { Inter } from 'next/font/google';
+import UserNavBar from "@/components/NavBar/UserNavbar";
+import { ThemeProvider } from "@/providers/ThemeProvider";
+import type { Metadata } from "next";
+import { Inter } from "next/font/google";
 
-const inter = Inter({ subsets: ['latin'] });
+const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: 'Learningage v2',
-  description: 'Learningage v2',
+  title: "Learningage v2",
+  description: "Learningage v2",
 };
 
 export default async function RootLayout({
@@ -15,9 +16,9 @@ export default async function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <div>
-      <UserNavBar/>
+    <ThemeProvider attribute="class" enableSystem={false}>
+      <UserNavBar />
       {children}
-    </div>
+    </ThemeProvider>
   );
 }

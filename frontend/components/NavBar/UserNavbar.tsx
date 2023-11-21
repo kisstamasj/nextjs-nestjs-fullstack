@@ -7,6 +7,7 @@ import React, { FC } from "react";
 import NavBar from "./NavBar";
 import { Button, buttonVariants } from "../ui/button";
 import NavBarContent from "./NavBarContent";
+import { UserMenu } from "./UserMenu";
 
 interface UserNavBarPros {
     className?: string;
@@ -22,11 +23,7 @@ const UserNavBar: FC<UserNavBarPros> = ({className}) => {
         <Link className={buttonVariants({variant: "link"})} href="/sign-up">Sign Up</Link>
         </>}
         {session && (
-          <div>
-            <Button variant="link" onClick={() => signOut({ redirect: true })}>
-              Kijelentkezés <LogOutIcon size={20} className="ml-3" />
-            </Button>
-          </div>
+          <UserMenu />
         )}
       </NavBarContent>
     </NavBar>
