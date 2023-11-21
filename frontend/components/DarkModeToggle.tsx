@@ -3,7 +3,12 @@
 import React, { useEffect, useState } from "react";
 import { Moon, Sun } from "lucide-react";
 import { useTheme } from "next-themes";
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "./ui/dropdown-menu";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "./ui/dropdown-menu";
 import { Button } from "./ui/button";
 
 export function DarkModeToggle() {
@@ -13,6 +18,11 @@ export function DarkModeToggle() {
   useEffect(() => {
     setIsMounted(true);
   }, []);
+
+  const setThemeHandler = (theme: string) => {
+    setTheme(theme);
+    localStorage.setItem("admin-theme", theme);
+  };
 
   if (!isMounted) return null;
 
@@ -26,13 +36,13 @@ export function DarkModeToggle() {
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end">
-        <DropdownMenuItem onClick={() => setTheme("light")}>
+        <DropdownMenuItem onClick={() => setThemeHandler("light")}>
           Light
         </DropdownMenuItem>
-        <DropdownMenuItem onClick={() => setTheme("dark")}>
+        <DropdownMenuItem onClick={() => setThemeHandler("dark")}>
           Dark
         </DropdownMenuItem>
-        <DropdownMenuItem onClick={() => setTheme("system")}>
+        <DropdownMenuItem onClick={() => setThemeHandler("system")}>
           System
         </DropdownMenuItem>
       </DropdownMenuContent>

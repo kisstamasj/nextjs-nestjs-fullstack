@@ -1,4 +1,5 @@
 import UserNavBar from "@/components/NavBar/UserNavbar";
+import UserInterfaceWrapper from "@/components/UserInterfaceWrapper";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -13,8 +14,10 @@ export default async function RootLayout({
 }) {
   return (
     <>
-      <UserNavBar />
-      {children}
+      <UserInterfaceWrapper>
+        <UserNavBar />
+        {children}
+      </UserInterfaceWrapper>
     </>
   );
 }
