@@ -1,12 +1,10 @@
-import UserNavBar from '@/components/NavBar/UserNavbar';
-import type { Metadata } from 'next';
-import { Inter } from 'next/font/google';
-
-const inter = Inter({ subsets: ['latin'] });
+import UserNavBar from "@/components/NavBar/UserNavbar";
+import UserInterfaceWrapper from "@/components/UserInterfaceWrapper";
+import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: 'Learningage v2',
-  description: 'Learningage v2',
+  title: "Learningage v2",
+  description: "Learningage v2",
 };
 
 export default async function RootLayout({
@@ -15,9 +13,11 @@ export default async function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <div>
-      <UserNavBar/>
-      {children}
-    </div>
+    <>
+      <UserInterfaceWrapper>
+        <UserNavBar />
+        {children}
+      </UserInterfaceWrapper>
+    </>
   );
 }

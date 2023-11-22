@@ -1,3 +1,4 @@
+import AdminInterfaceWrapper from "@/components/AdminInterfaceWrapper";
 import WithAuth from "@/components/auth/withAuth";
 import type { Metadata } from "next";
 
@@ -13,7 +14,9 @@ export default async function RootLayout({
 }) {
   return (
     <WithAuth>
-      <div className="h-full w-full">{children}</div>
+      <AdminInterfaceWrapper>
+        <div className="h-full w-full">{children}</div>
+      </AdminInterfaceWrapper>
     </WithAuth>
   );
 }

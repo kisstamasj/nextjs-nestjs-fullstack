@@ -3,7 +3,6 @@ import AdminNavBar from '@/components/NavBar/AdminNavBar';
 import SideBarDesktop from '@/components/SideBarDesktop';
 import SideBarMobile from '@/components/SideBarMobile';
 import { MenuItemType } from '@/components/menu/MenuItem';
-import { ThemeProvider } from '@/providers/ThemeProvider';
 import React from 'react';
 
 
@@ -16,7 +15,6 @@ const SetupLayout = ({ children }: { children: React.ReactNode }) => {
     { id: '3', label: 'Rendszer', href: '/admin/system', icon: 'server-cog' },
   ];
   return (
-    <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
     <div className="flex flex-row relative h-full w-full">
       <SideBarDesktop menuItems={menuItems} />
       <SideBarMobile menuItems={menuItems} />
@@ -25,7 +23,6 @@ const SetupLayout = ({ children }: { children: React.ReactNode }) => {
         {children}
       </div>
     </div>
-    </ThemeProvider>
   );
 }
 

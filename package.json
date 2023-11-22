@@ -1,10 +1,16 @@
 {
-    "scripts": {
-        "docker:up": "cd infra && docker compose -f docker-compose.yaml up",
-        "docker:up:build": "cd infra && docker compose -f docker-compose.yaml up --build",
-        "backend:migration:run": "cd backend && pnpm migration:run",
-        "backend:migration:generate": "cd backend && pnpm migration:generate",
-        "backend:migration:create": "cd backend && pnpm migration:create",
-        "backend:migration:revert": "cd backend && pnpm migration:revert"
-    }
+  "scripts": {
+    "docker:up": "cd infra && docker compose -f docker-compose.yaml up",
+    "docker:up:build": "cd infra && docker compose -f docker-compose.yaml up --build",
+    "backend:migration:run": "cd backend && pnpm migration:run",
+    "backend:migration:generate": "cd backend && pnpm migration:generate",
+    "backend:migration:create": "cd backend && pnpm migration:create",
+    "backend:migration:revert": "cd backend && pnpm migration:revert",
+    "install:deps": "cd backend && pnpm install && cd .. && cd frontend && pnpm install && cd ..",
+    "update:deps": "cd backend && pnpm update && cd .. && cd frontend && pnpm update && cd ..",
+    "prepare": "husky install"
+  },
+  "devDependencies": {
+    "husky": "^8.0.0"
+  }
 }
