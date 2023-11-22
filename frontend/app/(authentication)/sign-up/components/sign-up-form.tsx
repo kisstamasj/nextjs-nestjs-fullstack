@@ -24,7 +24,7 @@ import * as z from "zod";
 const formSchema = z
   .object({
     name: z.string().min(2),
-    email: z.string().min(2),
+    email: z.string().email().min(2),
     password: z.string().min(4),
     confirmPassword: z.string().min(4),
   })
@@ -40,8 +40,8 @@ const formSchema = z
 
 const SignUpForm = ({}) => {
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState('')
-  const axios = useAxios()
+  const [error, setError] = useState("");
+  const axios = useAxios();
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -56,14 +56,10 @@ const SignUpForm = ({}) => {
     setLoading(true);
     try {
       await axios.post("/auth/signup", values);
-      await signIn(
-        "credentials",
-        { redirect: true },
-        values
-      );
+      await signIn("credentials", { redirect: true }, values);
     } catch (error) {
       let e = error as FormError;
-      console.log(error)
+      console.log(error);
       setError(e.response?.data?.message);
     } finally {
       setLoading(false);
@@ -143,9 +139,7 @@ const SignUpForm = ({}) => {
           {error && (
             <Alert variant="destructive">
               <AlertCircle className="h-4 w-4" />
-              <AlertDescription>
-                {error}
-              </AlertDescription>
+              <AlertDescription>{error}</AlertDescription>
             </Alert>
           )}
         </form>
