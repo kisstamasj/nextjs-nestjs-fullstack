@@ -22,14 +22,14 @@ import { useForm } from "react-hook-form";
 import * as z from "zod";
 
 const formSchema = z.object({
-  email: z.string().min(2),
+  email: z.string().email().min(2),
   password: z.string().min(4),
 });
 
 const SignInForm = ({}) => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
-  const router = useRouter()
+  const router = useRouter();
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -46,7 +46,7 @@ const SignInForm = ({}) => {
         return setError("Your email or password are wrong!");
       }
 
-      router.refresh()
+      router.refresh();
     } catch (error) {
       let e = error as FormError;
       alert(e);
@@ -98,9 +98,7 @@ const SignInForm = ({}) => {
           {error && (
             <Alert variant="destructive">
               <AlertCircle className="h-4 w-4" />
-              <AlertDescription>
-                {error}
-              </AlertDescription>
+              <AlertDescription>{error}</AlertDescription>
             </Alert>
           )}
         </form>
