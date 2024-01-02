@@ -17,7 +17,7 @@ const SideBarMobile: React.FC<SideBarMobileProps> = ({ menuItems }) => {
   return (
     <div
       className={cn(
-        "fixed top-[60px] md:hidden w-[270px] text-black h-full bg-white border-r dark:border-slate-800 transition-all duration-500 ease-in-out dark:bg-slate-900 dark:text-white",
+        "fixed top-[60px] md:hidden w-[270px] text-black h-full bg-white border-r dark:border-slate-800 transition-all duration-500 ease-in-out dark:bg-slate-900 dark:text-white z-50",
         sidebar.isOpen ? "left-0" : "left-[-270px]"
       )}
     >
