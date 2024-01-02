@@ -21,6 +21,7 @@ import { AccessTokenGuard } from '../auth/guards';
  * The UserController class handles HTTP requests related to user operations.
  */
 @Controller('users')
+@UseGuards(AccessTokenGuard)
 @Serialize(UserDto)
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
@@ -30,7 +31,6 @@ export class UsersController {
    * @param req - The Express request object.
    * @returns The user profile.
    */
-  @UseGuards(AccessTokenGuard)
   @Get('profile')
   getProfile(@Request() req: ExpressRequest) {
     return req.user;
@@ -41,7 +41,6 @@ export class UsersController {
    * @param body - The data for creating the user.
    * @returns A promise that resolves to the newly created user.
    */
-  @UseGuards(AccessTokenGuard)
   @Post()
   create(@Body() body: CreateUserDto) {
     return this.usersService.create(body);
@@ -51,7 +50,6 @@ export class UsersController {
    * Retrieves all users.
    * @returns A promise that resolves to an array of all users.
    */
-  @UseGuards(AccessTokenGuard)
   @Get()
   findAll() {
     return this.usersService.findAll();
@@ -62,7 +60,6 @@ export class UsersController {
    * @param id - The ID of the user to retrieve.
    * @returns A promise that resolves to the user with the specified ID.
    */
-  @UseGuards(AccessTokenGuard)
   @Get(':id')
   findById(@Param('id') id: string) {
     return this.usersService.findById(id);
@@ -74,7 +71,6 @@ export class UsersController {
    * @param updateUserDto - The data to update the user with.
    * @returns A promise that resolves to the updated user.
    */
-  @UseGuards(AccessTokenGuard)
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
     return this.usersService.update(id, updateUserDto);
@@ -85,7 +81,6 @@ export class UsersController {
    * @param id - The ID of the user to delete.
    * @returns A promise that resolves to the deleted user.
    */
-  @UseGuards(AccessTokenGuard)
   @Delete(':id')
   remove(@Param('id') id: string) {
     return this.usersService.remove(id);
