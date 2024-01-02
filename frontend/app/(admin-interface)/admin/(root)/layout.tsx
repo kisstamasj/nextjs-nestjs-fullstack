@@ -1,8 +1,8 @@
 
-import AdminNavBar from '@/components/NavBar/AdminNavBar';
 import SideBarDesktop from '@/components/SideBarDesktop';
 import SideBarMobile from '@/components/SideBarMobile';
 import { MenuItemType } from '@/components/menu/MenuItem';
+import AdminNavBar from '@/components/nav-bar/AdminNavBar';
 import React from 'react';
 
 
