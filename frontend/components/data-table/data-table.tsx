@@ -2,67 +2,142 @@
 
 import { Button } from "@/components/ui/button";
 import {
-  Table,
+  Table as TableComp,
   TableBody,
   TableCell,
   TableHead,
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { ColumnDef, Table, flexRender } from "@tanstack/react-table";
+import React, { useState } from "react";
+import { Input } from "../ui/input";
 import {
-  ColumnDef,
-  SortingState,
-  flexRender,
-  getCoreRowModel,
-  getPaginationRowModel,
-  getSortedRowModel,
-  useReactTable,
-} from "@tanstack/react-table";
-import React from "react";
+  DropdownMenu,
+  DropdownMenuCheckboxItem,
+  DropdownMenuContent,
+  DropdownMenuTrigger,
+} from "../ui/dropdown-menu";
+import { DataTablePagination } from "./pagination";
+import { ColumnsIcon, PencilIcon, PlusCircleIcon } from "lucide-react";
+import { Separator } from "../ui/separator";
 
 interface DataTableProps<TData, TValue> {
+  table: Table<TData>;
   columns: ColumnDef<TData, TValue>[];
-  data: TData[];
 }
 
+/**
+ * Renders a DataTable component.
+ */
 export function DataTable<TData, TValue>({
+  table,
   columns,
-  data,
 }: DataTableProps<TData, TValue>) {
-  const [sorting, setSorting] = React.useState<SortingState>([]);
-  const table = useReactTable({
-    data,
-    columns,
-    getCoreRowModel: getCoreRowModel(),
-    getPaginationRowModel: getPaginationRowModel(),
-    onSortingChange: setSorting,
-    getSortedRowModel: getSortedRowModel(),
-    state: {
-      sorting,
-    },
+  let initFilterValues: { [key: string]: string } = {};
+  columns.forEach((col) => {
+    if (col.id) initFilterValues[col.id] = "";
   });
+  const [filterValues, setFilterValues] = useState<{ [key: string]: string }>(
+    initFilterValues
+  );
+
+  /**
+   * Handles the onChange event for the filter input.
+   *
+   * @param {React.ChangeEvent<HTMLInputElement>} e - The event object representing the onChange event.
+   */
+  const filterOnChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    table.getColumn(name)?.setFilterValue(value);
+    setFilterValues({ ...filterValues, [name]: value });
+  };
 
   return (
-    <div className="mx-auto py-5">
+    <>
+      <div className="flex justify-start items-center py-2 gap-2">
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button variant="outline">
+              <ColumnsIcon className="w-4 h-4 mr-2" />
+              Oszlopok
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align="end">
+            {table
+              .getAllColumns()
+              .filter((column) => column.getCanHide())
+              .map((column) => {
+                return (
+                  <DropdownMenuCheckboxItem
+                    key={column.id}
+                    className="capitalize"
+                    checked={column.getIsVisible()}
+                    onCheckedChange={(value: any) =>
+                      column.toggleVisibility(!!value)
+                    }
+                  >
+                    {column.id}
+                  </DropdownMenuCheckboxItem>
+                );
+              })}
+          </DropdownMenuContent>
+        </DropdownMenu>
+        <Button variant={"outline"} className="ml-auto">
+          <PlusCircleIcon className="w-4 h-4 mr-2" /> Létrehozás
+        </Button>
+        <Button variant={"outline"}>
+          <PencilIcon className="w-4 h-4 mr-2" /> Módosítás
+        </Button>
+      </div>
       <div className="rounded-md border">
-        <Table>
-          <TableHeader className="bg-slate-950">
-            {table.getHeaderGroups().map((headerGroup) => (
-              <TableRow key={headerGroup.id}>
-                {headerGroup.headers.map((header) => {
-                  return (
-                    <TableHead key={header.id}>
-                      {header.isPlaceholder
-                        ? null
-                        : flexRender(
-                            header.column.columnDef.header,
-                            header.getContext()
-                          )}
-                    </TableHead>
-                  );
-                })}
-              </TableRow>
-            ))}
+        <TableComp>
+          <TableHeader className="dark:bg-slate-950 bg-gray-100">
+            {table.getHeaderGroups().map((headerGroup) => {
+              return (
+                <TableRow key={headerGroup.id}>
+                  {headerGroup.headers.map((header) => {
+                    return (
+                      <TableHead key={header.id}>
+                        {header.isPlaceholder
+                          ? null
+                          : flexRender(
+                              header.column.columnDef.header,
+                              header.getContext()
+                            )}
+                      </TableHead>
+                    );
+                  })}
+                </TableRow>
+              );
+            })}
+          </TableHeader>
+          <TableHeader className="dark:bg-slate-950 bg-gray-100">
+            {table.getHeaderGroups().map((headerGroup) => {
+              return (
+                <TableRow key={headerGroup.id}>
+                  {headerGroup.headers.map((header) => {
+                    const filterEnabled = header
+                      .getContext()
+                      .column.getCanFilter();
+                    return (
+                      <TableHead key={header.id}>
+                        {filterEnabled && (
+                          <Input
+                            className="text-xs px-2 h-7"
+                            key={header.id + "filter"}
+                            placeholder={"Keresés..."}
+                            value={filterValues[header.id]}
+                            onChange={filterOnChangeHandler}
+                            name={header.id}
+                          />
+                        )}
+                      </TableHead>
+                    );
+                  })}
+                </TableRow>
+              );
+            })}
           </TableHeader>
           <TableBody>
             {table.getRowModel().rows.length ? (
@@ -92,26 +167,9 @@ export function DataTable<TData, TValue>({
               </TableRow>
             )}
           </TableBody>
-        </Table>
+        </TableComp>
       </div>
-      <div className="flex items-center justify-end space-x-2 py-4">
-        <Button
-          variant="outline"
-          size="sm"
-          onClick={() => table.previousPage()}
-          disabled={!table.getCanPreviousPage()}
-        >
-          Előző
-        </Button>
-        <Button
-          variant="outline"
-          size="sm"
-          onClick={() => table.nextPage()}
-          disabled={!table.getCanNextPage()}
-        >
-          Következő
-        </Button>
-      </div>
-    </div>
+      <DataTablePagination table={table} />
+    </>
   );
 }
