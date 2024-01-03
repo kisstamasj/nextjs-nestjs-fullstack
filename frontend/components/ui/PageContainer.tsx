@@ -8,12 +8,8 @@ interface PageContainerProps {
 }
 
 const PageContainer: FC<PageContainerProps> = ({ children }) => {
-  const sidebar = useSidebar();
   return (
-    <div
-      className={`p-3 bg-gray-100 dark:bg-slate-950 h-full animate-fade`}
-      onClick={() => sidebar.onClose()}
-    >
+    <div className={`p-3 bg-gray-100 dark:bg-slate-950 h-full animate-fade`}>
       <div className="bg-white p-8 dark:bg-slate-900">{children}</div>
     </div>
   );
