@@ -17,7 +17,7 @@ const SideBarDesktop: React.FC<SideBarDesktopProps> = ({ menuItems }) => {
   return (
     <div
       className={cn(
-        "hidden md:block text-black bg-white border-r dark:border-slate-800 relative transition-all duration-500 overflow-hidden ease-in-out dark:bg-slate-900 dark:text-white",
+        "h-full hidden md:block text-black bg-white border-r dark:border-slate-800 relative transition-all duration-500 overflow-hidden ease-in-out dark:bg-slate-900 dark:text-white",
         sidebar.isOpen ? "w-[400px]" : "w-[60px]"
       )}
     >
