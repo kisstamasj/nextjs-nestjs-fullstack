@@ -97,6 +97,9 @@ export function DataTable<TData, TValue>({
               return (
                 <TableRow key={headerGroup.id}>
                   {headerGroup.headers.map((header) => {
+                    const filterEnabled = header
+                      .getContext()
+                      .column.getCanFilter();
                     return (
                       <TableHead key={header.id}>
                         {header.isPlaceholder
@@ -105,26 +108,9 @@ export function DataTable<TData, TValue>({
                               header.column.columnDef.header,
                               header.getContext()
                             )}
-                      </TableHead>
-                    );
-                  })}
-                </TableRow>
-              );
-            })}
-          </TableHeader>
-          <TableHeader className="dark:bg-slate-950 bg-gray-100">
-            {table.getHeaderGroups().map((headerGroup) => {
-              return (
-                <TableRow key={headerGroup.id}>
-                  {headerGroup.headers.map((header) => {
-                    const filterEnabled = header
-                      .getContext()
-                      .column.getCanFilter();
-                    return (
-                      <TableHead key={header.id}>
                         {filterEnabled && (
                           <Input
-                            className="text-xs px-2 h-7"
+                            className="text-xs mt-1 mb-2 h-7"
                             key={header.id + "filter"}
                             placeholder={"Keresés..."}
                             value={filterValues[header.id]}
