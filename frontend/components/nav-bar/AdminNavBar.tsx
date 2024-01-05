@@ -12,17 +12,12 @@ import { UserMenu } from "./UserMenu";
 
 const AdminNavBar: FC = () => {
   const { data } = useSession();
-  const { isOpen, onClose, onOpen } = useSidebar();
-  const setSidebar = () => {
-    if (isOpen) {
-      return onClose();
-    }
-    onOpen();
-  };
+  const { toggleSidebar } = useSidebar();
+  
   return (
     <NavBar>
-      <div>
-        <Button variant="ghost" size="icon" onClick={setSidebar}>
+      <div className="">
+        <Button variant="ghost" size="icon" onClick={toggleSidebar}>
           <Menu className="text-gray-900 dark:text-white" size={20} />
         </Button>
       </div>

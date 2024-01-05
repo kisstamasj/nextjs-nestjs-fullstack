@@ -1,4 +1,4 @@
-import { Separator } from "./separator";
+import { Separator } from "./ui/separator";
 
 const PageHeaderSeparator = ({}) => {
   return <Separator className="mt-3 mb-6" />;

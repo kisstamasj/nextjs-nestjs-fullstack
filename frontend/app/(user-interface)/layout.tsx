@@ -1,5 +1,6 @@
-import UserNavBar from "@/components/NavBar/UserNavbar";
+
 import UserInterfaceWrapper from "@/components/UserInterfaceWrapper";
+import UserNavBar from "@/components/nav-bar/UserNavbar";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
