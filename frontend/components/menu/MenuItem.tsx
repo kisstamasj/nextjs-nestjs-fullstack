@@ -22,7 +22,7 @@ const MenuItem: FC<MenuItemProps> = ({ item }) => {
   const sidebar = useSidebar();
 
   let linkClass =
-    "flex flex-row items-center justify-center hover:bg-gray-100 dark:hover:bg-slate-800 transition font-light md:justify-normal gap-x-3 px-5 py-4";
+    "flex flex-row items-center  hover:bg-gray-100 dark:hover:bg-slate-800 transition font-light justify-normal gap-x-3 px-5 py-4";
 
   return (
     <>
