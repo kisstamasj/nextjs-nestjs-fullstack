@@ -36,7 +36,7 @@ const SideBar: React.FC<SideBarDesktopProps> = ({ menuItems }) => {
       h-full
       lg:static
       lg:translate-x-0
-      dark:bg-slate-900 
+      dark:bg-slate-900
       dark:text-white`, sidebar.status === "open" ? "translate-x-0" : "-translate-x-full lg:w-16")}
     >
       <Logo />
