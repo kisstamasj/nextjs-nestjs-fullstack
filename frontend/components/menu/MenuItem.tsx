@@ -5,6 +5,7 @@ import Link from "next/link";
 import React, { FC } from "react";
 import Icon from "../ui/Icon";
 import dynamicIconImports from "lucide-react/dynamicIconImports";
+import { cn } from "@/lib/utils";
 
 export interface MenuItemType {
   id: string;
@@ -30,7 +31,7 @@ const MenuItem: FC<MenuItemProps> = ({ item }) => {
           <div>
             <Icon name={item.icon} className="text-gray-500 dark:text-white" size={20} />
           </div>
-          <div>{item.label}</div>
+          <div className={cn(`transition-all duration-500 ease-linear`, sidebar.status === "mini" ? "hidden" : "block")}>{item.label}</div>
         </Link>
       </div>
     </>
