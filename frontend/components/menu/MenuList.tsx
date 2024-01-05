@@ -7,22 +7,14 @@ import { cn } from "@/lib/utils";
 
 interface MenuListProps {
   items: MenuItemType[];
-  isMobile: boolean;
 }
 
-const MenuList: FC<MenuListProps> = ({ items, isMobile }) => {
+const MenuList: FC<MenuListProps> = ({ items }) => {
   const sidebar = useSidebar();
   return (
-    <div
-      className={cn(
-        "flex flex-col w-full justify-center divide-y",
-        sidebar.isOpen || isMobile
-          ? "dark:divide-slate-800"
-          : "divide-transparent"
-      )}
-    >
+    <div className="flex flex-col justify-center divide-y pt-6 dark:divide-slate-800">
       {items.map((item) => (
-        <MenuItem key={item.id} item={item} isMobile={isMobile} />
+        <MenuItem key={item.id} item={item} />
       ))}
     </div>
   );

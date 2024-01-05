@@ -21,7 +21,7 @@ const AdminNavBar: FC = () => {
   };
   return (
     <NavBar>
-      <div>
+      <div className="block lg:hidden">
         <Button variant="ghost" size="icon" onClick={setSidebar}>
           <Menu className="text-gray-900 dark:text-white" size={20} />
         </Button>

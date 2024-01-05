@@ -1,6 +1,5 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
 import {
   Table as TableComp,
   TableBody,
@@ -12,15 +11,6 @@ import {
 import { ColumnDef, Table, flexRender } from "@tanstack/react-table";
 import React, { useState } from "react";
 import { Input } from "../ui/input";
-import {
-  DropdownMenu,
-  DropdownMenuCheckboxItem,
-  DropdownMenuContent,
-  DropdownMenuTrigger,
-} from "../ui/dropdown-menu";
-import { DataTablePagination } from "./pagination";
-import { ColumnsIcon, PencilIcon, PlusCircleIcon } from "lucide-react";
-import { Separator } from "../ui/separator";
 
 interface DataTableProps<TData, TValue> {
   table: Table<TData>;
@@ -55,41 +45,6 @@ export function DataTable<TData, TValue>({
 
   return (
     <>
-      <div className="flex justify-start items-center py-2 gap-2">
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant="outline">
-              <ColumnsIcon className="w-4 h-4 mr-2" />
-              Oszlopok
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
-            {table
-              .getAllColumns()
-              .filter((column) => column.getCanHide())
-              .map((column) => {
-                return (
-                  <DropdownMenuCheckboxItem
-                    key={column.id}
-                    className="capitalize"
-                    checked={column.getIsVisible()}
-                    onCheckedChange={(value: any) =>
-                      column.toggleVisibility(!!value)
-                    }
-                  >
-                    {column.id}
-                  </DropdownMenuCheckboxItem>
-                );
-              })}
-          </DropdownMenuContent>
-        </DropdownMenu>
-        <Button variant={"outline"} className="ml-auto">
-          <PlusCircleIcon className="w-4 h-4 mr-2" /> Létrehozás
-        </Button>
-        <Button variant={"outline"}>
-          <PencilIcon className="w-4 h-4 mr-2" /> Módosítás
-        </Button>
-      </div>
       <div className="rounded-md border">
         <TableComp>
           <TableHeader className="dark:bg-slate-950 bg-gray-100">
@@ -155,7 +110,6 @@ export function DataTable<TData, TValue>({
           </TableBody>
         </TableComp>
       </div>
-      <DataTablePagination table={table} />
     </>
   );
 }

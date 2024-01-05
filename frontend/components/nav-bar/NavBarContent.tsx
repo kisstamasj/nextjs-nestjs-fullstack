@@ -11,7 +11,7 @@ interface NavBarContentProps {
 const NavBarContent: FC<NavBarContentProps> = ({ children }) => {
   const { status } = useSession();
   return (
-    <div className="w-full flex flex-row items-center justify-end gap-3">
+    <div className="flex flex-row items-center justify-end w-full gap-3">
       {status === "loading" ? <Loader2 className="animate-spin"/> : children}
     </div>
   );
