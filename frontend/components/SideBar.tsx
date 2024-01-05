@@ -32,7 +32,7 @@ const SideBar: React.FC<SideBarDesktopProps> = ({ menuItems }) => {
       transition-all 
       duration-500 
       overflow-hidden 
-      ease-linear
+      ease-in-out
       h-full
       lg:static
       lg:translate-x-0

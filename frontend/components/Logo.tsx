@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { Button } from "./ui/button";
 import { XIcon } from "lucide-react";
 import { useSidebar } from "@/hooks/use-sidebar";
@@ -28,18 +28,18 @@ const Logo: React.FC = () => {
         )}
       >
         <div
-          className={cn(
-            "relative",
-            status === "open" || status === "closed"
-              ? "w-[175px] h-[35px]"
-              : "w-10 h-[35px]"
-          )}
+          className={`relative transition-all duration-500 ease-in-out w-[175px] h-[35px] ${
+            status === "mini" ? " opacity-0 hidden" : " opacity-100"
+          }`}
         >
-          {status === "open" || status === "closed" ? (
-            <Image fill src="/logo.png" alt="logo" />
-          ) : (
-            <Image fill src="/logo-mini.png" alt="logo" />
-          )}
+          <Image fill src="/logo.png" alt="logo" />
+        </div>
+        <div
+          className={`relative transition-all duration-500 ease-in-out w-10 h-[35px] ${
+            status !== "mini" ? " opacity-0 hidden" : " opacity-100"
+          }`}
+        >
+          <Image fill src="/logo-mini.png" alt="logo" />
         </div>
         <div className="block lg:hidden">
           <Button variant="ghost" size="icon" onClick={toggleSidebar}>
