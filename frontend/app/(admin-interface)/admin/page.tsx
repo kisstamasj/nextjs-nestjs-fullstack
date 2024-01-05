@@ -1,7 +1,7 @@
-import H1 from "@/components/ui/H1";
-import PageContainer from "@/components/ui/PageContainer";
-import PageHeaderContainer from "@/components/ui/PageHeaderContainer";
-import PageHeaderSeparator from "@/components/ui/PageHeaderSeparator";
+import H1 from "@/components/H1";
+import PageContainer from "@/components/PageContainer";
+import PageHeaderContainer from "@/components/PageHeaderContainer";
+import PageHeaderSeparator from "@/components/PageHeaderSeparator";
 
 const AdminHomePage = () => {
   return (

@@ -1,24 +1,25 @@
-"use client"
+"use client";
 
 import axiosBase from "@/lib/axios";
 import { useSession } from "next-auth/react";
 import { useEffect } from "react";
 
 const useAxios = () => {
-  const { data, status } = useSession();
+  const { status, update } = useSession();
   useEffect(() => {
-    const requestIntercept = axiosBase.interceptors.request.use((config) => {
-        if(status === 'authenticated'){
-            config.headers.Authorization = `Bearer ${data.backendTokens.accessToken}`;
-        }
+    const requestIntercept = axiosBase.interceptors.request.use(async (config) => {
+      let session = await update();
+      if (status === "authenticated" && session) {
+        config.headers.Authorization = `Bearer ${session?.backendTokens.accessToken}`;
+      }
 
-        return config
-    })
+      return config;
+    });
 
     return () => {
-        axiosBase.interceptors.request.eject(requestIntercept)
-    }
-  }, [data, status]);
+      axiosBase.interceptors.request.eject(requestIntercept);
+    };
+  }, [status, update]);
 
   return axiosBase;
 };

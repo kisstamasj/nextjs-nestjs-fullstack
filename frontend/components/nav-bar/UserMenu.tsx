@@ -1,4 +1,4 @@
-import { Eye, LayoutDashboard, LogOut, User } from "lucide-react";
+import { Eye, LayoutDashboard, LogOut, User, User2Icon } from "lucide-react";
 
 import {
   DropdownMenu,
@@ -30,7 +30,7 @@ export function UserMenu() {
       <DropdownMenuTrigger asChild>
         <Avatar className="cursor-pointer">
           <AvatarImage src={data?.user.avatar} alt={data?.user.name} />
-          <AvatarFallback>{monogram()}</AvatarFallback>
+          <AvatarFallback className="hover:bg-muted"><User2Icon className="h-[1.2rem] w-[1.2rem]" /></AvatarFallback>
         </Avatar>
       </DropdownMenuTrigger>
       <DropdownMenuContent className="w-56">
