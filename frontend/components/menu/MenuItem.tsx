@@ -3,7 +3,7 @@
 import { useSidebar } from "@/hooks/use-sidebar";
 import Link from "next/link";
 import React, { FC } from "react";
-import Icon from "../ui/Icon";
+import Icon from "../Icon";
 import dynamicIconImports from "lucide-react/dynamicIconImports";
 import { cn } from "@/lib/utils";
 
