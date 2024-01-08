@@ -1,4 +1,5 @@
 import AdminInterfaceWrapper from "@/components/AdminInterfaceWrapper";
+import Overlay from "@/components/Overlay";
 import SideBar from "@/components/SideBar";
 import WithAuth from "@/components/auth/withAuth";
 import { MenuItemType } from "@/components/menu/MenuItem";
@@ -25,6 +26,7 @@ export default async function RootLayout({
     <WithAuth>
       <AdminInterfaceWrapper>
         <div className="flex h-dvh">
+          <Overlay />
           <SideBar menuItems={menuItems} />
           <div className="relative flex flex-1 flex-col overflow-y-auto overflow-x-hidden">
             <AdminNavBar />

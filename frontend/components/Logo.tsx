@@ -23,7 +23,7 @@ const Logo: React.FC = () => {
         overflow-hidden 
         transition-all`,
           status === "open" || status === "closed"
-            ? "px-5 py-5 gap-5 justify-center"
+            ? "px-5 py-5 gap-5 justify-between"
             : "px-2 py-3 justify-center"
         )}
       >
