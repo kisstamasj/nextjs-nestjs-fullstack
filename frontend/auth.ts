@@ -39,30 +39,57 @@ export const {
 
       if (!token.sub) return token;
 
-      let accessToken: string;
+      let backendTokens: BackendTokens;
       if (user) {
-        accessToken = user.backendTokens.accessToken;
+        backendTokens = user.backendTokens;
       } else {
-        let backendTokens = token.backendTokens as BackendTokens;
-        accessToken = backendTokens.accessToken;
+        backendTokens = token.backendTokens as BackendTokens;
       }
+
+      // Check if token has expired
+      // if(
+      //   new Date().getTime() > backendTokens.expiresIn
+      // ) {
+      //   // Refresh token
+      //   backendTokens = await refreshToken(backendTokens.refreshToken) as BackendTokens;
+      //   if(!backendTokens) {
+      //     throw new Error("Failed to refresh token");
+      //   }
+      // }
 
       const axios = await createAxiosServerSide({
         withCredentials: true,
-        accessToken,
+        token: backendTokens.accessToken,
       });
+      
       const { data: existingUser } = await axios.get("/users/profile");
       token.id = existingUser.id;
       token.email = existingUser.email;
       token.name = existingUser.name;
       token.image = existingUser.image;
-      if (user) {
-        token.backendTokens = user.backendTokens;
-      }
-
+      token.backendTokens = backendTokens;
+    
       return token;
     },
   },
   session: { strategy: "jwt" },
   ...authConfig,
 });
+
+
+const refreshToken = async (refreshToken: string) => {
+    const axios = await createAxiosServerSide({
+      withCredentials: true,
+      token: refreshToken,
+    });
+
+    try {
+      console.log("Refreshing token...");
+      const { data } = await axios.post("/auth/refresh"); 
+      console.log("Refreshed tokens:", data);
+      return data;
+    } catch (error) {
+      console.log("Error when refreshing token!");
+      return null;
+    }
+}

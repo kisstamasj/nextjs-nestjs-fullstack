@@ -9,7 +9,7 @@ import H1 from "@/components/H1";
 import { createAxiosServerSide } from "@/lib/axios";
 
 async function getUsers(): Promise<User[]> {
-  const axios = await createAxiosServerSide({ withCredentials: true });
+  const axios = await createAxiosServerSide({withCredentials: true});
   const { data } = await axios.get("/users");
   return data;
 }

@@ -71,8 +71,8 @@ export class AuthController {
   @UseGuards(RefreshTokenGuard)
   @Post('refresh')
   async refreshTokens(@RequestUser() user: IRequestUser): Promise<Tokens> {
-    const userId = user['sub'];
-    const refreshToken = user['refreshToken'];
+    const userId = user.id;
+    const refreshToken = user.refreshToken;
     return await this.authService.refreshTokens(userId, refreshToken);
   }
 }

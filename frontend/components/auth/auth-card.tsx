@@ -10,7 +10,7 @@ interface AuthCardProps {
 
 export const AuthCard = ({ children, title, backLabel, backHref }: AuthCardProps) => {
   return (
-    <Card className="w-full border-0 md:border md:h-auto md:w-[400px] shadow-none md:shadow-md">
+    <Card className="w-full border-0 sm:border sm:h-auto sm:w-[400px] shadow-none sm:shadow-md">
       <CardHeader>
         <CardTitle className="text-5xl font-bold text-center">
           {title}
