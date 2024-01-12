@@ -11,34 +11,26 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import Link from "@/components/ui/link";
 import useAxios from "@/hooks/use-axios";
-import { FormError } from "@/lib/types/errors";
+import { RequestError } from "@/types/errors";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { AlertCircle, Loader2 } from "lucide-react";
-import { signIn } from "next-auth/react";
-import { useState } from "react";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { FC, useState } from "react";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
 
-const formSchema = z
-  .object({
-    name: z.string().min(2),
-    email: z.string().email().min(2),
-    password: z.string().min(4),
-    confirmPassword: z.string().min(4),
-  })
-  .refine(
-    (values) => {
-      return values.confirmPassword === values.password;
-    },
-    {
-      message: "Passwords must match!",
-      path: ["confirmPassword"],
-    }
-  );
+interface UsersFormProps {}
 
-const SignUpForm = ({}) => {
+const formSchema = z.object({
+  name: z.string().min(2),
+  email: z.string().email().min(2),
+  password: z.string().min(4),
+});
+
+const UsersForm: FC<UsersFormProps> = ({}) => {
+  const router = useRouter();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const axios = useAxios();
@@ -48,17 +40,16 @@ const SignUpForm = ({}) => {
       name: "",
       email: "",
       password: "",
-      confirmPassword: "",
     },
   });
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     setLoading(true);
     try {
-      await axios.post("/auth/signup", values);
-      await signIn("credentials", { redirect: true }, values);
+      await axios.post("/users", values);
+      router.push("/admin/users");
     } catch (error) {
-      let e = error as FormError;
+      let e = error as RequestError;
       console.log(error);
       setError(e.response?.data?.message);
     } finally {
@@ -113,27 +104,13 @@ const SignUpForm = ({}) => {
               </FormItem>
             )}
           />
-          <FormField
-            control={form.control}
-            name="confirmPassword"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Confirm password</FormLabel>
-                <FormControl>
-                  <Input type="password" placeholder="*********" {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
           <div className="flex w-full justify-between items-center">
             <Button disabled={loading} type="submit">
               {loading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-              Sing Up
+              Létrehozás
             </Button>
             <div className="flex flex-col items-end">
-              <span>You already have an account?</span>
-              <Link href="/sign-in">Sign in!</Link>
+              <Link href="/admin/users">Mégse</Link>
             </div>
           </div>
           {error && (
@@ -148,4 +125,4 @@ const SignUpForm = ({}) => {
   );
 };
 
-export default SignUpForm;
+export default UsersForm;

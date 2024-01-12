@@ -1,15 +1,17 @@
 import PageContainer from "@/components/PageContainer";
 import PageHeaderContainer from "@/components/PageHeaderContainer";
-import { User, columns } from "./components/columns";
-import fetchApi from "@/lib/fetchApi";
-import { UsersDataTable } from "./components/users-data-table";
+import { User, columns } from "./_components/columns";
+import { UsersDataTable } from "./_components/users-data-table";
 import { HelpCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import PageHeaderSeparator from "@/components/PageHeaderSeparator";
 import H1 from "@/components/H1";
+import { createAxiosServerSide } from "@/lib/axios";
 
 async function getUsers(): Promise<User[]> {
-  return await fetchApi("/users");
+  const axios = await createAxiosServerSide({ withCredentials: true });
+  const { data } = await axios.get("/users");
+  return data;
 }
 
 export default async function UsersPage() {

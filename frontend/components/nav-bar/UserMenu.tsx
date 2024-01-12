@@ -9,32 +9,28 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { signOut, useSession } from "next-auth/react";
+import { signOut } from "next-auth/react";
 import { usePathname, useRouter } from "next/navigation";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
+import { useCurrentUser } from "@/hooks/use-current-user";
 
-export function UserMenu() {
+export const UserMenu = () => {
   const pathname = usePathname();
   const router = useRouter();
-  const {data} = useSession()
+  const currentUser = useCurrentUser();
 
-  const monogram = () => {
-    let arr = data?.user.name.split(' ');
-    if(!arr) return '';
-    const firstName = arr[0];
-    const latstName = arr[1] ? arr[1] : [''];
-    return firstName[0]+latstName[0]
-  }
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <Avatar className="cursor-pointer">
-          <AvatarImage src={data?.user.avatar} alt={data?.user.name} />
-          <AvatarFallback className="hover:bg-muted"><User2Icon className="h-[1.2rem] w-[1.2rem]" /></AvatarFallback>
+          <AvatarImage src={currentUser?.avatar} alt={currentUser?.name} />
+          <AvatarFallback className="hover:bg-muted">
+            <User2Icon className="h-[1.2rem] w-[1.2rem]" />
+          </AvatarFallback>
         </Avatar>
       </DropdownMenuTrigger>
       <DropdownMenuContent className="w-56">
-        <DropdownMenuLabel>{data?.user.name}</DropdownMenuLabel>
+        <DropdownMenuLabel>{currentUser?.name}</DropdownMenuLabel>
         <DropdownMenuSeparator />
         <DropdownMenuGroup>
           <DropdownMenuItem>
@@ -61,4 +57,4 @@ export function UserMenu() {
       </DropdownMenuContent>
     </DropdownMenu>
   );
-}
+};

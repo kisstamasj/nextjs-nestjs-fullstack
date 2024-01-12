@@ -12,3 +12,9 @@ export interface Tokens {
   refreshToken: string;
   expiresIn: number;
 }
+
+export interface JwtPayload {
+  id: string;
+  email: string;
+  name: string;
+}

@@ -35,9 +35,7 @@ export class AuthService {
    * @returns A promise that resolves to an object containing the newly created user and the generated tokens.
    * @throws `BadRequestException` if the user already exists.
    */
-  async signUp(
-    createUserDto: CreateUserDto,
-  ): Promise<{ user: User; tokens: Tokens }> {
+  async signUp(createUserDto: CreateUserDto): Promise<{ user: User }> {
     // Check if user exists
     const userExists = await this.userService.findByEmail(createUserDto.email);
     if (userExists) {
@@ -45,9 +43,7 @@ export class AuthService {
     }
 
     const newUser = await this.userService.create(createUserDto);
-    const tokens = await this.getTokens(newUser.id, newUser.email);
-    await this.updateRefreshToken(newUser.id, tokens.refreshToken);
-    return { user: newUser, tokens };
+    return { user: newUser };
   }
 
   /**
@@ -67,7 +63,7 @@ export class AuthService {
     );
     if (!passwordMatches)
       throw new BadRequestException('The email or password are incorrect');
-    const tokens = await this.getTokens(user.id, user.email);
+    const tokens = await this.getTokens(user);
     await this.updateRefreshToken(user.id, tokens.refreshToken);
     return { user, tokens };
   }
@@ -99,12 +95,13 @@ export class AuthService {
    * @param email The email of the user to generate tokens for.
    * @returns A promise that resolves to an object containing the access and refresh tokens.
    */
-  async getTokens(userId: string, email: string): Promise<Tokens> {
+  async getTokens(user: User): Promise<Tokens> {
     const [accessToken, refreshToken] = await Promise.all([
       this.jwtService.signAsync(
         {
-          sub: userId,
-          email: email,
+          id: user.id,
+          email: user.email,
+          name: user.name,
         },
         {
           secret: this.configService.get<string>('JWT_ACCESS_TOKEN_SECRET'),
@@ -115,8 +112,9 @@ export class AuthService {
       ),
       this.jwtService.signAsync(
         {
-          sub: userId,
-          email: email,
+          id: user.id,
+          email: user.email,
+          name: user.name,
         },
         {
           secret: this.configService.get<string>('JWT_REFRESH_TOKEN_SECRET'),
@@ -165,7 +163,7 @@ export class AuthService {
 
     const refreshTokenMatches = user.refreshToken === refreshToken;
     if (!refreshTokenMatches) throw new ForbiddenException('Access Denied');
-    const tokens = await this.getTokens(user.id, user.email);
+    const tokens = await this.getTokens(user);
     await this.updateRefreshToken(user.id, tokens.refreshToken);
     return tokens;
   }
