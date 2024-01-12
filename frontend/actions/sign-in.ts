@@ -6,7 +6,7 @@ import { SignInSchema } from "@/schemas/auth.schema"
 import { AuthError } from "next-auth";
 import { z } from "zod"
 
-export const signInAction = async (values: z.infer<typeof SignInSchema>, callbackUrl: string) => {
+export const signInAction = async (values: z.infer<typeof SignInSchema>, callbackUrl?: string | null) => {
     const validatedValues = SignInSchema.safeParse(values);
     if(!validatedValues.success){
         return {error: "Invalid credentials"};

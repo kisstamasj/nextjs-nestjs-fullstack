@@ -20,10 +20,13 @@ import { useState, useTransition } from "react";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
 import { FormError } from "./form-error";
+import { useSearchParams } from "next/navigation";
 
 const SignInForm = ({}) => {
   const [isPending, startTransition] = useTransition();
   const [error, setError] = useState<string | undefined>();
+  const searchParams = useSearchParams();
+  const callbackUrl = searchParams.get("callbackUrl");
   const form = useForm<z.infer<typeof SignInSchema>>({
     resolver: zodResolver(SignInSchema),
     defaultValues: {
@@ -34,7 +37,7 @@ const SignInForm = ({}) => {
 
   const onSubmit = async (values: z.infer<typeof SignInSchema>) => {
     startTransition(async () => {
-      signInAction(values, DEFAULT_LOGIN_REDIRECT).then((res) => {
+      signInAction(values, callbackUrl).then((res) => {
         if (res?.error) {
           setError(res.error);
         }
