@@ -39,13 +39,15 @@ USER node
 FROM base AS prod
 WORKDIR /app
 
+RUN pnpm add sharp
+
 COPY --chown=node:node --from=build /app/node_modules ./node_modules
 COPY --chown=node:node --from=build /app/.next ./.next
+COPY --chown=node:node --from=build /app/next.config.js ./
+COPY --chown=node:node --from=build /app/public ./public
 
 EXPOSE $FRONTEND_INTERNAL_PORT
 
 ENV PORT $FRONTEND_INTERNAL_PORT
-# set hostname to localhost
-ENV HOSTNAME "0.0.0.0"
 
 CMD pnpm run start
