@@ -48,7 +48,11 @@ const SignInForm = ({}) => {
   return (
     <>
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+        <form
+          onSubmit={form.handleSubmit(onSubmit)}
+          className="space-y-6"
+          autoComplete="on"
+        >
           <div className="space-y-4">
             <FormField
               control={form.control}
@@ -58,6 +62,7 @@ const SignInForm = ({}) => {
                   <FormLabel>Email</FormLabel>
                   <FormControl>
                     <Input
+                      autoComplete={field.name}
                       disabled={isPending}
                       placeholder="example@dotcom.com"
                       {...field}
@@ -75,6 +80,7 @@ const SignInForm = ({}) => {
                   <FormLabel>Password</FormLabel>
                   <FormControl>
                     <Input
+                      autoComplete="current-password"
                       disabled={isPending}
                       type="password"
                       placeholder="*********"

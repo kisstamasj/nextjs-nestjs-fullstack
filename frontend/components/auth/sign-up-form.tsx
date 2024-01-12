@@ -43,15 +43,16 @@ const SignUpForm = ({}) => {
     startTransition(async () => {
       try {
         const { data: user } = await axios.post("/auth/signup", values);
-        if(user) {
+        console.log(user);
+        if (user) {
           return setSuccess(`Account created successfully. Please sign in`);
         }
 
         throw new Error();
       } catch (error) {
-        if(error instanceof AxiosError){
+        if (error instanceof AxiosError) {
           let e = error as RequestError;
-          return setError(e.response?.data?.message); 
+          return setError(e.response?.data?.message);
         }
 
         setError("Something went wrong");
@@ -62,7 +63,11 @@ const SignUpForm = ({}) => {
   return (
     <>
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+        <form
+          onSubmit={form.handleSubmit(onSubmit)}
+          className="space-y-6"
+          autoComplete="on"
+        >
           <div className="space-y-4">
             <FormField
               control={form.control}
@@ -72,6 +77,7 @@ const SignUpForm = ({}) => {
                   <FormLabel>Name</FormLabel>
                   <FormControl>
                     <Input
+                      autoComplete={field.name}
                       disabled={isPending}
                       placeholder="Pop Simon"
                       {...field}
@@ -89,6 +95,7 @@ const SignUpForm = ({}) => {
                   <FormLabel>Email</FormLabel>
                   <FormControl>
                     <Input
+                      autoComplete={field.name}
                       disabled={isPending}
                       type="email"
                       placeholder="example@dotcom.com"
