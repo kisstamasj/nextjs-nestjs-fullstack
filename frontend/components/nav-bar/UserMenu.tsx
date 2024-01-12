@@ -29,28 +29,28 @@ export const UserMenu = () => {
           </AvatarFallback>
         </Avatar>
       </DropdownMenuTrigger>
-      <DropdownMenuContent className="w-56">
+      <DropdownMenuContent>
         <DropdownMenuLabel>{currentUser?.name}</DropdownMenuLabel>
         <DropdownMenuSeparator />
         <DropdownMenuGroup>
-          <DropdownMenuItem>
+          <DropdownMenuItem className="cursor-pointer">
             <User className="mr-2 h-4 w-4" />
             <span>Profile</span>
           </DropdownMenuItem>
           {pathname.startsWith("/admin") ? (
-            <DropdownMenuItem>
+            <DropdownMenuItem className="cursor-pointer">
               <Eye className="mr-2 h-4 w-4" />
               <span onClick={() => router.push("/")}>Visit site</span>
             </DropdownMenuItem>
           ) : (
-            <DropdownMenuItem>
+            <DropdownMenuItem className="cursor-pointer">
               <LayoutDashboard className="mr-2 h-4 w-4" />
               <span onClick={() => router.push("/admin")}>Dashboard</span>
             </DropdownMenuItem>
           )}
         </DropdownMenuGroup>
         <DropdownMenuSeparator />
-        <DropdownMenuItem onClick={() => signOut()}>
+        <DropdownMenuItem onClick={() => signOut()} className="cursor-pointer">
           <LogOut className="mr-2 h-4 w-4" />
           <span>Log out</span>
         </DropdownMenuItem>
