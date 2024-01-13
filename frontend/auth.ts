@@ -61,35 +61,35 @@ export const {
         withCredentials: true,
         token: backendTokens.accessToken,
       });
-      
+
       const { data: existingUser } = await axios.get("/users/profile");
       token.id = existingUser.id;
       token.email = existingUser.email;
       token.name = existingUser.name;
       token.image = existingUser.image;
       token.backendTokens = backendTokens;
-    
+
       return token;
     },
   },
+  trustHost: true,
   session: { strategy: "jwt" },
   ...authConfig,
 });
 
-
 const refreshToken = async (refreshToken: string) => {
-    const axios = await createAxiosServerSide({
-      withCredentials: true,
-      token: refreshToken,
-    });
+  const axios = await createAxiosServerSide({
+    withCredentials: true,
+    token: refreshToken,
+  });
 
-    try {
-      console.log("Refreshing token...");
-      const { data } = await axios.post("/auth/refresh"); 
-      console.log("Refreshed tokens:", data);
-      return data;
-    } catch (error) {
-      console.log("Error when refreshing token!");
-      return null;
-    }
-}
+  try {
+    console.log("Refreshing token...");
+    const { data } = await axios.post("/auth/refresh");
+    console.log("Refreshed tokens:", data);
+    return data;
+  } catch (error) {
+    console.log("Error when refreshing token!");
+    return null;
+  }
+};

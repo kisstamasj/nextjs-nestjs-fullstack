@@ -10,7 +10,10 @@ export const FormError = ({ message }: FormErrorProps) => {
   return (
     <Alert variant="destructive">
       <AlertCircle className="h-4 w-4" />
-      <AlertDescription>{message}</AlertDescription>
+      <AlertDescription
+        className="whitespace-break-spaces"
+        dangerouslySetInnerHTML={{ __html: message }}
+      ></AlertDescription>
     </Alert>
   );
 };

@@ -43,9 +43,11 @@ const SignUpForm = ({}) => {
     startTransition(async () => {
       try {
         const { data: user } = await axios.post("/auth/signup", values);
-        console.log(user);
+        console.log({ user });
         if (user) {
-          return setSuccess(`Account created successfully. Please sign in`);
+          return setSuccess(
+            `Account created successfully. <br/>Please sign in`
+          );
         }
 
         throw new Error();
@@ -54,7 +56,7 @@ const SignUpForm = ({}) => {
           let e = error as RequestError;
           return setError(e.response?.data?.message);
         }
-
+        console.error(error);
         setError("Something went wrong");
       }
     });
