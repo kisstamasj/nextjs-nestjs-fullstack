@@ -8,6 +8,7 @@ interface CreateAxiosServerSideProps {
 }
 
 export const createAxiosBase = (): AxiosInstance => {
+  console.log("Backend URL:", getBackendUrl());
   return axios.create({
     baseURL: getBackendUrl(),
     headers: {
