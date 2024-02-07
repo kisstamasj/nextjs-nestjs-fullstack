@@ -14,3 +14,7 @@ export function getBackendUrl() {
     ? process.env.NEXT_INTERNAL_API_URL
     : process.env.NEXT_PUBLIC_API_URL;
 }
+
+export const isMobileScreen = () => {
+  return window.matchMedia("(max-width: 1024px)").matches;
+};
