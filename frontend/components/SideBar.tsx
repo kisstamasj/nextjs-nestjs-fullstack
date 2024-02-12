@@ -15,8 +15,10 @@ const SideBar: React.FC<SideBarDesktopProps> = ({ menuItems }) => {
   const sidebar = useSidebar();
 
   return (
-    <aside
-      className={cn(`
+    <>
+      <aside
+        className={cn(
+          `
       absolute 
       left-0 
       top-0 
@@ -32,16 +34,21 @@ const SideBar: React.FC<SideBarDesktopProps> = ({ menuItems }) => {
       transition-all 
       duration-500 
       overflow-hidden 
-      ease-linear
+      ease-in-out
       h-full
       lg:static
       lg:translate-x-0
-      dark:bg-slate-900 
-      dark:text-white`, sidebar.status === "open" ? "translate-x-0" : "-translate-x-full lg:w-16")}
-    >
-      <Logo />
-      <MenuList items={menuItems} />
-    </aside>
+      dark:bg-slate-900
+      dark:text-white`,
+          sidebar.status === "open"
+            ? "translate-x-0"
+            : "-translate-x-full lg:w-16"
+        )}
+      >
+        <Logo />
+        <MenuList items={menuItems} />
+      </aside>
+    </>
   );
 };
 

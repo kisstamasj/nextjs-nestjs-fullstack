@@ -2,16 +2,16 @@
 
 import { useSidebar } from "@/hooks/use-sidebar";
 import { Menu } from "lucide-react";
-import { useSession } from "next-auth/react";
 import { FC } from "react";
 import { DarkModeToggle } from "../DarkModeToggle";
 import { Button } from "../ui/button";
 import NavBar from "./NavBar";
 import NavBarContent from "./NavBarContent";
 import { UserMenu } from "./UserMenu";
+import { useCurrentUser } from "@/hooks/use-current-user";
 
 const AdminNavBar: FC = () => {
-  const { data } = useSession();
+  const currentUser = useCurrentUser()
   const { toggleSidebar } = useSidebar();
   
   return (
@@ -22,7 +22,7 @@ const AdminNavBar: FC = () => {
         </Button>
       </div>
       <NavBarContent>
-        {data && <UserMenu />}
+        {currentUser && <UserMenu />}
         <div className="flex flex-row justify-end">
           <DarkModeToggle />
         </div>

@@ -3,9 +3,9 @@
 import { useSidebar } from "@/hooks/use-sidebar";
 import Link from "next/link";
 import React, { FC } from "react";
-import Icon from "../ui/Icon";
+import Icon from "../Icon";
 import dynamicIconImports from "lucide-react/dynamicIconImports";
-import { cn } from "@/lib/utils";
+import { cn, isMobileScreen } from "@/lib/utils";
 
 export interface MenuItemType {
   id: string;
@@ -22,12 +22,18 @@ const MenuItem: FC<MenuItemProps> = ({ item }) => {
   const sidebar = useSidebar();
 
   let linkClass =
-    "flex flex-row items-center justify-center hover:bg-gray-100 dark:hover:bg-slate-800 transition font-light md:justify-normal gap-x-3 px-5 py-4";
+    "flex flex-row items-center  hover:bg-gray-100 dark:hover:bg-slate-800 transition font-light justify-normal gap-x-3 px-5 py-4";
+
+  const menuItemClick = () => {
+    if (isMobileScreen()) {
+      sidebar.toggleSidebar();
+    }
+  }
 
   return (
     <>
       <div className="w-full">
-        <Link href={item.href} className={linkClass}>
+        <Link href={item.href} className={linkClass} onClick={menuItemClick}>
           <div>
             <Icon name={item.icon} className="text-gray-500 dark:text-white" size={20} />
           </div>

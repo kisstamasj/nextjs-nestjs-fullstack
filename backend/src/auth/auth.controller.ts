@@ -27,10 +27,9 @@ export class AuthController {
   @Post('signup')
   @HttpCode(201)
   async createUser(@Body() createUserDto: CreateUserDto) {
-    const { user, tokens } = await this.authService.signUp(createUserDto);
+    const { user } = await this.authService.signUp(createUserDto);
     return {
       user: { id: user.id, name: user.name, email: user.email },
-      backendTokens: tokens,
     };
   }
 
@@ -44,7 +43,9 @@ export class AuthController {
   async signin(@Body() data: AuthDto) {
     const { user, tokens } = await this.authService.signIn(data);
     return {
-      user: { id: user.id, name: user.name, email: user.email },
+      id: user.id,
+      name: user.name,
+      email: user.email,
       backendTokens: tokens,
     };
   }
@@ -58,7 +59,7 @@ export class AuthController {
   @Get('logout')
   @HttpCode(200)
   async logout(@RequestUser() user: IRequestUser) {
-    await this.authService.logout(user.sub);
+    await this.authService.logout(user.id);
     return 'success';
   }
 
@@ -70,8 +71,8 @@ export class AuthController {
   @UseGuards(RefreshTokenGuard)
   @Post('refresh')
   async refreshTokens(@RequestUser() user: IRequestUser): Promise<Tokens> {
-    const userId = user['sub'];
-    const refreshToken = user['refreshToken'];
+    const userId = user.id;
+    const refreshToken = user.refreshToken;
     return await this.authService.refreshTokens(userId, refreshToken);
   }
 }

@@ -1,6 +1,6 @@
 import { AxiosError, AxiosResponseHeaders, InternalAxiosRequestConfig } from "axios";
 
-export interface FormError extends AxiosError {
+export interface RequestError extends AxiosError {
     response: {
       status: number;
       statusText: string;

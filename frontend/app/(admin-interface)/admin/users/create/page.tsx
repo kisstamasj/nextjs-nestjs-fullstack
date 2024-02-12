@@ -3,7 +3,7 @@ import PageContainer from "@/components/PageContainer";
 import PageHeaderContainer from "@/components/PageHeaderContainer";
 import { HelpCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import UsersForm from "../components/form";
+import UsersForm from "../_components/form";
 import PageHeaderSeparator from "@/components/PageHeaderSeparator";
 import H1 from "@/components/H1";
 

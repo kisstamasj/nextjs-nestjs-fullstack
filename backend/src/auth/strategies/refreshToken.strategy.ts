@@ -2,11 +2,7 @@ import { ExtractJwt, Strategy } from 'passport-jwt';
 import { PassportStrategy } from '@nestjs/passport';
 import { Injectable } from '@nestjs/common';
 import { Request } from 'express';
-
-interface JwtPayload {
-  sub: string;
-  email: string;
-}
+import { JwtPayload } from '@app/common';
 
 /**
  * A Passport strategy for authenticating requests using JSON Web Tokens (JWTs).

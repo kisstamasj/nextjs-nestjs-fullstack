@@ -1,6 +1,5 @@
-export interface IRequestUser {
-  sub: string;
-  email: string;
-  accessToken: string;
-  refreshToken: string;
+import { JwtPayload } from '../types';
+
+export interface IRequestUser extends JwtPayload {
+  refreshToken?: string;
 }

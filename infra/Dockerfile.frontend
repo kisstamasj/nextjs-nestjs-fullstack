@@ -26,26 +26,26 @@ CMD pnpm run dev
 # Build stage
 FROM base AS build
 WORKDIR /app
-COPY --chown=node:node package*.json pnpm-lock.yaml ./
-COPY --chown=node:node --from=dev /app/node_modules ./node_modules
-COPY --chown=node:node . .
+COPY package*.json pnpm-lock.yaml ./
+RUN pnpm i --frozen-lockfile
+COPY . .
 
 RUN pnpm run build
 ENV NODE_ENV production
-RUN pnpm i --frozen-lockfile --production
 USER node
 
 # Production stage
 FROM base AS prod
 WORKDIR /app
 
-COPY --chown=node:node --from=build /app/node_modules ./node_modules
+COPY --chown=node:node --from=build /app/package.json .
+COPY --chown=node:node --from=build /app/pnpm-lock.yaml .
+COPY --chown=node:node --from=build /app/next.config.js ./
+COPY --chown=node:node --from=build /app/public ./public
 COPY --chown=node:node --from=build /app/.next ./.next
 
 EXPOSE $FRONTEND_INTERNAL_PORT
 
 ENV PORT $FRONTEND_INTERNAL_PORT
-# set hostname to localhost
-ENV HOSTNAME "0.0.0.0"
 
-CMD pnpm run start
+ENTRYPOINT ["pnpm", "start"]

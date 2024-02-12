@@ -6,23 +6,20 @@ import {
   Param,
   Patch,
   Post,
-  Request,
   UseGuards,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dtos/create-user.dto';
-import { UserDto } from './dtos/user.dto';
-import { Request as ExpressRequest } from 'express';
 import { UpdateUserDto } from './dtos/update-user.dto';
-import { Serialize } from '@app/common';
+import { IRequestUser, RequestUser, Serialize } from '@app/common';
 import { AccessTokenGuard } from '../auth/guards';
+import { UserDto } from './dtos/user.dto';
 
 /**
  * The UserController class handles HTTP requests related to user operations.
  */
 @Controller('users')
 @UseGuards(AccessTokenGuard)
-@Serialize(UserDto)
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
@@ -32,8 +29,9 @@ export class UsersController {
    * @returns The user profile.
    */
   @Get('profile')
-  getProfile(@Request() req: ExpressRequest) {
-    return req.user;
+  @Serialize(UserDto)
+  getProfile(@RequestUser() user: IRequestUser) {
+    return this.usersService.findById(user.id);
   }
 
   /**

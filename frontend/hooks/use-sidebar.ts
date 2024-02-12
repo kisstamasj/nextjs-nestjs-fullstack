@@ -7,7 +7,7 @@ interface useSidebarStore {
 }
 
 export const useSidebar = create<useSidebarStore>((set, s) => ({
-  status: "open",
+  status: "mini",
   setStatus: (status) => set({ status }),
   toggleSidebar: () =>
     set(({ status }) => {

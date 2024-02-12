@@ -1,28 +1,27 @@
 "use client";
 
-import { LogOutIcon } from "lucide-react";
-import { signOut, useSession } from "next-auth/react";
-import Link from "next/link";
 import React, { FC } from "react";
 import NavBar from "./NavBar";
-import { Button, buttonVariants } from "../ui/button";
+import { buttonVariants } from "../ui/button";
 import NavBarContent from "./NavBarContent";
 import { UserMenu } from "./UserMenu";
+import Link from "next/link";
+import { useCurrentUser } from "@/hooks/use-current-user";
 
 interface UserNavBarPros {
     className?: string;
 }
 
 const UserNavBar: FC<UserNavBarPros> = ({className}) => {
-  const { data:session } = useSession();
+  const currentUser = useCurrentUser();
   return (
     <NavBar className={className}>
       <NavBarContent>
-        {!session && <>
-        <Link className={buttonVariants({variant: "link"})} href="/sign-in">Sign In</Link>
-        <Link className={buttonVariants({variant: "link"})} href="/sign-up">Sign Up</Link>
+        {!currentUser && <>
+        <Link className={buttonVariants({variant: "link"})} href="/auth/sign-in">Sign In</Link>
+        <Link className={buttonVariants({variant: "link"})} href="/auth/sign-up">Sign Up</Link>
         </>}
-        {session && (
+        {currentUser && (
           <UserMenu />
         )}
       </NavBarContent>

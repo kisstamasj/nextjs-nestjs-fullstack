@@ -1,6 +1,4 @@
-
 import UserInterfaceWrapper from "@/components/UserInterfaceWrapper";
-import WithOutAuth from "@/components/auth/withOutAuth";
 import UserNavBar from "@/components/nav-bar/UserNavbar";
 import type { Metadata } from "next";
 
@@ -19,7 +17,7 @@ export default async function AuthLayout({
       <UserInterfaceWrapper>
         <UserNavBar className="fixed" />
         <div className="flex items-center justify-center h-full">
-          <WithOutAuth>{children}</WithOutAuth>
+          {children}
         </div>
       </UserInterfaceWrapper>
     </>
