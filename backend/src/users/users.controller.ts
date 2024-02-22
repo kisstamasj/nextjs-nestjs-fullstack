@@ -6,12 +6,18 @@ import {
   Param,
   Patch,
   Post,
+  Query,
   UseGuards,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dtos/create-user.dto';
 import { UpdateUserDto } from './dtos/update-user.dto';
-import { IRequestUser, RequestUser, Serialize } from '@app/common';
+import {
+  DataTableQueryParam,
+  IRequestUser,
+  RequestUser,
+  Serialize,
+} from '@app/common';
 import { AccessTokenGuard } from '../auth/guards';
 import { UserDto } from './dtos/user.dto';
 
@@ -49,8 +55,12 @@ export class UsersController {
    * @returns A promise that resolves to an array of all users.
    */
   @Get()
-  findAll() {
-    return this.usersService.findAll();
+  async findAll(
+    @Query()
+    query: DataTableQueryParam,
+  ) {
+    const { data, count } = await this.usersService.findAllForDataTable(query);
+    return { data, count };
   }
 
   /**
