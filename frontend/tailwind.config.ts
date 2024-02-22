@@ -1,4 +1,7 @@
 /** @type {import('tailwindcss').Config} */
+
+const plugin = require('tailwindcss/plugin')
+
 module.exports = {
   darkMode: ["class"],
   content: [
@@ -78,5 +81,19 @@ module.exports = {
       },
     },
   },
-  plugins: [require("tailwindcss-animate")],
+  plugins: [
+    require("tailwindcss-animate"),
+    // @ts-ignore
+    plugin(function ({ matchUtilities, theme }) {
+      matchUtilities(
+        {
+          // @ts-ignore
+          'animate-delay': (value) => ({
+            animationDelay: value,
+          }),
+        },
+        { values: theme('transitionDelay') }
+      )
+    }),
+  ],
 }
