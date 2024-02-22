@@ -1,3 +1,5 @@
+"use client"
+
 import { Table } from "@tanstack/react-table";
 
 import { Button } from "@/components/ui/button";
@@ -14,22 +16,21 @@ import {
   ArrowRight,
   ArrowRightToLine,
 } from "lucide-react";
+import { useDataTable } from "@/contexts/datatable-context";
 
-interface DataTablePaginationProps<TData> {
-  table: Table<TData>;
+interface DataTablePaginationProps {
 }
 
 /**
  * Renders the pagination component for the data table.
  */
-export function DataTablePagination<TData>({
-  table,
-}: DataTablePaginationProps<TData>) {
+export function DataTablePagination({}: DataTablePaginationProps) {
+  const {table, loading, count} = useDataTable()
   return (
     <div className="flex items-center justify-between sm:justify-center px-1 py-3 w-full">
       <div className="flex-1 text-sm text-muted-foreground hidden md:block">
         {table.getFilteredSelectedRowModel().rows.length} sor{" "}
-        {table.getFilteredRowModel().rows.length} sorból kiválasztva
+        {count} sorból kiválasztva
       </div>
       <div className="flex items-center space-x-6 lg:space-x-8">
         <div className="flex items-center space-x-2">
@@ -37,6 +38,7 @@ export function DataTablePagination<TData>({
             Sorok oldalanként
           </p>
           <Select
+            disabled={loading}
             value={`${table.getState().pagination.pageSize}`}
             onValueChange={(value) => {
               table.setPageSize(Number(value));
@@ -46,7 +48,7 @@ export function DataTablePagination<TData>({
               <SelectValue placeholder={table.getState().pagination.pageSize} />
             </SelectTrigger>
             <SelectContent side="top">
-              {[10, 20, 30, 40, 50].map((pageSize) => (
+              {[5, 10, 20, 30, 40, 50].map((pageSize) => (
                 <SelectItem key={pageSize} value={`${pageSize}`}>
                   {pageSize}
                 </SelectItem>
@@ -63,7 +65,7 @@ export function DataTablePagination<TData>({
             variant="outline"
             className="hidden h-8 w-8 p-0 lg:flex"
             onClick={() => table.setPageIndex(0)}
-            disabled={!table.getCanPreviousPage()}
+            disabled={!table.getCanPreviousPage() || loading}
           >
             <span className="sr-only">Első oldalra</span>
             <ArrowLeftToLine className="h-4 w-4" />
@@ -72,7 +74,7 @@ export function DataTablePagination<TData>({
             variant="outline"
             className="h-8 w-8 p-0"
             onClick={() => table.previousPage()}
-            disabled={!table.getCanPreviousPage()}
+            disabled={!table.getCanPreviousPage() || loading}
           >
             <span className="sr-only">Előző oldal</span>
             <ArrowLeft className="h-4 w-4" />
@@ -81,7 +83,7 @@ export function DataTablePagination<TData>({
             variant="outline"
             className="h-8 w-8 p-0"
             onClick={() => table.nextPage()}
-            disabled={!table.getCanNextPage()}
+            disabled={!table.getCanNextPage() || loading}
           >
             <span className="sr-only">Következő oldal</span>
             <ArrowRight className="h-4 w-4" />
@@ -90,7 +92,7 @@ export function DataTablePagination<TData>({
             variant="outline"
             className="hidden h-8 w-8 p-0 lg:flex"
             onClick={() => table.setPageIndex(table.getPageCount() - 1)}
-            disabled={!table.getCanNextPage()}
+            disabled={!table.getCanNextPage() || loading}
           >
             <span className="sr-only">Utolsó oldal</span>
             <ArrowRightToLine className="h-4 w-4" />

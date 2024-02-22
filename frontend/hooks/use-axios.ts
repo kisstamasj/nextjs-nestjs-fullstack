@@ -1,14 +1,11 @@
-"use client";
-
-import { createAxiosBase } from "@/lib/axios";
+import { axiosBackend } from "@/lib/axios";
 import { useSession } from "next-auth/react";
 import { useEffect } from "react";
 
 const useAxios = () => {
   const { data: session, status } = useSession();
-  const axios = createAxiosBase();
   useEffect(() => {
-    const requestIntercept = axios.interceptors.request.use(async (config) => {
+    const requestIntercept = axiosBackend.interceptors.request.use((config) => {
       if (status === "authenticated" && session) {
         config.headers.Authorization = `Bearer ${session?.user.backendTokens.accessToken}`;
       }
@@ -17,11 +14,11 @@ const useAxios = () => {
     });
 
     return () => {
-      axios.interceptors.request.eject(requestIntercept);
+      axiosBackend.interceptors.request.eject(requestIntercept);
     };
-  }, [session, status, axios]);
+  }, [session, status]);
 
-  return axios;
+  return axiosBackend;
 };
 
 export default useAxios;
