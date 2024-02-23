@@ -7,11 +7,12 @@ import Icon from "../Icon";
 import dynamicIconImports from "lucide-react/dynamicIconImports";
 import { cn, isMobileScreen } from "@/lib/utils";
 import { usePathname } from "next/navigation";
+import { icons } from "lucide-react";
 
 export interface MenuItemType {
   id: string;
   label: string;
-  icon: keyof typeof dynamicIconImports;
+  icon: keyof typeof icons;
   href: string;
 }
 
@@ -30,16 +31,32 @@ const MenuItem: FC<MenuItemProps> = ({ item }) => {
     if (isMobileScreen()) {
       sidebar.toggleSidebar();
     }
-  }
+  };
 
   return (
     <>
-      <div className={cn("w-full", isActive ? "bg-slate-950 opacity-75" : "")}>
+      <div
+        className={cn(
+          "w-full",
+          isActive ? "bg-gray-200 dark:bg-slate-800" : ""
+        )}
+      >
         <Link href={item.href} className={linkClass} onClick={menuItemClick}>
           <div className="">
-            <Icon name={item.icon} className={cn("text-gray-500 dark:text-white")} size={20} />
+            <Icon
+              name={item.icon}
+              className={cn("text-gray-500 dark:text-white")}
+              size={20}
+            />
           </div>
-          <div className={cn(`transition-all duration-500 ease-linear`, sidebar.status === "mini" ? "hidden" : "block")}>{item.label}</div>
+          <div
+            className={cn(
+              `transition-all duration-500 ease-linear`,
+              sidebar.status === "mini" ? "hidden" : "block"
+            )}
+          >
+            {item.label}
+          </div>
         </Link>
       </div>
     </>
