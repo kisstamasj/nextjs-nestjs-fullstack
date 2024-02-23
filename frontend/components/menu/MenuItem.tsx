@@ -35,7 +35,7 @@ const MenuItem: FC<MenuItemProps> = ({ item }) => {
 
   return (
     <>
-      <div className={cn("w-full", isActive ? "bg-slate-950 opacity-75" : "")}>
+      <div className={cn("w-full", isActive ? "bg-gray-200 dark:bg-slate-800" : "")}>
         <Link href={item.href} className={linkClass} onClick={menuItemClick}>
           <div className="">
             <Icon name={item.icon} className={cn("text-gray-500 dark:text-white")} size={20} />
