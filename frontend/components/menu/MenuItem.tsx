@@ -7,11 +7,12 @@ import Icon from "../Icon";
 import dynamicIconImports from "lucide-react/dynamicIconImports";
 import { cn, isMobileScreen } from "@/lib/utils";
 import { usePathname } from "next/navigation";
+import { icons } from "lucide-react";
 
 export interface MenuItemType {
   id: string;
   label: string;
-  icon: keyof typeof dynamicIconImports;
+  icon: keyof typeof icons;
   href: string;
 }
 
