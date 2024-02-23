@@ -27,7 +27,7 @@ interface DataTablePaginationProps {
 export function DataTablePagination({}: DataTablePaginationProps) {
   const {table, loading, count} = useDataTable()
   return (
-    <div className="flex items-center justify-between sm:justify-center px-1 py-3 w-full">
+    <div className="flex items-center justify-center md:justify-between px-1 py-3 w-full">
       <div className="flex-1 text-sm text-muted-foreground hidden md:block">
         {table.getFilteredSelectedRowModel().rows.length} sor{" "}
         {count} sorból kiválasztva
@@ -63,7 +63,7 @@ export function DataTablePagination({}: DataTablePaginationProps) {
         <div className="flex items-center space-x-2">
           <Button
             variant="outline"
-            className="hidden h-8 w-8 p-0 lg:flex"
+            className="hidden h-8 w-8 p-0 md:flex"
             onClick={() => table.setPageIndex(0)}
             disabled={!table.getCanPreviousPage() || loading}
           >
@@ -90,7 +90,7 @@ export function DataTablePagination({}: DataTablePaginationProps) {
           </Button>
           <Button
             variant="outline"
-            className="hidden h-8 w-8 p-0 lg:flex"
+            className="hidden h-8 w-8 p-0 md:flex"
             onClick={() => table.setPageIndex(table.getPageCount() - 1)}
             disabled={!table.getCanNextPage() || loading}
           >
