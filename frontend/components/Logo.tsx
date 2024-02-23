@@ -32,14 +32,14 @@ const Logo: React.FC = () => {
             status === "mini" ? " opacity-0 hidden" : " opacity-100"
           }`}
         >
-          <Image fill src="/logo.png" alt="logo" />
+          <Image fill src="/logo.png" alt="logo" className="animate-fade"/>
         </div>
         <div
           className={`relative transition-all duration-500 ease-in-out w-10 h-[35px] ${
             status !== "mini" ? " opacity-0 hidden" : " opacity-100"
           }`}
         >
-          <Image fill src="/logo-mini.png" alt="logo" />
+          <Image fill src="/logo-mini.png" alt="logo" className="animate-fade"/>
         </div>
         <div className="block lg:hidden">
           <Button variant="ghost" size="icon" onClick={toggleSidebar}>
