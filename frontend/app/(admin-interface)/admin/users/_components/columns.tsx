@@ -10,7 +10,7 @@ export type User = {
   email: string;
 };
 
-export const columns: ColumnDef<User>[] = [
+export const columns: ColumnDef<User, any>[] = [
   {
     id: "select",
     header: ({ table }) => (
