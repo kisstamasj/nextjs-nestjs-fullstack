@@ -4,6 +4,7 @@ import { SignInSchema } from "@/schemas/auth.schema";
 import { createAxiosServerSide } from "./lib/axios";
 
 export default {
+  trustHost: true,
   providers: [
     Credentials({
       async authorize(credentials) {

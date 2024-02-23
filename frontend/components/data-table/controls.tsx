@@ -9,31 +9,26 @@ import {
 } from "../ui/dropdown-menu";
 import { Button } from "../ui/button";
 import { ColumnsIcon, PencilIcon, PlusCircleIcon } from "lucide-react";
-import { Table } from "@tanstack/react-table";
+import { IDataTableContext, useDataTable } from "@/contexts/datatable-context";
+import React from "react";
 
-interface DataTableControlsProps<TData> {
-  table: Table<TData>;
-  route: string;
-}
-
-export default function DataTableControls<TData>({
-  table,
-  route,
-}: DataTableControlsProps<TData>) {
+export default function DataTableControls() {
+  const {table, pageRoute, loading} = useDataTable()
   const router = useRouter();
+  const rowsSelected = table.getSelectedRowModel().rows.length > 0;
   const onUpdateHandler = () => {
-    if(!table.getSelectedRowModel().rows.length){
+    if(!rowsSelected){
         return alert('Nem választott ki sort!');
     }
     const rowId = table.getSelectedRowModel().rows[0].getValue("id");
     
-    router.push(`${route}/${rowId}`);
+    router.push(`${pageRoute}/${rowId}`);
   }
   return (
     <div className="flex justify-start flex-wrap items-center py-2 gap-2">
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
-          <Button variant="outline">
+          <Button variant="outline" disabled={loading}>
             <ColumnsIcon className="w-4 h-4 mr-2" />
             Oszlopok
           </Button>
@@ -58,10 +53,10 @@ export default function DataTableControls<TData>({
             })}
         </DropdownMenuContent>
       </DropdownMenu>
-      <Button variant={"outline"} className="ml-auto" onClick={() => router.push(`${route}/create`)}>
+      <Button disabled={loading} variant={"outline"} className="ml-auto" onClick={() => router.push(`${pageRoute}/create`)}>
         <PlusCircleIcon className="w-4 h-4 mr-2" /> Létrehozás
       </Button>
-      <Button variant={"outline"} onClick={onUpdateHandler}>
+      <Button disabled={loading || !rowsSelected} variant={"outline"} onClick={onUpdateHandler}>
         <PencilIcon className="w-4 h-4 mr-2" /> Módosítás
       </Button>
     </div>
