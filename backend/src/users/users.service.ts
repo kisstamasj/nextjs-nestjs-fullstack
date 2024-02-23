@@ -5,9 +5,9 @@ import {
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from './entities/user.entity';
-import { Repository } from 'typeorm';
+import { Like, Repository } from 'typeorm';
 import { CreateUserDto } from './dtos/create-user.dto';
-import { Password } from '@app/common';
+import { DataTableQueryParam, Password } from '@app/common';
 
 /**
  * The `UserService` class is responsible for handling user-related operations such as creating a new user, finding a user by their ID or email, updating a user's information, and deleting a user.
@@ -41,6 +41,32 @@ export class UsersService {
    */
   async findAll() {
     return this.repo.find();
+  }
+
+  async findAllForDataTable(query: DataTableQueryParam) {
+    const take = query.pagination.limit || 10;
+    const skip = query.pagination.skip || 0;
+    const where =
+      query.filter &&
+      query.filter.map((filter) => {
+        return {
+          [filter.id]: Like(`%${filter.value}%`),
+        };
+      });
+
+    const [result, total] = await this.repo.findAndCount({
+      order: {
+        [query.sort.field]: query.sort.order,
+      },
+      where,
+      take: take,
+      skip: skip,
+    });
+
+    return {
+      data: result,
+      count: total,
+    };
   }
 
   /**

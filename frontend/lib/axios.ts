@@ -1,5 +1,5 @@
 import { Session } from "next-auth/types";
-import axios, { AxiosInstance } from "axios";
+import axios from "axios";
 import { getBackendUrl } from "./utils";
 
 interface CreateAxiosServerSideProps {
@@ -7,14 +7,12 @@ interface CreateAxiosServerSideProps {
   token?: string;
 }
 
-export const createAxiosBase = (): AxiosInstance => {
-  return axios.create({
-    baseURL: getBackendUrl(),
-    headers: {
-      "Content-Type": "application/json",
-    },
-  });
-};
+export const axiosBackend = axios.create({
+  baseURL: getBackendUrl(),
+  headers: {
+    "Content-Type": "application/json",
+  },
+});
 
 /**
  * Creates an Axios instance for server-side requests.
@@ -24,20 +22,18 @@ export const createAxiosBase = (): AxiosInstance => {
  * Useful when you don't want to get the token (accessToken or refreshToken) from the session.
  * If the withCredentials property is true, and the token is not provided, it will try to get the accessToken from the session.
  *
- * @returns {AxiosInstance} The Axios instance for server-side requests.
  */
 export const createAxiosServerSide = async ({
   withCredentials,
   token,
 }: CreateAxiosServerSideProps) => {
-  const axios = createAxiosBase();
   let session: Session | null;
   if (withCredentials) {
     if (!token) {
       const { auth } = await import("@/auth");
       session = await auth();
       const user = session?.user;
-      axios.interceptors.request.use((config) => {
+      axiosBackend.interceptors.request.use((config) => {
         if (session) {
           config.headers.Authorization = `Bearer ${user?.backendTokens.accessToken}`;
         }
@@ -45,14 +41,14 @@ export const createAxiosServerSide = async ({
         return config;
       });
 
-      return axios;
+      return axiosBackend;
     }
 
-    axios.interceptors.request.use((config) => {
+    axiosBackend.interceptors.request.use((config) => {
       config.headers.Authorization = `Bearer ${token}`;
       return config;
     });
   }
 
-  return axios;
+  return axiosBackend;
 };

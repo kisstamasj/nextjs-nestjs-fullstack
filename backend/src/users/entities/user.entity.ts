@@ -1,4 +1,10 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Column,
+  CreateDateColumn,
+  Entity,
+  PrimaryGeneratedColumn,
+  UpdateDateColumn,
+} from 'typeorm';
 
 /**
  * A class representing a user in the database.
@@ -20,13 +26,13 @@ export class User {
   /**
    * The email address of the user.
    */
-  @Column({ unique: true })
+  @Column({ unique: true, collation: 'utf8mb4_general_ci' })
   email: string;
 
   /**
    * The name of the user.
    */
-  @Column()
+  @Column({ collation: 'utf8mb4_general_ci' })
   name: string;
 
   /**
@@ -37,4 +43,10 @@ export class User {
 
   @Column({ nullable: true, default: null })
   refreshToken: string;
+
+  @CreateDateColumn()
+  createdAt: Date;
+
+  @UpdateDateColumn()
+  updatedAt: Date;
 }

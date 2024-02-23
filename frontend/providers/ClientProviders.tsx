@@ -1,5 +1,5 @@
 "use client";
-import { ReactNode } from "react";
+import React, { ReactNode} from "react";
 import { ThemeProvider } from "./ThemeProvider";
 
 const ClientProviders = ({ children }: { children: ReactNode }) => {

@@ -6,6 +6,7 @@ import React, { FC } from "react";
 import Icon from "../Icon";
 import dynamicIconImports from "lucide-react/dynamicIconImports";
 import { cn, isMobileScreen } from "@/lib/utils";
+import { usePathname } from "next/navigation";
 
 export interface MenuItemType {
   id: string;
@@ -20,7 +21,8 @@ interface MenuItemProps {
 
 const MenuItem: FC<MenuItemProps> = ({ item }) => {
   const sidebar = useSidebar();
-
+  const pathName = usePathname();
+  const isActive = pathName === item.href;
   let linkClass =
     "flex flex-row items-center  hover:bg-gray-100 dark:hover:bg-slate-800 transition font-light justify-normal gap-x-3 px-5 py-4";
 
@@ -32,10 +34,10 @@ const MenuItem: FC<MenuItemProps> = ({ item }) => {
 
   return (
     <>
-      <div className="w-full">
+      <div className={cn("w-full", isActive ? "bg-slate-950 opacity-75" : "")}>
         <Link href={item.href} className={linkClass} onClick={menuItemClick}>
-          <div>
-            <Icon name={item.icon} className="text-gray-500 dark:text-white" size={20} />
+          <div className="">
+            <Icon name={item.icon} className={cn("text-gray-500 dark:text-white")} size={20} />
           </div>
           <div className={cn(`transition-all duration-500 ease-linear`, sidebar.status === "mini" ? "hidden" : "block")}>{item.label}</div>
         </Link>
