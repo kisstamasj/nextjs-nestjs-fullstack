@@ -1,6 +1,5 @@
 "use client"
 
-import { Table } from "@tanstack/react-table";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -10,13 +9,13 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import {
-  ArrowLeft,
-  ArrowLeftToLine,
-  ArrowRight,
-  ArrowRightToLine,
-} from "lucide-react";
 import { useDataTable } from "@/contexts/datatable-context";
+import {
+  ChevronFirst,
+  ChevronLast,
+  ChevronLeft,
+  ChevronRight
+} from "lucide-react";
 
 interface DataTablePaginationProps {
 }
@@ -63,39 +62,43 @@ export function DataTablePagination({}: DataTablePaginationProps) {
         <div className="flex items-center space-x-2">
           <Button
             variant="outline"
+            size="icon"
             className="hidden h-8 w-8 p-0 md:flex"
             onClick={() => table.setPageIndex(0)}
             disabled={!table.getCanPreviousPage() || loading}
           >
             <span className="sr-only">Első oldalra</span>
-            <ArrowLeftToLine className="h-4 w-4" />
+            <ChevronFirst className="h-4 w-4" />
           </Button>
           <Button
             variant="outline"
+            size="icon"
             className="h-8 w-8 p-0"
             onClick={() => table.previousPage()}
             disabled={!table.getCanPreviousPage() || loading}
           >
             <span className="sr-only">Előző oldal</span>
-            <ArrowLeft className="h-4 w-4" />
+            <ChevronLeft className="h-4 w-4" />
           </Button>
           <Button
             variant="outline"
+            size="icon"
             className="h-8 w-8 p-0"
             onClick={() => table.nextPage()}
             disabled={!table.getCanNextPage() || loading}
           >
             <span className="sr-only">Következő oldal</span>
-            <ArrowRight className="h-4 w-4" />
+            <ChevronRight className="h-4 w-4" />
           </Button>
           <Button
             variant="outline"
+            size="icon"
             className="hidden h-8 w-8 p-0 md:flex"
             onClick={() => table.setPageIndex(table.getPageCount() - 1)}
             disabled={!table.getCanNextPage() || loading}
           >
             <span className="sr-only">Utolsó oldal</span>
-            <ArrowRightToLine className="h-4 w-4" />
+            <ChevronLast className="h-4 w-4" />
           </Button>
         </div>
       </div>

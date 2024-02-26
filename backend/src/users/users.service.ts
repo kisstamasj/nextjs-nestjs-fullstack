@@ -104,6 +104,10 @@ export class UsersService {
       throw new NotFoundException('User is not found');
     }
 
+    if (attrs.password) {
+      attrs.password = await Password.toHash(attrs.password);
+    }
+    
     Object.assign(user, attrs);
 
     return this.repo.save(user);

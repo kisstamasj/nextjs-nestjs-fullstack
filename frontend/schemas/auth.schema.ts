@@ -1,6 +1,11 @@
-import { z } from "zod";
+import { ZodType, z } from "zod";
 
-export const SignInSchema = z.object({
+export type SignInType = {
+    email: string;
+    password: string;
+}
+
+export const SignInSchema: ZodType<SignInType> = z.object({
     email: z.string().email({
         message: "Email is required"
     }),
@@ -9,7 +14,19 @@ export const SignInSchema = z.object({
     }),
 });
 
+export type SignInSchemaType = z.infer<typeof SignInSchema>;
+
+export type SignUpType = {
+    name: string;
+    email: string;
+    password: string;
+    confirmPassword: string;
+}
+
 export const SignUpSchema = z.object({
+    name: z.string().min(1, {
+        message: "Name is required",
+    }),
     email: z.string().email(),
     password: z.string().min(6, {
         message: "Minimum 6 characters required",
@@ -17,10 +34,9 @@ export const SignUpSchema = z.object({
     confirmPassword: z.string().min(6, {
         message: "Minimum 6 characters required",
     }),
-    name: z.string().min(1, {
-        message: "Name is required",
-    })
 }).refine((data) => data.password === data.confirmPassword, {
     message: "Passwords do not match",
     path: ["confirmPassword"],
 })
+
+export type SignUpSchemaType = z.infer<typeof SignUpSchema>

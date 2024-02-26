@@ -69,6 +69,7 @@ export class UsersController {
    * @returns A promise that resolves to the user with the specified ID.
    */
   @Get(':id')
+  @Serialize(UserDto)
   findById(@Param('id') id: string) {
     return this.usersService.findById(id);
   }
