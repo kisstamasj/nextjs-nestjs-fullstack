@@ -16,15 +16,16 @@ const Logo: React.FC = () => {
         className={cn(
           `
         flex 
-        items-center          
+        items-center
+        py-3          
         dark:border-slate-800 
         bg-white 
         dark:bg-slate-900 
         overflow-hidden 
         transition-all`,
           status === "open" || status === "closed"
-            ? "px-5 py-5 gap-5 justify-between"
-            : "px-2 py-3 justify-center"
+            ? "px-5 gap-5 justify-between"
+            : "px-2 justify-center"
         )}
       >
         <div
