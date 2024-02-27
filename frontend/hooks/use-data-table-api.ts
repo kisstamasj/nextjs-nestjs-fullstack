@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import useAxios from "./use-axios";
 import { ColumnFiltersState } from "@tanstack/react-table";
 
@@ -13,7 +13,7 @@ interface IUseDataTableApi {
       field: string;
       order: "ASC" | "DESC";
     };
-    filter: ColumnFiltersState
+    filter: ColumnFiltersState;
   };
 }
 
@@ -31,32 +31,31 @@ export const useDataTableApi = ({ api, params }: IUseDataTableApi) => {
   const [loading, setLoading] = useState(false);
   const axios = useAxios();
 
-  if(!api) throw new Error("Api not provided")
+  if (!api) throw new Error("Api not provided");
+  const fetchData = useCallback(async () => {
+    setLoading(true);
 
-  useEffect(() => {
-    const getData = async () => {
-      setLoading(true);
-      
-      const { data } = await axios.get<DataTableApiResponse>(api, {
-        params: {
-          pagination: {
-            skip,
-            limit,
-          },
-          sort: {
-            field,
-            order,
-          },
-          filter
+    const { data } = await axios.get<DataTableApiResponse>(api, {
+      params: {
+        pagination: {
+          skip,
+          limit,
         },
-      });
+        sort: {
+          field,
+          order,
+        },
+        filter,
+      },
+    });
 
-      setData(data.data);
-      setCount(data.count);
-      setLoading(false);
-    };
-    getData();
+    setData(data.data);
+    setCount(data.count);
+    setLoading(false);
   }, [api, field, order, skip, limit, axios, filter]);
+  useEffect(() => {
+    fetchData();
+  }, [api, field, order, skip, limit, axios, filter, fetchData]);
 
-  return { data, count, loading };
+  return { data, count, loading, fetchData };
 };
