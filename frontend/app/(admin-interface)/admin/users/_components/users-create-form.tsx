@@ -13,7 +13,10 @@ import {
 import { Input } from "@/components/ui/input";
 import useAxios from "@/hooks/use-axios";
 import { handleFormError } from "@/lib/utils";
-import { CreateUserSchemaType, createUserSchema } from "@/schemas/admin/user.schema";
+import {
+  CreateUserSchemaType,
+  createUserSchema,
+} from "@/schemas/admin/user.schema";
 import { RequestError, RequestErrorMessage } from "@/types/errors";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Loader2 } from "lucide-react";
@@ -21,6 +24,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { FC, useState, useTransition } from "react";
 import { useForm } from "react-hook-form";
+import { toast } from "sonner";
 
 interface UsersCreateFormProps {}
 
@@ -42,6 +46,9 @@ const UsersCreateForm: FC<UsersCreateFormProps> = () => {
     startTransition(async () => {
       try {
         await axios.post("/users", values);
+        toast.success("Felhasználó fiók sikeresen létrehozva.", {
+          description: values.name,
+        });
         router.push("/admin/users");
       } catch (error) {
         let e = error as RequestError;

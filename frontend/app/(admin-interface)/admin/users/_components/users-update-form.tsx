@@ -25,6 +25,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { FC, useState, useTransition } from "react";
 import { useForm } from "react-hook-form";
+import { toast } from "sonner";
 
 interface UsersUpdateFormProps {
   defaultValues: UpdateUserSchemaType;
@@ -48,6 +49,9 @@ const UsersUpdateForm: FC<UsersUpdateFormProps> = ({ defaultValues, id }) => {
           ...values,
           password: values.password || undefined,
         });
+        toast.success("Felhasználó fiók sikeresen frissítve.", {
+          description: values.name,
+        })
         router.push("/admin/users");
       } catch (error) {
         let e = error as RequestError;
