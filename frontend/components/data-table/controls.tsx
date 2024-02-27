@@ -51,8 +51,8 @@ export default function DataTableControls() {
         } catch (error) {
           let e = error as RequestError;
           console.log(error);
-          let message = e.response?.data?.message;
-          alert(message);
+          let message = e.response?.data?.message as string;
+          toast.error(message, {description: rows[i].getValue("name")});
           return;
         }
       }
