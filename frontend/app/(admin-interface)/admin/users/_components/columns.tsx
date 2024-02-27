@@ -77,9 +77,6 @@ export const columns: ColumnDef<User, any>[] = [
   {
     accessorKey: "updatedAt",
     id: "updatedAt",
-    meta: {
-      label: "Módosítás",
-    },
     header: ({ column }) => {
       return <DataTableColumnHeader column={column} title="Módosítás" />;
     },
