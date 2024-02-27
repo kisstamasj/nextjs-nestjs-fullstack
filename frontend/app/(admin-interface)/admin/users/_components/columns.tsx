@@ -8,6 +8,8 @@ export type User = {
   id: string;
   name: string;
   email: string;
+  createdAt: Date;
+  updatedAt: Date;
 };
 
 export const columns: ColumnDef<User, any>[] = [
@@ -42,14 +44,57 @@ export const columns: ColumnDef<User, any>[] = [
     accessorKey: "name",
     id: "name",
     header: ({ column }) => {
-      return <DataTableColumnHeader column={column} title="Név" />
+      return <DataTableColumnHeader column={column} title="Név" />;
     },
   },
   {
     accessorKey: "email",
     id: "email",
     header: ({ column }) => {
-      return <DataTableColumnHeader column={column} title="Email" />
+      return <DataTableColumnHeader column={column} title="Email" />;
+    },
+  },
+  {
+    accessorKey: "createdAt",
+    id: "createdAt",
+    header: ({ column }) => {
+      return <DataTableColumnHeader column={column} title="Létrehozás" />;
+    },
+    cell: ({ row }) => {
+      return (
+        <div>
+          {new Date(row.original.createdAt).toLocaleString("hu", {
+            year: "numeric",
+            month: "2-digit",
+            day: "2-digit",
+            hour: "2-digit",
+            minute: "2-digit",
+          })}
+        </div>
+      );
+    },
+  },
+  {
+    accessorKey: "updatedAt",
+    id: "updatedAt",
+    meta: {
+      label: "Módosítás",
+    },
+    header: ({ column }) => {
+      return <DataTableColumnHeader column={column} title="Módosítás" />;
+    },
+    cell: ({ row }) => {
+      return (
+        <div>
+          {new Date(row.original.updatedAt).toLocaleString("hu", {
+            year: "numeric",
+            month: "2-digit",
+            day: "2-digit",
+            hour: "2-digit",
+            minute: "2-digit",
+          })}
+        </div>
+      );
     },
   },
 ];

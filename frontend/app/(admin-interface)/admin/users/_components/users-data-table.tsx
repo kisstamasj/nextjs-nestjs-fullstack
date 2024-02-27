@@ -16,6 +16,8 @@ export function UsersDataTable() {
           id: false,
           name: true,
           email: true,
+          createdAt: false,
+          updatedAt: false,
         }}
         sortingState={{
           field: "name",
