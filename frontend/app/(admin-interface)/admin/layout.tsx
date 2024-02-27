@@ -28,7 +28,7 @@ export default async function RootLayout({
         <SideBar menuItems={menuItems} />
         <div className="relative flex flex-1 flex-col overflow-y-auto overflow-x-hidden">
           <AdminNavBar />
-          <main>{children}</main>
+          <main className="h-full">{children}</main>
         </div>
       </div>
     </AdminInterfaceWrapper>
