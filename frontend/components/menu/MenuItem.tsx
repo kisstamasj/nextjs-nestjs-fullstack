@@ -52,7 +52,7 @@ const MenuItem: FC<MenuItemProps> = ({ item }) => {
           <div
             className={cn(
               `transition-all duration-500 ease-linear`,
-              sidebar.status === "mini" ? "hidden" : "block"
+              sidebar.status === "mini" ? "opacity-0" : "opacity-100"
             )}
           >
             {item.label}
