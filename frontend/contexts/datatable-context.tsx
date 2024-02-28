@@ -27,6 +27,7 @@ export interface IDataTableContext {
   api: string;
   columns: ColumnDef<any, any>[];
   filterOnChangeHandler: (target: { name: string; value: string }) => void;
+  fetchData: () => void;
 }
 
 interface IDataTableProvider<TData, TValue> {
@@ -76,7 +77,7 @@ export function DataTableProvider<TData, TValue>({
   const { columnFilters, filterValues, setFilterValues, setColumnFilters } =
     useFiltering(columns);
 
-  const { count, data, loading } = useDataTableApi({
+  const { count, data, loading, fetchData } = useDataTableApi({
     api,
     params: {
       pagination: { skip, limit },
@@ -139,6 +140,7 @@ export function DataTableProvider<TData, TValue>({
     visibilityState,
     pageRoute,
     api,
+    fetchData
   };
   return (
     <DataTableContext.Provider value={value}>

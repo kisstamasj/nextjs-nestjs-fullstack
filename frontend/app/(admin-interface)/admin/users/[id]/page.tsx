@@ -1,11 +1,17 @@
+import H1 from "@/components/H1";
 import PageContainer from "@/components/PageContainer";
 import PageHeaderContainer from "@/components/PageHeaderContainer";
-import { HelpCircle } from "lucide-react";
-import { Button } from "@/components/ui/button";
 import PageHeaderSeparator from "@/components/PageHeaderSeparator";
-import H1 from "@/components/H1";
+import { Button } from "@/components/ui/button";
+import { HelpCircle } from "lucide-react";
+import UsersUpdateForm from "../_components/users-update-form";
+import { createAxiosServerSide } from "@/lib/axios";
 
-export default async function UsersPage({params}: {params: {id: string}}) {
+export default async function UsersPage({ params }: { params: { id: string } }) {
+  const { id } = params;
+  const axios = await createAxiosServerSide({withCredentials: true});
+  const { data: user } = await axios.get(`/users/${id}`);
+
   return (
     <PageContainer>
       <PageHeaderContainer>
@@ -15,6 +21,7 @@ export default async function UsersPage({params}: {params: {id: string}}) {
         </Button>
       </PageHeaderContainer>
       <PageHeaderSeparator />
+      <UsersUpdateForm defaultValues={user} id={id} />
     </PageContainer>
   );
 }

@@ -58,7 +58,7 @@ function TableHeaderComp<TData>({
   filterOnChangeHandler,
 }: TableHeaderProps<TData>) {
   return (
-    <TableHeader className="dark:bg-slate-950 bg-gray-100">
+    <TableHeader className="dark:bg-slate-950 bg-slate-100">
       {table.getHeaderGroups().map((headerGroup) => {
         return (
           <TableRow key={headerGroup.id}>

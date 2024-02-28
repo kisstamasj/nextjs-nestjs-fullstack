@@ -16,15 +16,16 @@ const Logo: React.FC = () => {
         className={cn(
           `
         flex 
-        items-center          
+        items-center
+        py-3          
         dark:border-slate-800 
         bg-white 
         dark:bg-slate-900 
         overflow-hidden 
         transition-all`,
           status === "open" || status === "closed"
-            ? "px-5 py-5 gap-5 justify-between"
-            : "px-2 py-3 justify-center"
+            ? "px-5 gap-5 justify-between"
+            : "px-2 justify-center"
         )}
       >
         <div
@@ -32,14 +33,14 @@ const Logo: React.FC = () => {
             status === "mini" ? " opacity-0 hidden" : " opacity-100"
           }`}
         >
-          <Image fill src="/logo.png" alt="logo" />
+          <Image fill src="/logo.png" alt="logo" className="animate-fade"/>
         </div>
         <div
           className={`relative transition-all duration-500 ease-in-out w-10 h-[35px] ${
             status !== "mini" ? " opacity-0 hidden" : " opacity-100"
           }`}
         >
-          <Image fill src="/logo-mini.png" alt="logo" />
+          <Image fill src="/logo-mini.png" alt="logo" className="animate-fade"/>
         </div>
         <div className="block lg:hidden">
           <Button variant="ghost" size="icon" onClick={toggleSidebar}>

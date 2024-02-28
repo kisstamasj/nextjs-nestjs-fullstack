@@ -11,23 +11,22 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import useAxios from "@/hooks/use-axios";
-import { RequestError } from "@/types/errors";
-import { SignUpSchema } from "@/schemas/auth.schema";
+import { RequestError, RequestErrorMessage } from "@/types/errors";
+import { SignUpSchema, SignUpSchemaType } from "@/schemas/auth.schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Loader2 } from "lucide-react";
 import { useState, useTransition } from "react";
 import { useForm } from "react-hook-form";
-import * as z from "zod";
-import { FormError } from "./form-error";
+import { FormError } from "../from/form-error";
 import { AxiosError } from "axios";
-import { FormSuccess } from "./form-success";
+import { FormSuccess } from "../from/form-success";
 
 const SignUpForm = ({}) => {
   const [isPending, startTransition] = useTransition();
-  const [error, setError] = useState<string | undefined>();
+  const [error, setError] = useState<RequestErrorMessage>();
   const [success, setSuccess] = useState<string | undefined>();
   const axios = useAxios();
-  const form = useForm<z.infer<typeof SignUpSchema>>({
+  const form = useForm<SignUpSchemaType>({
     resolver: zodResolver(SignUpSchema),
     defaultValues: {
       name: "",
@@ -37,9 +36,7 @@ const SignUpForm = ({}) => {
     },
   });
 
-  const onSubmit = async (values: z.infer<typeof SignUpSchema>) => {
-    setError("");
-    setSuccess("");
+  const onSubmit = async (values: SignUpSchemaType) => {
     startTransition(async () => {
       try {
         const { data: user } = await axios.post("/auth/signup", values);
@@ -57,7 +54,7 @@ const SignUpForm = ({}) => {
           return setError(e.response?.data?.message);
         }
         console.error(error);
-        setError("Something went wrong");
+        setError("Something went wrong.");
       }
     });
   };

@@ -17,6 +17,7 @@ const UserNavBar: FC<UserNavBarPros> = ({className}) => {
   return (
     <NavBar className={className}>
       <NavBarContent>
+        <Link className={buttonVariants({variant: "link"})} href="/">Home</Link>
         {!currentUser && <>
         <Link className={buttonVariants({variant: "link"})} href="/auth/sign-in">Sign In</Link>
         <Link className={buttonVariants({variant: "link"})} href="/auth/sign-up">Sign Up</Link>

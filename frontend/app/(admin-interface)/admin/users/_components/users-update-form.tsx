@@ -1,5 +1,6 @@
 "use client";
 
+import { FormError } from "@/components/from/form-error";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
 import {
@@ -12,49 +13,53 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import useAxios from "@/hooks/use-axios";
-import { RequestError } from "@/types/errors";
+import { handleFormError } from "@/lib/utils";
+import {
+  UpdateUserSchemaType,
+  updateUserSchema,
+} from "@/schemas/admin/user.schema";
+import { RequestError, RequestErrorMessage } from "@/types/errors";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { AlertCircle, Loader2 } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { FC, useState } from "react";
+import { FC, useState, useTransition } from "react";
 import { useForm } from "react-hook-form";
-import * as z from "zod";
+import { toast } from "sonner";
 
-interface UsersFormProps {}
+interface UsersUpdateFormProps {
+  defaultValues: UpdateUserSchemaType;
+  id: string;
+}
 
-const formSchema = z.object({
-  name: z.string().min(2),
-  email: z.string().email().min(2),
-  password: z.string().min(4),
-});
-
-const UsersForm: FC<UsersFormProps> = ({}) => {
+const UsersUpdateForm: FC<UsersUpdateFormProps> = ({ defaultValues, id }) => {
   const router = useRouter();
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState("");
+  const [isPending, startTransition] = useTransition();
+  const [error, setError] = useState<RequestErrorMessage>();
   const axios = useAxios();
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
-    defaultValues: {
-      name: "",
-      email: "",
-      password: "",
-    },
+  const form = useForm<UpdateUserSchemaType>({
+    resolver: zodResolver(updateUserSchema),
+    defaultValues: { ...defaultValues, password: "" },
   });
 
-  const onSubmit = async (values: z.infer<typeof formSchema>) => {
-    setLoading(true);
-    try {
-      await axios.post("/users", values);
-      router.push("/admin/users");
-    } catch (error) {
-      let e = error as RequestError;
-      console.log(error);
-      setError(e.response?.data?.message);
-    } finally {
-      setLoading(false);
-    }
+  const onSubmit = async (values: UpdateUserSchemaType) => {
+    startTransition(async () => {
+      try {
+        await axios.patch(`/users/${id}`, {
+          ...values,
+          password: values.password || undefined,
+        });
+        toast.success("Felhasználó fiók sikeresen frissítve.", {
+          description: values.name,
+        })
+        router.push("/admin/users");
+      } catch (error) {
+        let e = error as RequestError;
+        console.log(error);
+        let message = e.response?.data?.message;
+        handleFormError(message, form, setError);
+      }
+    });
   };
 
   return (
@@ -105,24 +110,19 @@ const UsersForm: FC<UsersFormProps> = ({}) => {
             )}
           />
           <div className="flex w-full justify-between items-center">
-            <Button disabled={loading} type="submit">
-              {loading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-              Létrehozás
+            <Button disabled={isPending} type="submit">
+              {isPending && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+              Mentés
             </Button>
             <div className="flex flex-col items-end">
               <Link href="/admin/users">Mégse</Link>
             </div>
           </div>
-          {error && (
-            <Alert variant="destructive">
-              <AlertCircle className="h-4 w-4" />
-              <AlertDescription>{error}</AlertDescription>
-            </Alert>
-          )}
+          <FormError message={error} />
         </form>
       </Form>
     </>
   );
 };
 
-export default UsersForm;
+export default UsersUpdateForm;

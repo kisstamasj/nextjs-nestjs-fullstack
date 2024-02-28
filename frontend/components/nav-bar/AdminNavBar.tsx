@@ -18,7 +18,7 @@ const AdminNavBar: FC = () => {
     <NavBar>
       <div className="">
         <Button variant="ghost" size="icon" onClick={toggleSidebar}>
-          <Menu className="text-gray-900 dark:text-white" size={20} />
+          <Menu className="text-slate-900 dark:text-white" size={20} />
         </Button>
       </div>
       <NavBarContent>

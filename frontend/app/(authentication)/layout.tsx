@@ -15,8 +15,8 @@ export default async function AuthLayout({
   return (
     <>
       <UserInterfaceWrapper>
-        <UserNavBar className="fixed" />
-        <div className="flex items-center justify-center h-full">
+        <UserNavBar />
+        <div className="flex items-center justify-center pt-20">
           {children}
         </div>
       </UserInterfaceWrapper>

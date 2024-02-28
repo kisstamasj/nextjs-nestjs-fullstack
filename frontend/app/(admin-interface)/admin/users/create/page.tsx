@@ -1,13 +1,12 @@
-
+import H1 from "@/components/H1";
 import PageContainer from "@/components/PageContainer";
 import PageHeaderContainer from "@/components/PageHeaderContainer";
-import { HelpCircle } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import UsersForm from "../_components/form";
 import PageHeaderSeparator from "@/components/PageHeaderSeparator";
-import H1 from "@/components/H1";
+import { Button } from "@/components/ui/button";
+import { HelpCircle } from "lucide-react";
+import UsersCreateForm from "../_components/users-create-form";
 
-export default async function UsersPage() {
+export default function UsersPage() {
   return (
     <PageContainer>
       <PageHeaderContainer>
@@ -17,7 +16,7 @@ export default async function UsersPage() {
         </Button>
       </PageHeaderContainer>
       <PageHeaderSeparator />
-      <UsersForm />
+      <UsersCreateForm />
     </PageContainer>
   );
 }

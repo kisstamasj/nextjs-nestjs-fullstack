@@ -1,10 +1,7 @@
-
-import "./globals.css";
+import Providers from "@/providers/Providers";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
-import { SessionProvider } from "next-auth/react";
-import { auth } from "@/auth";
-import ClientProviders from "@/providers/ClientProviders";
+import "./globals.css";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -13,18 +10,15 @@ export const metadata: Metadata = {
   description: "Learningage v2",
 };
 
-export default async function RootLayout({
+export default function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  const session = await auth();
   return (
     <html lang="en" suppressHydrationWarning>
       <body className={inter.className}>
-        <SessionProvider session={session}>
-          <ClientProviders>{children}</ClientProviders>
-        </SessionProvider>
+        <Providers>{children}</Providers>
       </body>
     </html>
   );

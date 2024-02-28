@@ -12,14 +12,12 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { DEFAULT_LOGIN_REDIRECT } from "@/routes";
-import { SignInSchema } from "@/schemas/auth.schema";
+import { SignInSchema, SignInSchemaType } from "@/schemas/auth.schema";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { AlertCircle, Loader2 } from "lucide-react";
+import { Loader2 } from "lucide-react";
 import { useState, useTransition } from "react";
 import { useForm } from "react-hook-form";
-import * as z from "zod";
-import { FormError } from "./form-error";
+import { FormError } from "../from/form-error";
 import { useSearchParams } from "next/navigation";
 
 const SignInForm = ({}) => {
@@ -27,7 +25,7 @@ const SignInForm = ({}) => {
   const [error, setError] = useState<string | undefined>();
   const searchParams = useSearchParams();
   const callbackUrl = searchParams.get("callbackUrl");
-  const form = useForm<z.infer<typeof SignInSchema>>({
+  const form = useForm<SignInSchemaType>({
     resolver: zodResolver(SignInSchema),
     defaultValues: {
       email: "",
@@ -35,7 +33,7 @@ const SignInForm = ({}) => {
     },
   });
 
-  const onSubmit = async (values: z.infer<typeof SignInSchema>) => {
+  const onSubmit = async (values: SignInSchemaType) => {
     startTransition(async () => {
       signInAction(values, callbackUrl).then((res) => {
         if (res?.error) {

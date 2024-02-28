@@ -16,7 +16,7 @@ const UserInterfaceWrapper: FC<UserInterfaceWrapperProps> = ({ children }) => {
   }, [setMounted, setTheme]);
 
   if (!mounted) return null;
-  return <>{children}</>;
+  return <div className="h-dvh">{children}</div>;
 };
 
 export default UserInterfaceWrapper;

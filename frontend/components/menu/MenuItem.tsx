@@ -25,7 +25,7 @@ const MenuItem: FC<MenuItemProps> = ({ item }) => {
   const pathName = usePathname();
   const isActive = pathName === item.href;
   let linkClass =
-    "flex flex-row items-center  hover:bg-gray-100 dark:hover:bg-slate-800 transition font-light justify-normal gap-x-3 px-5 py-4";
+    "flex flex-row items-center  hover:bg-slate-100 dark:hover:bg-slate-800 transition font-light justify-normal gap-x-3 px-5 py-4";
 
   const menuItemClick = () => {
     if (isMobileScreen()) {
@@ -38,21 +38,21 @@ const MenuItem: FC<MenuItemProps> = ({ item }) => {
       <div
         className={cn(
           "w-full",
-          isActive ? "bg-gray-200 dark:bg-slate-800" : ""
+          isActive ? "bg-slate-200 dark:bg-slate-800" : ""
         )}
       >
         <Link href={item.href} className={linkClass} onClick={menuItemClick}>
           <div className="">
             <Icon
               name={item.icon}
-              className={cn("text-gray-500 dark:text-white")}
+              className={cn("text-slate-500 dark:text-white")}
               size={20}
             />
           </div>
           <div
             className={cn(
               `transition-all duration-500 ease-linear`,
-              sidebar.status === "mini" ? "hidden" : "block"
+              sidebar.status === "mini" ? "opacity-0" : "opacity-100"
             )}
           >
             {item.label}
