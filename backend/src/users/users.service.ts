@@ -5,7 +5,7 @@ import {
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from './entities/user.entity';
-import { Like, Repository } from 'typeorm';
+import { Equal, Like, Repository } from 'typeorm';
 import { CreateUserDto } from './dtos/create-user.dto';
 import { DataTableQueryParam, Password } from '@app/common';
 
@@ -43,12 +43,22 @@ export class UsersService {
     return this.repo.find();
   }
 
+  /**
+   * Find all records for data table.
+   *
+   * @param {DataTableQueryParam} query - the query parameter
+   */
   async findAllForDataTable(query: DataTableQueryParam) {
     const take = query.pagination.limit || 10;
     const skip = query.pagination.skip || 0;
     const where =
       query.filter &&
       query.filter.map((filter) => {
+        if(filter.id === 'createdAt' || filter.id === 'updatedAt') {
+          return {
+            [filter.id]: Equal(filter.value),
+          };
+        }
         return {
           [filter.id]: Like(`%${filter.value}%`),
         };

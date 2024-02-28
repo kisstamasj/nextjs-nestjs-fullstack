@@ -15,7 +15,7 @@ export default async function UsersPage() {
     <PageContainer>
       <PageHeaderContainer>
         <H1 className="flex items-center gap-3">
-          <User className="h-8 w-8 " /> Felhasználók
+          <User className="h-10 w-10 " /> Felhasználók
         </H1>
         <Button variant="link" className="p-0">
           <HelpCircle className="h-7 w-7" />
