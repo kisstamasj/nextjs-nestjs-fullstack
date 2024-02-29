@@ -47,6 +47,8 @@ interface IDataTableProvider<TData, TValue> {
   pageRoute: string;
 }
 
+const LOCAL_STORAGE_PREFIX = "tableState";
+
 export const DataTableContext = createContext<IDataTableContext | undefined>(
   undefined
 );
@@ -80,15 +82,14 @@ export function DataTableProvider<TData, TValue>({
   if (!columns) throw new Error("Columns not provided");
 
   const { getItem, setItem } = useLocalStorage<Partial<TableState>>();
-  const localState = getItem(`tableState:${pageRoute}`);
-  if (localState) {
-    if (localState.sorting) {
-      sortingState.field = localState.sorting[0].id;
-      sortingState.order = localState.sorting[0].desc ? "DESC" : "ASC";
-    }
-    if(localState.columnVisibility)
-      visibilityState = localState.columnVisibility;
+  const localState = getItem(`${LOCAL_STORAGE_PREFIX}:${pageRoute}`);
+  if (localState && localState.sorting) {
+    sortingState.field = localState.sorting[0].id;
+    sortingState.order = localState.sorting[0].desc ? "DESC" : "ASC";
   }
+
+  if(localState && localState.columnVisibility)
+    visibilityState = localState.columnVisibility;
 
   const { limit, onPaginationChange, skip, pagination } = usePagination();
   const { field, onSortingChange, order, sorting } = useSorting(
