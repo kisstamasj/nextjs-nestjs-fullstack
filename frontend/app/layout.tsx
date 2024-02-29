@@ -5,6 +5,8 @@ import "./globals.css";
 
 const inter = Inter({ subsets: ["latin"] });
 
+export const revalidate = 0;
+
 export const metadata: Metadata = {
   title: "Learningage v2",
   description: "Learningage v2",
