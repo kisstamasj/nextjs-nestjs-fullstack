@@ -7,6 +7,7 @@ import {
   LucideColumns,
   PencilIcon,
   PlusCircleIcon,
+  RotateCw,
   Trash2Icon,
 } from "lucide-react";
 import { useRouter } from "next/navigation";
@@ -51,9 +52,6 @@ export default function DataTableControls() {
       for (let i = 0; i < rows.length; i++) {
         try {
           await axios.delete(`${api}/${rows[i].getValue("id")}`);
-          toast.success("Sikeres törlés", {
-            description: rows[i].getValue("name"),
-          });
         } catch (error) {
           let e = error as RequestError;
           console.log(error);
@@ -62,6 +60,9 @@ export default function DataTableControls() {
           return;
         }
       }
+      toast.success("Sikeres törlés", {
+        description: rows.length + " sor sikeresen törölve.",
+      });
       fetchData();
     });
   };
@@ -97,7 +98,7 @@ export default function DataTableControls() {
           <DropdownMenuItem
             onClick={() => table.setColumnVisibility(defaultVisibilityState)}
           >
-            <LucideColumns className="w-4 h-4 mr-2" /> Alaphelyzet
+            <RotateCw className="w-4 h-4 mr-2" /> Alaphelyzet
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
