@@ -9,7 +9,7 @@ import {
   TableState,
   VisibilityState,
   getCoreRowModel,
-  useReactTable
+  useReactTable,
 } from "@tanstack/react-table";
 import debounce from "lodash.debounce";
 import React, {
@@ -17,7 +17,7 @@ import React, {
   useContext,
   useEffect,
   useMemo,
-  useState
+  useState,
 } from "react";
 
 interface SortingState {
@@ -32,6 +32,7 @@ export interface IDataTableContext {
   pageRoute: string;
   sortingState: SortingState;
   visibilityState: VisibilityState;
+  defaultVisibilityState: VisibilityState;
   api: string;
   columns: ColumnDef<any, any>[];
   filterOnChangeHandler: (target: { name: string; value: string }) => void;
@@ -88,7 +89,9 @@ export function DataTableProvider<TData, TValue>({
     sortingState.order = localState.sorting[0].desc ? "DESC" : "ASC";
   }
 
-  if(localState && localState.columnVisibility)
+  const defaultVisibilityState = visibilityState;
+
+  if (localState && localState.columnVisibility)
     visibilityState = localState.columnVisibility;
 
   const { limit, onPaginationChange, skip, pagination } = usePagination();
@@ -132,7 +135,7 @@ export function DataTableProvider<TData, TValue>({
     onColumnVisibilityChange: setColumnVisibility,
     state: {
       pagination,
-      sorting: sorting,
+      sorting,
       columnVisibility,
       columnFilters,
     },
@@ -165,6 +168,7 @@ export function DataTableProvider<TData, TValue>({
     filterOnChangeHandler,
     sortingState,
     visibilityState,
+    defaultVisibilityState,
     pageRoute,
     api,
     fetchData,

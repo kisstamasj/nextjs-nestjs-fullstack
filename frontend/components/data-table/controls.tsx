@@ -4,6 +4,7 @@ import { useDataTable } from "@/contexts/datatable-context";
 import {
   ColumnsIcon,
   Loader2Icon,
+  LucideColumns,
   PencilIcon,
   PlusCircleIcon,
   Trash2Icon,
@@ -14,15 +15,18 @@ import {
   DropdownMenu,
   DropdownMenuCheckboxItem,
   DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "../ui/dropdown-menu";
 import { useTransition } from "react";
 import useAxios from "@/hooks/use-axios";
 import { RequestError } from "@/types/errors";
-import { toast } from "sonner"
+import { toast } from "sonner";
 
 export default function DataTableControls() {
-  const { table, pageRoute, loading, api, fetchData } = useDataTable();
+  const { table, pageRoute, loading, api, fetchData, defaultVisibilityState } =
+    useDataTable();
   const router = useRouter();
   const rowsSelected = table.getSelectedRowModel().rows.length > 0;
   const [isPending, startTransition] = useTransition();
@@ -47,12 +51,14 @@ export default function DataTableControls() {
       for (let i = 0; i < rows.length; i++) {
         try {
           await axios.delete(`${api}/${rows[i].getValue("id")}`);
-          toast.success("Sikeres törlés", {description: rows[i].getValue("name")});
+          toast.success("Sikeres törlés", {
+            description: rows[i].getValue("name"),
+          });
         } catch (error) {
           let e = error as RequestError;
           console.log(error);
           let message = e.response?.data?.message as string;
-          toast.error(message, {description: rows[i].getValue("name")});
+          toast.error(message, { description: rows[i].getValue("name") });
           return;
         }
       }
@@ -87,6 +93,12 @@ export default function DataTableControls() {
                 </DropdownMenuCheckboxItem>
               );
             })}
+          <DropdownMenuSeparator />
+          <DropdownMenuItem
+            onClick={() => table.setColumnVisibility(defaultVisibilityState)}
+          >
+            <LucideColumns className="w-4 h-4 mr-2" /> Alaphelyzet
+          </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
       <Button
