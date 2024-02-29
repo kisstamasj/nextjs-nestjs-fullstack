@@ -1,7 +1,6 @@
 "use client";
 
 import { FormError } from "@/components/from/form-error";
-import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -20,7 +19,8 @@ import {
 } from "@/schemas/admin/user.schema";
 import { RequestError, RequestErrorMessage } from "@/types/errors";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { AlertCircle, Loader2 } from "lucide-react";
+import { Loader2 } from "lucide-react";
+import { useSession } from "next-auth/react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { FC, useState, useTransition } from "react";
@@ -34,6 +34,7 @@ interface UsersUpdateFormProps {
 
 const UsersUpdateForm: FC<UsersUpdateFormProps> = ({ defaultValues, id }) => {
   const router = useRouter();
+  const {data: session, update} = useSession()
   const [isPending, startTransition] = useTransition();
   const [error, setError] = useState<RequestErrorMessage>();
   const axios = useAxios();
@@ -51,7 +52,11 @@ const UsersUpdateForm: FC<UsersUpdateFormProps> = ({ defaultValues, id }) => {
         });
         toast.success("Felhasználó fiók sikeresen frissítve.", {
           description: values.name,
-        });
+        })
+        if(session?.user?.id === id){
+          await update()
+        }
+        
         router.push("/admin/users");
       } catch (error) {
         let e = error as RequestError;
