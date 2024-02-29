@@ -1,16 +1,24 @@
-import { useSorting } from "@/hooks/on-sorting";
 import { useDataTableApi } from "@/hooks/use-data-table-api";
 import { useFiltering } from "@/hooks/use-filtering";
+import { useLocalStorage } from "@/hooks/use-local-storage";
 import { usePagination } from "@/hooks/use-pagination";
+import { useSorting } from "@/hooks/use-sorting";
 import {
   ColumnDef,
   Table,
+  TableState,
   VisibilityState,
   getCoreRowModel,
-  useReactTable,
+  useReactTable
 } from "@tanstack/react-table";
 import debounce from "lodash.debounce";
-import React, { createContext, useContext, useMemo, useState } from "react";
+import React, {
+  createContext,
+  useContext,
+  useEffect,
+  useMemo,
+  useState
+} from "react";
 
 interface SortingState {
   field: string;
@@ -39,7 +47,9 @@ interface IDataTableProvider<TData, TValue> {
   pageRoute: string;
 }
 
-export const DataTableContext = createContext<IDataTableContext | undefined>(undefined);
+export const DataTableContext = createContext<IDataTableContext | undefined>(
+  undefined
+);
 
 /**
  * Returns the data table context.
@@ -69,11 +79,26 @@ export function DataTableProvider<TData, TValue>({
 }: IDataTableProvider<TData, TValue>) {
   if (!columns) throw new Error("Columns not provided");
 
+  const { getItem, setItem } = useLocalStorage<Partial<TableState>>();
+  const localState = getItem(`tableState:${pageRoute}`);
+  if (localState) {
+    if (localState.sorting) {
+      sortingState.field = localState.sorting[0].id;
+      sortingState.order = localState.sorting[0].desc ? "DESC" : "ASC";
+    }
+    if(localState.columnVisibility)
+      visibilityState = localState.columnVisibility;
+  }
+
   const { limit, onPaginationChange, skip, pagination } = usePagination();
   const { field, onSortingChange, order, sorting } = useSorting(
     sortingState.field,
     sortingState.order
   );
+
+  const [columnVisibility, setColumnVisibility] =
+    useState<VisibilityState>(visibilityState);
+
   const { columnFilters, filterValues, setFilterValues, setColumnFilters } =
     useFiltering(columns);
 
@@ -88,9 +113,6 @@ export function DataTableProvider<TData, TValue>({
       filter: columnFilters,
     },
   });
-
-  const [columnVisibility, setColumnVisibility] =
-    useState<VisibilityState>(visibilityState);
 
   const pageCount = useMemo(() => Math.round(count / limit), [count, limit]);
   const memoizedColumns = useMemo(() => columns, [columns]);
@@ -109,12 +131,16 @@ export function DataTableProvider<TData, TValue>({
     onColumnVisibilityChange: setColumnVisibility,
     state: {
       pagination,
-      sorting,
+      sorting: sorting,
       columnVisibility,
       columnFilters,
     },
     pageCount,
   });
+
+  useEffect(() => {
+    setItem(`tableState:${pageRoute}`, table.getState());
+  }, [pageRoute, sorting, columnVisibility, setItem, table]);
 
   /**
    * Handles the onChange event for the filter input.
@@ -140,7 +166,7 @@ export function DataTableProvider<TData, TValue>({
     visibilityState,
     pageRoute,
     api,
-    fetchData
+    fetchData,
   };
   return (
     <DataTableContext.Provider value={value}>
