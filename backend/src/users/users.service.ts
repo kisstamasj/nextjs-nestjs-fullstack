@@ -51,18 +51,19 @@ export class UsersService {
   async findAllForDataTable(query: DataTableQueryParam) {
     const take = query.pagination.limit || 10;
     const skip = query.pagination.skip || 0;
-    const where =
-      query.filter &&
-      query.filter.map((filter) => {
-        if(filter.id === 'createdAt' || filter.id === 'updatedAt') {
+    let where = {};
+    if (query.filter) {
+      where = query.filter.map((filter) => {
+        if (filter.id === 'createdAt' || filter.id === 'updatedAt') {
           return {
-            [filter.id]: Equal(filter.value),
+            [filter.id]: Equal(new Date(filter.value)),
           };
         }
         return {
           [filter.id]: Like(`%${filter.value}%`),
         };
       });
+    }
 
     const [result, total] = await this.repo.findAndCount({
       order: {
@@ -117,7 +118,7 @@ export class UsersService {
     if (attrs.password) {
       attrs.password = await Password.toHash(attrs.password);
     }
-    
+
     Object.assign(user, attrs);
 
     return this.repo.save(user);
