@@ -7,9 +7,13 @@ import { HelpCircle } from "lucide-react";
 import UsersUpdateForm from "../_components/users-update-form";
 import { createAxiosServerSide } from "@/lib/axios";
 
-export default async function UsersPage({ params }: { params: { id: string } }) {
+export default async function UsersPage({
+  params,
+}: {
+  params: { id: string };
+}) {
   const { id } = params;
-  const axios = await createAxiosServerSide({withCredentials: true});
+  const axios = await createAxiosServerSide({ withCredentials: true });
   const { data: user } = await axios.get(`/users/${id}`);
 
   return (
