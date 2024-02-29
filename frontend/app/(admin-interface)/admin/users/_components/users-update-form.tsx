@@ -51,7 +51,7 @@ const UsersUpdateForm: FC<UsersUpdateFormProps> = ({ defaultValues, id }) => {
         });
         toast.success("Felhasználó fiók sikeresen frissítve.", {
           description: values.name,
-        })
+        });
         router.push("/admin/users");
       } catch (error) {
         let e = error as RequestError;
@@ -110,13 +110,11 @@ const UsersUpdateForm: FC<UsersUpdateFormProps> = ({ defaultValues, id }) => {
             )}
           />
           <div className="flex w-full justify-between items-center">
+            <Link href="/admin/users">Mégse</Link>
             <Button disabled={isPending} type="submit">
               {isPending && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
               Mentés
             </Button>
-            <div className="flex flex-col items-end">
-              <Link href="/admin/users">Mégse</Link>
-            </div>
           </div>
           <FormError message={error} />
         </form>
