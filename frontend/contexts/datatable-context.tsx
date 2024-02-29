@@ -118,7 +118,7 @@ export function DataTableProvider<TData, TValue>({
     },
   });
 
-  const pageCount = useMemo(() => Math.round(count / limit), [count, limit]);
+  const pageCount = useMemo(() => Math.ceil(count / limit), [count, limit]);
   const memoizedColumns = useMemo(() => columns, [columns]);
   const memoizedData = useMemo(() => data ?? [], [data]);
 
@@ -143,7 +143,7 @@ export function DataTableProvider<TData, TValue>({
   });
 
   useEffect(() => {
-    setItem(`tableState:${pageRoute}`, table.getState());
+    setItem(`${LOCAL_STORAGE_PREFIX}:${pageRoute}`, table.getState());
   }, [pageRoute, sorting, columnVisibility, setItem, table]);
 
   /**
