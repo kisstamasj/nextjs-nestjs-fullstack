@@ -115,6 +115,15 @@ export class UsersService {
       throw new NotFoundException('User is not found');
     }
 
+    if (attrs.email) {
+      const userWithSameEmail = await this.repo.findOneBy({
+        email: attrs.email,
+      });
+      if (userWithSameEmail && userWithSameEmail.id !== id) {
+        throw new BadRequestException('This email is already in use');
+      }
+    }
+
     if (attrs.password) {
       attrs.password = await Password.toHash(attrs.password);
     }
