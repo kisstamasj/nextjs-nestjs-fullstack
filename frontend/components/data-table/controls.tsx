@@ -5,10 +5,11 @@ import useAxios from "@/hooks/use-axios";
 import { RequestError } from "@/types/errors";
 import {
   ColumnsIcon,
+  MoreVertical,
   PencilIcon,
   PlusCircleIcon,
   RotateCw,
-  Trash2Icon
+  Trash2Icon,
 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useTransition } from "react";
@@ -32,6 +33,9 @@ export default function DataTableControls() {
   const [isPending, startTransition] = useTransition();
   const axios = useAxios();
 
+  const onCreateHandler = () => {
+    router.push(`${pageRoute}/create`);
+  };
   const onUpdateHandler = () => {
     if (!rowsSelected) {
       return alert("Nem választott ki sort!");
@@ -101,33 +105,67 @@ export default function DataTableControls() {
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
-      <Button
-        disabled={loading}
-        variant={"outline"}
-        className="ml-auto"
-        onClick={() => router.push(`${pageRoute}/create`)}
-      >
-        <PlusCircleIcon className="w-4 h-4 mr-2" /> Létrehozás
-      </Button>
-      <Button
-        disabled={loading || !rowsSelected}
-        variant={"outline"}
-        onClick={onUpdateHandler}
-      >
-        <PencilIcon className="w-4 h-4 mr-2" /> Módosítás
-      </Button>
-      <Button
-        disabled={loading || !rowsSelected}
-        variant={"outline"}
-        onClick={onDeleteHandler}
-      >
-        {isPending ? (
-          <ButtonLoader />
-        ) : (
-          <Trash2Icon className="w-4 h-4 mr-2" />
-        )}{" "}
-        Törlés
-      </Button>
+
+      <div className="hidden sm:flex gap-2 flex-wrap justify-end flex-1">
+        <Button
+          disabled={loading}
+          variant={"outline"}
+          onClick={onCreateHandler}
+        >
+          <PlusCircleIcon className="w-4 h-4 mr-2" /> Létrehozás
+        </Button>
+        <Button
+          disabled={loading || !rowsSelected}
+          variant={"outline"}
+          onClick={onUpdateHandler}
+        >
+          <PencilIcon className="w-4 h-4 mr-2" /> Módosítás
+        </Button>
+        <Button
+          disabled={loading || !rowsSelected}
+          variant={"outline"}
+          onClick={onDeleteHandler}
+        >
+          {isPending ? (
+            <ButtonLoader />
+          ) : (
+            <Trash2Icon className="w-4 h-4 mr-2" />
+          )}{" "}
+          Törlés
+        </Button>
+      </div>
+
+      <div className="flex sm:hidden gap-2 flex-wrap justify-end flex-1">
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button variant="outline" size={"icon"} disabled={loading}>
+              <MoreVertical className="w-4 h-4" />
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align="end">
+            <DropdownMenuItem onClick={onCreateHandler} disabled={loading}>
+              <PlusCircleIcon className="w-4 h-4 mr-2" /> Létrehozás
+            </DropdownMenuItem>
+            <DropdownMenuItem
+              onClick={onUpdateHandler}
+              disabled={loading || !rowsSelected}
+            >
+              <PencilIcon className="w-4 h-4 mr-2" /> Módosítás
+            </DropdownMenuItem>
+            <DropdownMenuItem
+              onClick={onDeleteHandler}
+              disabled={loading || !rowsSelected}
+            >
+              {isPending ? (
+                <ButtonLoader />
+              ) : (
+                <Trash2Icon className="w-4 h-4 mr-2" />
+              )}{" "}
+              Törlés
+            </DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
+      </div>
     </div>
   );
 }
