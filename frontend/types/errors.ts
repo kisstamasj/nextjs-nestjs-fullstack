@@ -7,6 +7,7 @@ export interface RequestError extends AxiosError {
       headers: AxiosResponseHeaders;
       config: InternalAxiosRequestConfig;
       data: {
+        statusCode: number;
         message: RequestErrorMessage;
       };
     };
