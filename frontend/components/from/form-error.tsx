@@ -24,12 +24,12 @@ export const FormError = ({ message }: FormErrorProps) => {
   }
 
   return (
-    <Alert variant="destructive">
+    <Alert variant="destructive" className="bg-destructive text-destructive-foreground [&>svg]:text-destructive-foreground flex items-center w-full h-full">
       <AlertCircle className="h-4 w-4" />
       <AlertDescription
-        className="whitespace-break-spaces"
-        dangerouslySetInnerHTML={{ __html: message }}
-      ></AlertDescription>
+        className="whitespace-break-spaces w-full h-full"
+        // dangerouslySetInnerHTML={{ __html: message }}
+      >{message}</AlertDescription>
     </Alert>
   );
 };

@@ -37,7 +37,7 @@ export const FormFooter = ({
   return (
     <>
       <div className="flex w-full justify-center gap-5 items-center">
-        <Button variant={"secondary"} onClick={handleCancel}>
+        <Button type="button" variant={"secondary"} onClick={handleCancel}>
           <X className="h-4 w-4 mr-1" /> {cancelLabel || "Mégse"}
         </Button>
         <Button disabled={isPending} type="submit">
