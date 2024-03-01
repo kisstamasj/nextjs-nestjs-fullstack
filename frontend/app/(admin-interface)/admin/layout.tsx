@@ -1,9 +1,9 @@
 import AdminInterfaceWrapper from "@/components/AdminInterfaceWrapper";
 import Overlay from "@/components/Overlay";
-import SideBar from "@/components/SideBar";
-import { MenuItemType } from "@/components/menu/MenuItem";
+import { MenuItemType } from "@/components/sidebar/menu-item";
 import AdminNavBar from "@/components/nav-bar/AdminNavBar";
 import type { Metadata } from "next";
+import SideBar from "@/components/sidebar/side-bar";
 
 export const metadata: Metadata = {
   title: "Learningage v2",

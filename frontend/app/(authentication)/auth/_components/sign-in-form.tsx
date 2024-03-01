@@ -1,7 +1,7 @@
 "use client";
 
 import { signInAction } from "@/actions/sign-in";
-import { FormInput } from "@/components/from/form-input";
+import { FormInput } from "@/components/form/form-input";
 import { ButtonLoader } from "@/components/loader";
 import { Button } from "@/components/ui/button";
 import {
@@ -12,7 +12,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useSearchParams } from "next/navigation";
 import { useState, useTransition } from "react";
 import { useForm } from "react-hook-form";
-import { FormError } from "@/components/from/form-error";
+import { FormError } from "@/components/form/form-error";
 
 const SignInForm = ({}) => {
   const [isPending, startTransition] = useTransition();

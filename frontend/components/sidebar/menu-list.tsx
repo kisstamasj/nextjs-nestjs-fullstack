@@ -1,7 +1,7 @@
 "use client";
 
 import { FC } from "react";
-import MenuItem, { MenuItemType } from "./MenuItem";
+import MenuItem, { MenuItemType } from "./menu-item";
 import { useSidebar } from "@/hooks/use-sidebar";
 import { cn } from "@/lib/utils";
 
@@ -12,7 +12,12 @@ interface MenuListProps {
 const MenuList: FC<MenuListProps> = ({ items }) => {
   const sidebar = useSidebar();
   return (
-    <div className={cn(`flex flex-col justify-center divide-y pt-6`, sidebar.status !== "mini" ? "" : "divide-transparent")}>
+    <div
+      className={cn(
+        `flex flex-col justify-center divide-y pt-6`,
+        sidebar.status === "mini" ? "divide-transparent" : ""
+      )}
+    >
       {items.map((item, index) => (
         <MenuItem key={index} item={item} />
       ))}

@@ -1,7 +1,7 @@
 "use client";
 
-import { FormFooter } from "@/components/from/form-footer";
-import { FormInput } from "@/components/from/form-input";
+import { FormFooter } from "@/components/form/form-footer";
+import { FormInput } from "@/components/form/form-input";
 import {
   Form
 } from "@/components/ui/form";

@@ -1,10 +1,10 @@
 "use client";
 
-import Logo from "./Logo";
-import MenuList from "./menu/MenuList";
-import { MenuItemType } from "./menu/MenuItem";
+import Logo from "@/components/Logo";
+import MenuList from "./menu-list";
+import { MenuItemType } from "./menu-item";
 import React from "react";
-import { cn } from "../lib/utils";
+import { cn } from "@/lib/utils";
 import { useSidebar } from "@/hooks/use-sidebar";
 
 interface SideBarDesktopProps {

@@ -1,6 +1,6 @@
 "use client";
 
-import { FormInput } from "@/components/from/form-input";
+import { FormInput } from "@/components/form/form-input";
 import { ButtonLoader } from "@/components/loader";
 import { Button } from "@/components/ui/button";
 import {
@@ -13,8 +13,8 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { AxiosError } from "axios";
 import { useState, useTransition } from "react";
 import { useForm } from "react-hook-form";
-import { FormError } from "../../../../components/from/form-error";
-import { FormSuccess } from "../../../../components/from/form-success";
+import { FormError } from "../../../../components/form/form-error";
+import { FormSuccess } from "../../../../components/form/form-success";
 
 const SignUpForm = ({}) => {
   const [isPending, startTransition] = useTransition();
