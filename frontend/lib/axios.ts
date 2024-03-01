@@ -1,6 +1,8 @@
 import { Session } from "next-auth/types";
 import axios from "axios";
 import { getBackendUrl } from "./utils";
+import { RequestError } from "@/types/errors";
+import { notFound } from "next/navigation";
 
 interface CreateAxiosServerSideProps {
   withCredentials: boolean;
@@ -51,4 +53,24 @@ export const createAxiosServerSide = async ({
   }
 
   return axiosBackend;
+};
+
+/**
+ * Asynchronously fetches data from the server-side.
+ *
+ * @param {string} url - The URL to fetch data from
+ */
+export const fetchDataServerSide = async (url: string) => {
+  try {
+    const axios = await createAxiosServerSide({withCredentials: true});
+    const { data } = await axios.get(url); 
+    return data;
+  } catch (error) {
+    let e = error as RequestError;
+    if(e.response?.data?.statusCode === 404){
+       notFound();
+    } else {
+      throw e;
+    }
+  }
 };

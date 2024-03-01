@@ -3,9 +3,9 @@ import PageContainer from "@/components/PageContainer";
 import PageHeaderContainer from "@/components/PageHeaderContainer";
 import PageHeaderSeparator from "@/components/PageHeaderSeparator";
 import { Button } from "@/components/ui/button";
+import { fetchDataServerSide } from "@/lib/axios";
 import { HelpCircle } from "lucide-react";
 import UsersUpdateForm from "../_components/users-update-form";
-import { createAxiosServerSide } from "@/lib/axios";
 
 export default async function UsersPage({
   params,
@@ -13,8 +13,7 @@ export default async function UsersPage({
   params: { id: string };
 }) {
   const { id } = params;
-  const axios = await createAxiosServerSide({ withCredentials: true });
-  const { data: user } = await axios.get(`/users/${id}`);
+  const user = await fetchDataServerSide(`/users/${id}`);
 
   return (
     <PageContainer>
