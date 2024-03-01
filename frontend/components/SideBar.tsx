@@ -35,15 +35,16 @@ const SideBar: React.FC<SideBarDesktopProps> = ({ menuItems }) => {
       h-full
       lg:static
       lg:translate-x-0
-      bg-secondary/30
-      text-foreground`,
+      bg-background`,
           sidebar.status === "open"
             ? "translate-x-0"
             : "-translate-x-full lg:w-16"
         )}
       >
-        <Logo />
-        <MenuList items={menuItems} />
+        <div className="bg-secondary/30 text-foreground w-full h-full">
+          <Logo />
+          <MenuList items={menuItems} />
+        </div>
       </aside>
     </>
   );
