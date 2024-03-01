@@ -63,7 +63,7 @@ export function DataTablePagination({}: DataTablePaginationProps) {
           <Button
             variant="outline"
             size="icon"
-            className="hidden h-8 w-8 p-0 md:flex"
+            className="h-8 w-8 p-0"
             onClick={() => table.setPageIndex(0)}
             disabled={!table.getCanPreviousPage() || loading}
           >
@@ -93,7 +93,7 @@ export function DataTablePagination({}: DataTablePaginationProps) {
           <Button
             variant="outline"
             size="icon"
-            className="hidden h-8 w-8 p-0 md:flex"
+            className="h-8 w-8 p-0"
             onClick={() => table.setPageIndex(table.getPageCount() - 1)}
             disabled={!table.getCanNextPage() || loading}
           >
