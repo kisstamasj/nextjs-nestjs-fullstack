@@ -6,6 +6,10 @@ import { Button } from "@/components/ui/button";
 import { HelpCircle } from "lucide-react";
 import UsersCreateForm from "../_components/users-create-form";
 
+export const metadata = {
+  title: "Admin | Felhasználók | Létrehozás",
+};
+
 export default function UsersPage() {
   return (
     <PageContainer>

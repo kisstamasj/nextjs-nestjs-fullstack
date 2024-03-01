@@ -7,7 +7,7 @@ import PageHeaderSeparator from "@/components/PageHeaderSeparator";
 import H1 from "@/components/H1";
 
 export const metadata = {
-  title: "Admin - Felhasználók",
+  title: "Admin | Felhasználók",
 };
 
 export default async function UsersPage() {
