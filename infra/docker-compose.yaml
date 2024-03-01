@@ -11,7 +11,6 @@ services:
       - ${BACKEND_EXTERNAL_PORT}:${BACKEND_INTERNAL_PORT}
     volumes:
       - ../backend:/app
-      - /app/dist
     env_file:
       - ./.env
     networks:
