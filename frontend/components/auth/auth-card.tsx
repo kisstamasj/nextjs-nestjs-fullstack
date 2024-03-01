@@ -1,4 +1,10 @@
-import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "../ui/card";
+import {
+  Card,
+  CardContent,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "../ui/card";
 import { BackButton } from "./back-button";
 
 interface AuthCardProps {
@@ -8,7 +14,12 @@ interface AuthCardProps {
   backHref: string;
 }
 
-export const AuthCard = ({ children, title, backLabel, backHref }: AuthCardProps) => {
+export const AuthCard = ({
+  children,
+  title,
+  backLabel,
+  backHref,
+}: AuthCardProps) => {
   return (
     <Card className="w-full border-0 sm:border sm:h-auto sm:w-[400px] shadow-none sm:shadow-md">
       <CardHeader>
@@ -16,12 +27,10 @@ export const AuthCard = ({ children, title, backLabel, backHref }: AuthCardProps
           {title}
         </CardTitle>
       </CardHeader>
-      <CardContent>
-        {children}
-      </CardContent>
-        <CardFooter>
-            <BackButton label={backLabel} href={backHref} />
-        </CardFooter>
+      <CardContent>{children}</CardContent>
+      <CardFooter>
+        <BackButton label={backLabel} href={backHref} />
+      </CardFooter>
     </Card>
   );
 };

@@ -1,16 +1,10 @@
 "use client";
 
-import { FormError } from "@/components/from/form-error";
-import { Button } from "@/components/ui/button";
+import { FormFooter } from "@/components/from/form-footer";
+import { FormInput } from "@/components/from/form-input";
 import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
+  Form
 } from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
 import useAxios from "@/hooks/use-axios";
 import { handleFormError } from "@/lib/utils";
 import {
@@ -19,8 +13,6 @@ import {
 } from "@/schemas/admin/user.schema";
 import { RequestError, RequestErrorMessage } from "@/types/errors";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Loader2 } from "lucide-react";
-import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { FC, useState, useTransition } from "react";
 import { useForm } from "react-hook-form";
@@ -62,58 +54,29 @@ const UsersCreateForm: FC<UsersCreateFormProps> = () => {
     <>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-          <FormField
-            control={form.control}
+          <FormInput
+            label="Name"
             name="name"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Name</FormLabel>
-                <FormControl>
-                  <Input placeholder="Pop Simon" {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
+            form={form}
+            inputProps={{ placeholder: "Pop Simon" }}
           />
-          <FormField
-            control={form.control}
+          <FormInput
+            label="Email"
             name="email"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Email</FormLabel>
-                <FormControl>
-                  <Input
-                    type="email"
-                    placeholder="example@dotcom.com"
-                    {...field}
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
+            form={form}
+            inputProps={{ placeholder: "example@dotcom.com", type: "email" }}
           />
-          <FormField
-            control={form.control}
+          <FormInput
+            label="Password"
             name="password"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Password</FormLabel>
-                <FormControl>
-                  <Input type="password" placeholder="*********" {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
+            form={form}
+            inputProps={{ placeholder: "*********", type: "password" }}
           />
-          <div className="flex w-full justify-between items-center">
-            <Link href="/admin/users">Mégse</Link>
-
-            <Button disabled={isPending} type="submit">
-              {isPending && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-              Mentés
-            </Button>
-          </div>
-          <FormError message={error} />
+          <FormFooter
+            cancelUrl="/admin/users"
+            error={error}
+            isPending={isPending}
+          />
         </form>
       </Form>
     </>
