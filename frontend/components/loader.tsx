@@ -33,6 +33,6 @@ export const Loader: FC<LoaderProps> = ({ className, showAfterMs = 500 }) => {
 
 export const ButtonLoader = ({className}: {className?: string}) => {
   return (
-    <Loader className={cn('mr-2 h-4 w-4', className)}/>
+    <Loader2 className={cn('mr-2 h-4 w-4 animate-spin', className)}/>
   );
 };
