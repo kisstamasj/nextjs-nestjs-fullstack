@@ -23,7 +23,7 @@ interface MenuItemProps {
 const MenuItem: FC<MenuItemProps> = ({ item }) => {
   const sidebar = useSidebar();
   const pathName = usePathname();
-  const isActive = pathName === item.href;
+  const isActive = pathName.startsWith(item.href);
   let linkClass =
     "flex flex-row items-center  hover:bg-accent transition font-light justify-normal gap-x-3 px-5 py-4";
 
