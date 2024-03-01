@@ -93,7 +93,7 @@ export default function DataTableControls() {
                     column.toggleVisibility(!!value)
                   }
                 >
-                  {column.id}
+                  {column.columnDef.meta?.label as string}
                 </DropdownMenuCheckboxItem>
               );
             })}

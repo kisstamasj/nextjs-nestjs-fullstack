@@ -2,7 +2,7 @@
 
 import { DataTableColumnHeader } from "@/components/data-table/column-header";
 import { Checkbox } from "@/components/ui/checkbox";
-import { ColumnDef } from "@tanstack/react-table";
+import { ColumnDef, RowData } from "@tanstack/react-table";
 
 export type User = {
   id: string;
@@ -39,26 +39,46 @@ export const columns: ColumnDef<User, any>[] = [
     accessorKey: "id",
     id: "id",
     header: "ID",
+    meta: {
+      label: "ID",
+    },
   },
   {
     accessorKey: "name",
     id: "name",
+    meta: {
+      label: "Név",
+    },
     header: ({ column }) => {
-      return <DataTableColumnHeader column={column} title="Név" />;
+      const label = column.columnDef.meta ? column.columnDef.meta.label : "Név";
+      return (
+        <DataTableColumnHeader
+          column={column}
+          title={label}
+        />
+      );
     },
   },
   {
     accessorKey: "email",
     id: "email",
+    meta: {
+      label: "Email",
+    },
     header: ({ column }) => {
-      return <DataTableColumnHeader column={column} title="Email" />;
+      const label = column.columnDef.meta ? column.columnDef.meta.label : "Email";
+      return <DataTableColumnHeader column={column} title={label} />;
     },
   },
   {
     accessorKey: "createdAt",
     id: "createdAt",
+    meta: {
+      label: "Létrehozás",
+    },
     header: ({ column }) => {
-      return <DataTableColumnHeader column={column} title="Létrehozás" />;
+      const label = column.columnDef.meta ? column.columnDef.meta.label : "Létrehozás";
+      return <DataTableColumnHeader column={column} title={label} />;
     },
     cell: ({ row }) => {
       return (
@@ -77,8 +97,12 @@ export const columns: ColumnDef<User, any>[] = [
   {
     accessorKey: "updatedAt",
     id: "updatedAt",
+    meta: {
+      label: "Módosítás",
+    },
     header: ({ column }) => {
-      return <DataTableColumnHeader column={column} title="Módosítás" />;
+      const label = column.columnDef.meta ? column.columnDef.meta.label : "Módosítás";
+      return <DataTableColumnHeader column={column} title={label} />;
     },
     cell: ({ row }) => {
       return (
