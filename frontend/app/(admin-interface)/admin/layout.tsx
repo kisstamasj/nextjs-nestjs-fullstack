@@ -16,7 +16,7 @@ export default async function RootLayout({
   children: React.ReactNode;
 }) {
   const menuItems: MenuItemType[] = [
-    { id: "1", label: "Statisztika", href: "/admin", icon: "PieChart" },
+    { id: "1", label: "Statisztika", href: "/admin/statistics", icon: "PieChart" },
     { id: "2", label: "Felhasználók", href: "/admin/users", icon: "User" },
     { id: "3", label: "Rendszer", href: "/admin/system", icon: "ServerCog" },
   ];
