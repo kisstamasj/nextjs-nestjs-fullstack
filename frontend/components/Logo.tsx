@@ -18,9 +18,7 @@ const Logo: React.FC = () => {
         flex 
         items-center
         py-3          
-        dark:border-slate-800 
-        bg-white 
-        dark:bg-slate-900 
+        bg-transparent
         overflow-hidden 
         transition-all`,
           status === "open" || status === "closed"
@@ -44,7 +42,7 @@ const Logo: React.FC = () => {
         </div>
         <div className="block lg:hidden">
           <Button variant="ghost" size="icon" onClick={toggleSidebar}>
-            <XIcon className="text-slate-600" size={30} />
+            <XIcon className="text-foreground" size={30} />
           </Button>
         </div>
       </div>

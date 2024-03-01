@@ -12,7 +12,7 @@ interface MenuListProps {
 const MenuList: FC<MenuListProps> = ({ items }) => {
   const sidebar = useSidebar();
   return (
-    <div className={cn(`flex flex-col justify-center divide-y pt-6`, sidebar.status !== "mini" ? "dark:divide-slate-800" : "divide-transparent")}>
+    <div className={cn(`flex flex-col justify-center divide-y pt-6`, sidebar.status !== "mini" ? "" : "divide-transparent")}>
       {items.map((item, index) => (
         <MenuItem key={index} item={item} />
       ))}

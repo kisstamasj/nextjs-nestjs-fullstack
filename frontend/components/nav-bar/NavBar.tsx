@@ -10,7 +10,7 @@ const NavBar: React.FC<NavBarProps> = ({ className, children }) => {
   return (
     <div
       className={cn(
-        "bg-white border-b dark:border-slate-800 p-5 flex flex-row items-center h-[60px] dark:bg-slate-900 dark:text-white transition-all w-full",
+        "border-b p-5 flex flex-row items-center h-[60px] bg-secondary/30 text-foreground transition-all w-full",
         className
       )}
     >

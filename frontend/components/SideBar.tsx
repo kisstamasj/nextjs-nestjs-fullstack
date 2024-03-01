@@ -27,10 +27,7 @@ const SideBar: React.FC<SideBarDesktopProps> = ({ menuItems }) => {
       w-72 
       flex-col 
       overflow-y-hidden  
-      text-black 
-      bg-white 
       border-r 
-      dark:border-slate-800 
       transition-all 
       duration-500 
       overflow-hidden 
@@ -38,8 +35,8 @@ const SideBar: React.FC<SideBarDesktopProps> = ({ menuItems }) => {
       h-full
       lg:static
       lg:translate-x-0
-      dark:bg-slate-900
-      dark:text-white`,
+      bg-secondary/30
+      text-foreground`,
           sidebar.status === "open"
             ? "translate-x-0"
             : "-translate-x-full lg:w-16"
