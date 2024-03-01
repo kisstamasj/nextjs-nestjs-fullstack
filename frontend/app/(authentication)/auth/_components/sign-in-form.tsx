@@ -1,24 +1,18 @@
 "use client";
 
 import { signInAction } from "@/actions/sign-in";
-import { Alert, AlertDescription } from "@/components/ui/alert";
+import { FormInput } from "@/components/from/form-input";
+import { ButtonLoader } from "@/components/loader";
 import { Button } from "@/components/ui/button";
 import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
+  Form
 } from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
 import { SignInSchema, SignInSchemaType } from "@/schemas/auth.schema";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Loader2 } from "lucide-react";
+import { useSearchParams } from "next/navigation";
 import { useState, useTransition } from "react";
 import { useForm } from "react-hook-form";
-import { FormError } from "../from/form-error";
-import { useSearchParams } from "next/navigation";
+import { FormError } from "@/components/from/form-error";
 
 const SignInForm = ({}) => {
   const [isPending, startTransition] = useTransition();
@@ -52,47 +46,26 @@ const SignInForm = ({}) => {
           autoComplete="on"
         >
           <div className="space-y-4">
-            <FormField
-              control={form.control}
+            <FormInput
+              form={form}
               name="email"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Email</FormLabel>
-                  <FormControl>
-                    <Input
-                      autoComplete={field.name}
-                      disabled={isPending}
-                      placeholder="example@dotcom.com"
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
+              label="Email"
+              inputProps={{ placeholder: "example@dotcom.com" }}
             />
-            <FormField
-              control={form.control}
+            <FormInput
+              form={form}
               name="password"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Password</FormLabel>
-                  <FormControl>
-                    <Input
-                      autoComplete="current-password"
-                      disabled={isPending}
-                      type="password"
-                      placeholder="*********"
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
+              label="Password"
+              inputProps={{
+                type: "password",
+                placeholder: "*********",
+                autoComplete: "current-password",
+              }}
             />
           </div>
           <FormError message={error} />
           <Button className="w-full" disabled={isPending} type="submit">
-            {isPending && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+            {isPending && <ButtonLoader />}
             Sing in
           </Button>
         </form>

@@ -29,3 +29,10 @@ export const Loader: FC<LoaderProps> = ({ className, showAfterMs = 500 }) => {
     </Fragment>
   );
 };
+
+
+export const ButtonLoader = ({className}: {className?: string}) => {
+  return (
+    <Loader className={cn('mr-2 h-4 w-4', className)}/>
+  );
+};

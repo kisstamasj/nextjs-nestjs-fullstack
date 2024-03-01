@@ -1,5 +1,6 @@
-import SignInForm from "@/components/auth/sign-in-form";
-import { AuthCard } from "@/components/auth/auth-card";
+import { AuthCard } from "../_components/auth-card";
+import SignInForm from "../_components/sign-in-form";
+
 
 const SignInPage = () => {
   return (

@@ -1,5 +1,6 @@
-import SignUpForm from "@/components/auth/sign-up-form";
-import { AuthCard } from "@/components/auth/auth-card";
+import { AuthCard } from "../_components/auth-card";
+import SignUpForm from "../_components/sign-up-form";
+
 
 const SignUpPage = async () => {
   return (

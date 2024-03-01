@@ -1,6 +1,5 @@
 import PageContainer from "@/components/PageContainer";
 import { Loader } from "@/components/loader";
-import { Loader2 } from "lucide-react";
 import { FC } from "react";
 
 const Loading: FC = () => {

@@ -1,9 +1,10 @@
 "use client";
 
 import { RequestErrorMessage } from "@/types/errors";
-import { Loader2, Save, X } from "lucide-react";
+import { Save, X } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { MouseEventHandler } from "react";
+import { ButtonLoader } from "../loader";
 import { Button } from "../ui/button";
 import { FormError } from "./form-error";
 
@@ -41,7 +42,7 @@ export const FormFooter = ({
         </Button>
         <Button disabled={isPending} type="submit">
           {isPending ? (
-            <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+            <ButtonLoader />
           ) : (
             <Save className="mr-2 h-4 w-4" />
           )}

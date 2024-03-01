@@ -1,16 +1,19 @@
 "use client";
 
 import { useDataTable } from "@/contexts/datatable-context";
+import useAxios from "@/hooks/use-axios";
+import { RequestError } from "@/types/errors";
 import {
   ColumnsIcon,
-  Loader2Icon,
-  LucideColumns,
   PencilIcon,
   PlusCircleIcon,
   RotateCw,
-  Trash2Icon,
+  Trash2Icon
 } from "lucide-react";
 import { useRouter } from "next/navigation";
+import { useTransition } from "react";
+import { toast } from "sonner";
+import { ButtonLoader } from "../loader";
 import { Button } from "../ui/button";
 import {
   DropdownMenu,
@@ -20,10 +23,6 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "../ui/dropdown-menu";
-import { useTransition } from "react";
-import useAxios from "@/hooks/use-axios";
-import { RequestError } from "@/types/errors";
-import { toast } from "sonner";
 
 export default function DataTableControls() {
   const { table, pageRoute, loading, api, fetchData, defaultVisibilityState } =
@@ -123,7 +122,7 @@ export default function DataTableControls() {
         onClick={onDeleteHandler}
       >
         {isPending ? (
-          <Loader2Icon className="w-4 h-4 mr-2 animate-spin" />
+          <ButtonLoader />
         ) : (
           <Trash2Icon className="w-4 h-4 mr-2" />
         )}{" "}

@@ -29,7 +29,7 @@ export const FormInput = ({
         <FormItem>
           <FormLabel>{label}</FormLabel>
           <FormControl>
-            <Input {...field} {...inputProps} />
+            <Input {...field} autoComplete={field.name} {...inputProps} />
           </FormControl>
           <FormMessage />
         </FormItem>
