@@ -3,6 +3,7 @@ import { useFiltering } from "@/hooks/use-filtering";
 import { useLocalStorage } from "@/hooks/use-local-storage";
 import { usePagination } from "@/hooks/use-pagination";
 import { useSorting } from "@/hooks/use-sorting";
+import { RequestErrorMessage } from "@/types/errors";
 import {
   ColumnDef,
   Table,
@@ -37,6 +38,7 @@ export interface IDataTableContext {
   columns: ColumnDef<any, any>[];
   filterOnChangeHandler: (target: { name: string; value: string }) => void;
   fetchData: () => void;
+  error: RequestErrorMessage | undefined;
 }
 
 interface IDataTableProvider<TData, TValue> {
@@ -106,7 +108,7 @@ export function DataTableProvider<TData, TValue>({
   const { columnFilters, filterValues, setFilterValues, setColumnFilters } =
     useFiltering(columns);
 
-  const { count, data, loading, fetchData } = useDataTableApi({
+  const { count, data, loading, fetchData, error } = useDataTableApi({
     api,
     params: {
       pagination: { skip, limit },
@@ -172,6 +174,7 @@ export function DataTableProvider<TData, TValue>({
     pageRoute,
     api,
     fetchData,
+    error,
   };
   return (
     <DataTableContext.Provider value={value}>

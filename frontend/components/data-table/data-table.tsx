@@ -9,17 +9,28 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { ColumnDef, Table, flexRender } from "@tanstack/react-table";
-import React from "react";
+import React, { useEffect } from "react";
 import { Input } from "../ui/input";
 import { Loader } from "../loader";
 import { useDataTable } from "@/contexts/datatable-context";
-
+import { toast } from "sonner";
+import { XCircle } from "lucide-react";
 
 /**
  * Renders a DataTable component.
  */
 export function DataTable() {
-  const { columns, loading, table, filterOnChangeHandler } = useDataTable();
+  const { columns, loading, table, filterOnChangeHandler, error } =
+    useDataTable();
+
+  useEffect(() => {
+    if (error)
+      toast.warning(
+        <>
+          <XCircle className="h-5 w-5" /> {error}
+        </>
+      );
+  }, [error]);
 
   return (
     <>
@@ -104,7 +115,11 @@ function TableBodyComp<TData, TValue>({
     <TableBody>
       {table.getRowModel().rows.length ? (
         table.getRowModel().rows.map((row, index) => (
-          <TableRow key={row.id} data-state={row.getIsSelected() && "selected"} className="animate-fade">
+          <TableRow
+            key={row.id}
+            data-state={row.getIsSelected() && "selected"}
+            className="animate-fade"
+          >
             {row.getVisibleCells().map((cell) => (
               <TableCell key={cell.id}>
                 {flexRender(cell.column.columnDef.cell, cell.getContext())}

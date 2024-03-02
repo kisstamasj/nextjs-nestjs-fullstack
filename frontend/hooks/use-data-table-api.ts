@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useState } from "react";
 import useAxios from "./use-axios";
 import { ColumnFiltersState } from "@tanstack/react-table";
+import { RequestError, RequestErrorMessage } from "@/types/errors";
 
 interface IUseDataTableApi {
   api: string | undefined;
@@ -27,6 +28,7 @@ export const useDataTableApi = ({ api, params }: IUseDataTableApi) => {
   const { skip, limit } = pagination;
   const { field, order } = sort;
   const [data, setData] = useState([]);
+  const [error, setError] = useState<RequestErrorMessage>();
   const [count, setCount] = useState(0);
   const [loading, setLoading] = useState(false);
   const axios = useAxios();
@@ -34,28 +36,37 @@ export const useDataTableApi = ({ api, params }: IUseDataTableApi) => {
   if (!api) throw new Error("Api not provided");
   const fetchData = useCallback(async () => {
     setLoading(true);
-
-    const { data } = await axios.get<DataTableApiResponse>(api, {
-      params: {
-        pagination: {
-          skip,
-          limit,
+    setError(undefined);
+    try {
+      const { data } = await axios.get<DataTableApiResponse>(api, {
+        params: {
+          pagination: {
+            skip,
+            limit,
+          },
+          sort: {
+            field,
+            order,
+          },
+          filter,
         },
-        sort: {
-          field,
-          order,
-        },
-        filter,
-      },
-    });
+      });
 
-    setData(data.data);
-    setCount(data.count);
-    setLoading(false);
+      setData(data.data);
+      setCount(data.count);
+    } catch (error) {
+      let e = error as RequestError;
+      console.error(error);
+      setError(e.response?.data?.message);
+      setData([]);
+      setCount(0);
+    } finally {
+      setLoading(false);
+    }
   }, [api, field, order, skip, limit, axios, filter]);
   useEffect(() => {
     fetchData();
   }, [api, field, order, skip, limit, axios, filter, fetchData]);
 
-  return { data, count, loading, fetchData };
+  return { data, count, loading, fetchData, error };
 };
