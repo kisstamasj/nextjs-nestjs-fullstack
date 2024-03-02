@@ -7,6 +7,7 @@ export interface BackendTokens {
 }
 
 export type ExtendedUser = DefaultSession["user"] & {
+  id: string;
   email: string;
   name: string;
   avatar: string;
@@ -30,6 +31,7 @@ declare module "next-auth" {
     id: string;
     email: string;
     name: string;
+    avatar: string;
     backendTokens: BackendTokens;
   }
 }

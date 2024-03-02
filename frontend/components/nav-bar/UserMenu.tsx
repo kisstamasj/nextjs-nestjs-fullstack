@@ -45,7 +45,9 @@ export const UserMenu = () => {
           ) : (
             <DropdownMenuItem className="cursor-pointer">
               <LayoutDashboard className="mr-2 h-4 w-4" />
-              <span onClick={() => router.push("/admin")}>Dashboard</span>
+              <span onClick={() => router.push("/admin/statistics")}>
+                Dashboard
+              </span>
             </DropdownMenuItem>
           )}
         </DropdownMenuGroup>

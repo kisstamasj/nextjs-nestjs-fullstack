@@ -32,7 +32,7 @@ export const createAxiosServerSide = async ({
   let session: Session | null;
   if (withCredentials) {
     if (!token) {
-      const { auth } = await import("@/auth");
+      const { auth } = await import("@/lib/auth");
       session = await auth();
       const user = session?.user;
       axiosBackend.interceptors.request.use((config) => {
@@ -62,13 +62,13 @@ export const createAxiosServerSide = async ({
  */
 export const fetchDataServerSide = async (url: string) => {
   try {
-    const axios = await createAxiosServerSide({withCredentials: true});
-    const { data } = await axios.get(url); 
+    const axios = await createAxiosServerSide({ withCredentials: true });
+    const { data } = await axios.get(url);
     return data;
   } catch (error) {
     let e = error as RequestError;
-    if(e.response?.data?.statusCode === 404){
-       notFound();
+    if (e.response?.data?.statusCode === 404) {
+      notFound();
     } else {
       throw e;
     }
