@@ -70,6 +70,13 @@ export default function DataTableControls() {
     });
   };
 
+  const resetTable = () => {
+    table.setColumnVisibility(defaultVisibilityState);
+    table.setColumnFilters([]);
+    table.resetRowSelection();
+    fetchData();
+  };
+
   return (
     <div className="flex justify-start flex-wrap items-center py-2 gap-2">
       <DropdownMenu>
@@ -98,9 +105,7 @@ export default function DataTableControls() {
               );
             })}
           <DropdownMenuSeparator />
-          <DropdownMenuItem
-            onClick={() => table.setColumnVisibility(defaultVisibilityState)}
-          >
+          <DropdownMenuItem onClick={resetTable}>
             <RotateCw className="w-4 h-4 mr-2" /> Alaphelyzet
           </DropdownMenuItem>
         </DropdownMenuContent>
