@@ -19,6 +19,14 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" suppressHydrationWarning>
+      <head>
+        <link
+          rel="icon"
+          href={`/logo-mini.png?${new Date().getTime()}`}
+          type="image/png"
+          sizes="32x32"
+        />
+      </head>
       <body className={inter.className}>
         <Providers>{children}</Providers>
       </body>
