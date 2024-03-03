@@ -12,7 +12,7 @@ import {
   Trash2Icon,
 } from "lucide-react";
 import { useRouter } from "next/navigation";
-import { useTransition } from "react";
+import { useCallback, useEffect, useTransition } from "react";
 import { toast } from "sonner";
 import { ButtonLoader } from "../loader";
 import { Button } from "../ui/button";
@@ -24,6 +24,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "../ui/dropdown-menu";
+import { useConfirmDialog } from "@/hooks/use-confirm-dialog";
 
 export default function DataTableControls() {
   const { table, pageRoute, loading, api, fetchData, defaultVisibilityState } =
@@ -33,23 +34,7 @@ export default function DataTableControls() {
   const [isPending, startTransition] = useTransition();
   const axios = useAxios();
 
-  const onCreateHandler = () => {
-    router.push(`${pageRoute}/create`);
-  };
-  const onUpdateHandler = () => {
-    if (!rowsSelected) {
-      return alert("Nem választott ki sort!");
-    }
-    const rowId = table.getSelectedRowModel().rows[0].getValue("id");
-
-    router.push(`${pageRoute}/${rowId}`);
-  };
-
-  const onDeleteHandler = () => {
-    if (!rowsSelected) {
-      return alert("Nem vázlasztott ki sort!");
-    }
-
+  const onDelete = () => {
     startTransition(async () => {
       const rows = table.getSelectedRowModel().rows;
       for (let i = 0; i < rows.length; i++) {
@@ -68,6 +53,27 @@ export default function DataTableControls() {
       });
       fetchData();
     });
+  };
+
+  const { showConfirmDialog } = useConfirmDialog((state) => {
+    state.title = "Biztosan törli a kijelölt sorokat?";
+    state.description = "A művelet nem visszavonható!";
+    state.onConfirm = onDelete;
+    return state;
+  });
+
+  const onCreateHandler = () => {
+    router.push(`${pageRoute}/create`);
+  };
+  const onUpdateHandler = () => {
+    const rowId = table.getSelectedRowModel().rows[0].getValue("id");
+    if (!rowId) return;
+    router.push(`${pageRoute}/${rowId}`);
+  };
+
+  const onDeleteHandler = () => {
+    if (!rowsSelected) return;
+    showConfirmDialog();
   };
 
   const resetTable = () => {
