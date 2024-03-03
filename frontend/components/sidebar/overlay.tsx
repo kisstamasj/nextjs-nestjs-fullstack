@@ -9,7 +9,7 @@ const Overlay: FC = ({}) => {
   return (
     <>
       <AlertDialog open={sidebar.status === "open"}>
-        <AlertDialogOverlay />
+        <AlertDialogOverlay className="lg:hidden" />
       </AlertDialog>
     </>
   );
