@@ -14,8 +14,8 @@ const MenuList: FC<MenuListProps> = ({ items }) => {
   return (
     <div
       className={cn(
-        `flex flex-col justify-center divide-y pt-6`,
-        sidebar.status === "mini" ? "divide-transparent" : ""
+        `flex flex-col justify-center divide-y divide-primary-foreground pt-6`,
+        sidebar.status === "mini" ? "divide-y-0" : ""
       )}
     >
       {items.map((item, index) => (
