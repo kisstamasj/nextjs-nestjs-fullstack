@@ -11,9 +11,9 @@ const Overlay: FC = ({}) => {
       {sidebar.status === "open" && (
         <div
           className={cn(
-            "fixed left-0 top-0 z-40 h-full w-full bg-black/20 lg:hidden backdrop-blur-sm animate-fade"
+            "fixed left-0 top-0 z-40 h-full w-full bg-black/80 lg:hidden backdrop-blur-sm animate-fade"
           )}
-        ></div>
+        />
       )}
     </>
   );
