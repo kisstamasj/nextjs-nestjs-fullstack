@@ -24,12 +24,7 @@ export function DataTable() {
     useDataTable();
 
   useEffect(() => {
-    if (error)
-      toast.warning(
-        <>
-          <XCircle className="h-5 w-5" /> {error}
-        </>
-      );
+    if (error) toast.error("Váratlan hiba történt.");
   }, [error]);
 
   return (
