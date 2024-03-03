@@ -8,6 +8,7 @@
     "backend:migration:create": "cd backend && pnpm migration:create",
     "backend:migration:revert": "cd backend && pnpm migration:revert",
     "deps:install": "cd backend && pnpm install && cd .. && cd frontend && pnpm install && cd ..",
+    "deps:install:frozen-lockfile": "cd backend && pnpm i --frozen-lockfile && cd .. && cd frontend && pnpm i --frozen-lockfile && cd ..",
     "deps:update": "cd backend && pnpm update && cd .. && cd frontend && pnpm update && cd ..",
     "prepare": "husky install"
   },
