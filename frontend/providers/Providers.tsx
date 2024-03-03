@@ -1,8 +1,8 @@
-import React, { ReactNode } from "react";
-import { ThemeProvider } from "./ThemeProvider";
 import { Toaster } from "@/components/ui/sonner";
 import { auth } from "@/lib/auth";
 import { SessionProvider } from "next-auth/react";
+import { ReactNode } from "react";
+import { ThemeProvider } from "./ThemeProvider";
 import { AlertDialogProvider } from "./alert-dialog-provider";
 import { ConfirmDialogProvider } from "./confirm-dialog-provider";
 

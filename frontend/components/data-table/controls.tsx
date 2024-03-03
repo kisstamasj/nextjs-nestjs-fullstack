@@ -2,6 +2,7 @@
 
 import { useDataTable } from "@/contexts/datatable-context";
 import useAxios from "@/hooks/use-axios";
+import { useConfirmDialog } from "@/hooks/use-confirm-dialog";
 import { RequestError } from "@/types/errors";
 import {
   ColumnsIcon,
@@ -12,7 +13,7 @@ import {
   Trash2Icon,
 } from "lucide-react";
 import { useRouter } from "next/navigation";
-import { useCallback, useEffect, useTransition } from "react";
+import { useTransition } from "react";
 import { toast } from "sonner";
 import { ButtonLoader } from "../loader";
 import { Button } from "../ui/button";
@@ -24,7 +25,6 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "../ui/dropdown-menu";
-import { useConfirmDialog } from "@/hooks/use-confirm-dialog";
 
 export default function DataTableControls() {
   const { table, pageRoute, loading, api, fetchData, defaultVisibilityState } =

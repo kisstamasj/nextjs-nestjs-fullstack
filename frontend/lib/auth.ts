@@ -1,6 +1,6 @@
 import NextAuth, { NextAuthConfig } from "next-auth";
-import { createAxiosServerSide } from "./axios";
 import Credentials from "next-auth/providers/credentials";
+import { SignInSchema } from "../schemas/auth.schema";
 import { BackendTokens } from "../types/nextauth";
 import {
   DEFAULT_LOGIN_REDIRECT,
@@ -8,7 +8,6 @@ import {
   authRoutes,
   publicRoutes,
 } from "./routes";
-import { SignInSchema } from "../schemas/auth.schema";
 import { getBackendUrl } from "./utils";
 
 const refreshToken = async (refreshToken: string) => {
