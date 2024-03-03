@@ -13,7 +13,7 @@ const Providers = async ({ children }: { children: ReactNode }) => {
       <SessionProvider session={session}>
         <ThemeProvider attribute="class" enableSystem defaultTheme="system">
           {children}
-          <Toaster />
+          <Toaster richColors />
           <AlertDialogProvider />
           <ConfirmDialogProvider />
         </ThemeProvider>
