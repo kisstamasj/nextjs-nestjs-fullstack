@@ -1,7 +1,7 @@
-import { useCallback, useEffect, useState } from "react";
-import useAxios from "./use-axios";
-import { ColumnFiltersState } from "@tanstack/react-table";
 import { RequestError, RequestErrorMessage } from "@/types/errors";
+import { ColumnFiltersState } from "@tanstack/react-table";
+import { useCallback, useEffect, useState } from "react";
+import useAxios from "../use-axios";
 
 interface IUseDataTableApi {
   api: string | undefined;

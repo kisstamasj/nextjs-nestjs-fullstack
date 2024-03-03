@@ -1,8 +1,8 @@
-import { useDataTableApi } from "@/hooks/use-data-table-api";
-import { useFiltering } from "@/hooks/use-filtering";
+import { useDataTableApi } from "@/hooks/data-table/use-data-table-api";
+import { useFiltering } from "@/hooks/data-table/use-filtering";
 import { useLocalStorage } from "@/hooks/use-local-storage";
-import { usePagination } from "@/hooks/use-pagination";
-import { useSorting } from "@/hooks/use-sorting";
+import { usePagination } from "@/hooks/data-table/use-pagination";
+import { useSorting } from "@/hooks/data-table/use-sorting";
 import { RequestErrorMessage } from "@/types/errors";
 import {
   ColumnDef,
