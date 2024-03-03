@@ -6,6 +6,7 @@ import { MenuItemType } from "./menu-item";
 import React from "react";
 import { cn } from "@/lib/utils";
 import { useSidebar } from "@/hooks/use-sidebar";
+import Overlay from "./overlay";
 
 interface SideBarDesktopProps {
   menuItems: MenuItemType[];
@@ -16,6 +17,7 @@ const SideBar: React.FC<SideBarDesktopProps> = ({ menuItems }) => {
 
   return (
     <>
+      <Overlay />
       <aside
         className={cn(
           `
