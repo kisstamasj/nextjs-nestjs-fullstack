@@ -3,6 +3,8 @@ import { ThemeProvider } from "./ThemeProvider";
 import { Toaster } from "@/components/ui/sonner";
 import { auth } from "@/lib/auth";
 import { SessionProvider } from "next-auth/react";
+import { AlertDialogProvider } from "./alert-dialog-provider";
+import { ConfirmDialogProvider } from "./confirm-dialog-provider";
 
 const Providers = async ({ children }: { children: ReactNode }) => {
   const session = await auth();
@@ -12,6 +14,8 @@ const Providers = async ({ children }: { children: ReactNode }) => {
         <ThemeProvider attribute="class" enableSystem defaultTheme="system">
           {children}
           <Toaster />
+          <AlertDialogProvider />
+          <ConfirmDialogProvider />
         </ThemeProvider>
       </SessionProvider>
     </>
