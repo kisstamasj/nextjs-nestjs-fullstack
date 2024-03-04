@@ -10,6 +10,7 @@
     "deps:install": "cd backend && pnpm install && cd .. && cd frontend && pnpm install && cd ..",
     "deps:install:frozen-lockfile": "cd backend && pnpm i --frozen-lockfile && cd .. && cd frontend && pnpm i --frozen-lockfile && cd ..",
     "deps:update": "cd backend && pnpm update && cd .. && cd frontend && pnpm update && cd ..",
+    "deps:outdated": "cd backend && pnpm outdated && cd .. && cd frontend && pnpm outdated && cd ..",
     "prepare": "husky install"
   },
   "devDependencies": {
