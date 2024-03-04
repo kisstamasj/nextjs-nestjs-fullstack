@@ -30,12 +30,14 @@ export const createAxiosServerSide = async ({
   token,
 }: CreateAxiosServerSideProps) => {
   let session: Session | null;
+  const controller = new AbortController()
   if (withCredentials) {
     if (!token) {
       const { auth } = await import("@/lib/auth");
       session = await auth();
       const user = session?.user;
       axiosBackend.interceptors.request.use((config) => {
+        config.signal = controller.signal;
         if (session) {
           config.headers.Authorization = `Bearer ${user?.backendTokens.accessToken}`;
         }
@@ -43,16 +45,17 @@ export const createAxiosServerSide = async ({
         return config;
       });
 
-      return axiosBackend;
+      return {axiosBackend, controller};
     }
 
     axiosBackend.interceptors.request.use((config) => {
+      config.signal = controller.signal;
       config.headers.Authorization = `Bearer ${token}`;
       return config;
     });
   }
 
-  return axiosBackend;
+  return {axiosBackend, controller};
 };
 
 /**
@@ -62,7 +65,7 @@ export const createAxiosServerSide = async ({
  */
 export const fetchDataServerSide = async (url: string) => {
   try {
-    const axios = await createAxiosServerSide({ withCredentials: true });
+    const {axiosBackend: axios} = await createAxiosServerSide({ withCredentials: true });
     const { data } = await axios.get(url);
     return data;
   } catch (error) {

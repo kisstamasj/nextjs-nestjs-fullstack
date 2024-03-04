@@ -3,9 +3,7 @@
 import { FormInput } from "@/components/form/form-input";
 import { ButtonLoader } from "@/components/loader";
 import { Button } from "@/components/ui/button";
-import {
-  Form
-} from "@/components/ui/form";
+import { Form } from "@/components/ui/form";
 import useAxios from "@/hooks/use-axios";
 import { SignUpSchema, SignUpSchemaType } from "@/schemas/auth.schema";
 import { RequestError, RequestErrorMessage } from "@/types/errors";
@@ -13,14 +11,14 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { AxiosError } from "axios";
 import { useState, useTransition } from "react";
 import { useForm } from "react-hook-form";
-import { FormError } from "../../../../components/form/form-error";
-import { FormSuccess } from "../../../../components/form/form-success";
+import { FormError } from "@/components/form/form-error";
+import { FormSuccess } from "@/components/form/form-success";
 
 const SignUpForm = ({}) => {
   const [isPending, startTransition] = useTransition();
   const [error, setError] = useState<RequestErrorMessage>();
   const [success, setSuccess] = useState<string | undefined>();
-  const axios = useAxios();
+  const { axiosBackend: axios } = useAxios();
   const form = useForm<SignUpSchemaType>({
     resolver: zodResolver(SignUpSchema),
     defaultValues: {

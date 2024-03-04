@@ -29,7 +29,7 @@ const UsersUpdateForm: FC<UsersUpdateFormProps> = ({ defaultValues, id }) => {
   const { data: session, update } = useSession();
   const [isPending, startTransition] = useTransition();
   const [error, setError] = useState<RequestErrorMessage>();
-  const axios = useAxios();
+  const {axiosBackend: axios} = useAxios();
   const form = useForm<UpdateUserSchemaType>({
     resolver: zodResolver(updateUserSchema),
     defaultValues: { ...defaultValues, password: "" },

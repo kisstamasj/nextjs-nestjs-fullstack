@@ -2,9 +2,7 @@
 
 import { FormFooter } from "@/components/form/form-footer";
 import { FormInput } from "@/components/form/form-input";
-import {
-  Form
-} from "@/components/ui/form";
+import { Form } from "@/components/ui/form";
 import useAxios from "@/hooks/use-axios";
 import { handleFormError } from "@/lib/utils";
 import {
@@ -24,7 +22,7 @@ const UsersCreateForm: FC<UsersCreateFormProps> = () => {
   const router = useRouter();
   const [isPending, startTransition] = useTransition();
   const [error, setError] = useState<RequestErrorMessage>();
-  const axios = useAxios();
+  const { axiosBackend: axios } = useAxios();
   const form = useForm<CreateUserSchemaType>({
     resolver: zodResolver(createUserSchema),
     defaultValues: {

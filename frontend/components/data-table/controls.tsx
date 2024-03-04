@@ -32,7 +32,7 @@ export default function DataTableControls() {
   const router = useRouter();
   const rowsSelected = table.getSelectedRowModel().rows.length > 0;
   const [isPending, startTransition] = useTransition();
-  const axios = useAxios();
+  const { axiosBackend: axios } = useAxios();
 
   const onDelete = () => {
     startTransition(async () => {

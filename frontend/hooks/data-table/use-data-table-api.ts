@@ -31,7 +31,7 @@ export const useDataTableApi = ({ api, params }: IUseDataTableApi) => {
   const [error, setError] = useState<RequestErrorMessage>();
   const [count, setCount] = useState(0);
   const [loading, setLoading] = useState(false);
-  const axios = useAxios();
+  const { axiosBackend: axios } = useAxios();
 
   if (!api) throw new Error("Api not provided");
   const fetchData = useCallback(async () => {
