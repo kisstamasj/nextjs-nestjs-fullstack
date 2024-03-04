@@ -7,6 +7,7 @@ import { fetchDataServerSide } from "@/lib/axios";
 import { HelpCircle } from "lucide-react";
 import UsersUpdateForm from "../_components/users-update-form";
 
+// No cache for this page
 export const revalidate = 0;
 
 export const metadata = {
