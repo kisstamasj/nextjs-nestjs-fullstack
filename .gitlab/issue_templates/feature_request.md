@@ -1,16 +1,16 @@
-## Feature Request
+# Feature Request
 
-**Summary:**
+## Summary
 A brief description of the new feature.
 
-**Motivation:**
+## Motivation
 Explain why this feature is needed.
 
-**Details:**
+## Details
 Provide additional details about the feature.
 
-**Implementation Suggestions:**
+## Implementation Suggestions
 Any thoughts on how this feature could be implemented.
 
-**Additional Information:**
+## Additional Information
 - Any related issues or pull requests.

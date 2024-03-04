@@ -1,16 +1,16 @@
-## Enhancement Proposal
+# Enhancement Proposal
 
-**Summary:**
+## Summary
 A short description of the enhancement proposal.
 
-**Motivation:**
+## Motivation
 Explain why this enhancement is necessary.
 
-**Proposed Changes:**
+## Proposed Changes
 Describe the proposed changes in detail.
 
-**Rationale:**
+## Rationale
 Provide a rationale for the proposed changes.
 
-**Additional Information:**
+## Additional Information
 - Any related issues or pull requests.
