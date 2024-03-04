@@ -1,8 +1,8 @@
-import { Session } from "next-auth/types";
 import axios from "axios";
 import { getBackendUrl } from "./utils";
 import { RequestError } from "@/types/errors";
 import { notFound } from "next/navigation";
+import { Session } from "next-auth";
 
 interface CreateAxiosServerSideProps {
   withCredentials: boolean;
