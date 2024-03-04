@@ -7,7 +7,7 @@ import {
   apiAuthPrefix,
   authRoutes,
   publicRoutes,
-} from "./routes";
+} from "./routes-rules";
 import { getBackendUrl } from "./utils";
 
 const refreshToken = async (refreshToken: string) => {
