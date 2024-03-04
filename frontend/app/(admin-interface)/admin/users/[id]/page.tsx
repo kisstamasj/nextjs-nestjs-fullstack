@@ -7,6 +7,8 @@ import { fetchDataServerSide } from "@/lib/axios";
 import { HelpCircle } from "lucide-react";
 import UsersUpdateForm from "../_components/users-update-form";
 
+export const revalidate = 0;
+
 export const metadata = {
   title: "Admin | Felhasználók | Módosítás",
 };
