@@ -10,9 +10,7 @@ export const updateUserAction = async (
   id: string,
   values: z.infer<typeof updateUserSchema>
 ) => {
-  const { axiosBackend: axios } = await createAxiosServerSide({
-    withCredentials: true,
-  });
+  const { axiosBackend: axios } = await createAxiosServerSide();
   try {
     await axios.patch(`/users/${id}`, {
       ...values,
