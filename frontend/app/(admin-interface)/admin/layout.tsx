@@ -9,6 +9,12 @@ export const metadata: Metadata = {
   description: "Learningage v2",
 };
 
+/**
+ * Force dynamic rendering to prevent server-side cache
+ * source: https://nextjs.org/docs/app/api-reference/file-conventions/route-segment-config#dynamic
+ */
+// export const dynamic = 'force-dynamic'
+
 export default async function RootLayout({
   children,
 }: {
