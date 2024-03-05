@@ -33,11 +33,11 @@ export interface IDataTableContext {
   pageRoute: string;
   sortingState: SortingState;
   visibilityState: VisibilityState;
-  defaultVisibilityState: VisibilityState;
   api: string;
   columns: ColumnDef<any, any>[];
   filterOnChangeHandler: (target: { name: string; value: string }) => void;
   fetchData: () => void;
+  resetTable: () => void;
   error: RequestErrorMessage | undefined;
 }
 
@@ -162,6 +162,13 @@ export function DataTableProvider<TData, TValue>({
     500
   );
 
+  const resetTable = () => {
+    table.setColumnVisibility(defaultVisibilityState);
+    table.setColumnFilters([]);
+    table.resetRowSelection();
+    fetchData();
+  };
+
   const value = {
     columns,
     table,
@@ -170,10 +177,10 @@ export function DataTableProvider<TData, TValue>({
     filterOnChangeHandler,
     sortingState,
     visibilityState,
-    defaultVisibilityState,
     pageRoute,
     api,
     fetchData,
+    resetTable,
     error,
   };
   return (

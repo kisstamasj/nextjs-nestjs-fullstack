@@ -27,7 +27,7 @@ import {
 } from "../ui/dropdown-menu";
 
 export default function DataTableControls() {
-  const { table, pageRoute, loading, api, fetchData, defaultVisibilityState } =
+  const { table, pageRoute, loading, api, fetchData, resetTable } =
     useDataTable();
   const router = useRouter();
   const rowsSelected = table.getSelectedRowModel().rows.length > 0;
@@ -74,13 +74,6 @@ export default function DataTableControls() {
   const onDeleteHandler = () => {
     if (!rowsSelected) return;
     showConfirmDialog();
-  };
-
-  const resetTable = () => {
-    table.setColumnVisibility(defaultVisibilityState);
-    table.setColumnFilters([]);
-    table.resetRowSelection();
-    fetchData();
   };
 
   return (
