@@ -28,7 +28,7 @@ export const handleFormError = (
 ) => {
   if(!error) return;
   if (Array.isArray(error)) {
-    error.map((m) => {
+    error.forEach((m) => {
       // @ts-ignore
       form.setError(m.property, {
         message: m.message,

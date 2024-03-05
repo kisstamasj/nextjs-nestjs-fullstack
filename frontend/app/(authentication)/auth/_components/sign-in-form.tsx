@@ -33,6 +33,9 @@ const SignInForm = ({}) => {
         if (res?.error) {
           setError(res.error);
         }
+      }).catch((error) => {
+        console.error(error);
+        setError("Something went wrong.");
       });
     });
   };
