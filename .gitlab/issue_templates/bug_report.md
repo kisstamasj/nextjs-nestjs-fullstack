@@ -17,3 +17,6 @@ Describe what actually happened.
 ## Additional Information
 - Version: [e.g., 1.0.0]
 - Browser/OS: [e.g., Chrome/Windows]
+
+## Documentation updates
+

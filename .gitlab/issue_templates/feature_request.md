@@ -14,3 +14,5 @@ Any thoughts on how this feature could be implemented.
 
 ## Additional Information
 - Any related issues or pull requests.
+
+## Documentation updates

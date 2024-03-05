@@ -14,3 +14,5 @@ Provide a rationale for the proposed changes.
 
 ## Additional Information
 - Any related issues or pull requests.
+
+## Documentation updates
