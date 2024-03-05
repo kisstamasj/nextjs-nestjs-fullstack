@@ -1,6 +1,6 @@
 "use client";
 
-import { signInAction } from "@/actions/sign-in";
+import { signInAction } from "@/actions/auth/sign-in";
 import { FormInput } from "@/components/form/form-input";
 import { ButtonLoader } from "@/components/loader";
 import { Button } from "@/components/ui/button";
