@@ -4,11 +4,6 @@ import { Session } from "next-auth";
 import { notFound } from "next/navigation";
 import { getBackendUrl } from "./utils";
 
-interface CreateAxiosServerSideProps {
-  withCredentials: boolean;
-  token?: string;
-}
-
 export const axiosBackend = axios.create({
   baseURL: getBackendUrl(),
   headers: {
@@ -17,21 +12,16 @@ export const axiosBackend = axios.create({
 });
 
 /**
- * Creates an Axios instance for server-side requests.
+ * Create an Axios server side with optional token support.
  *
- * @param {CreateAxiosServerSideProps} props - The props for the createAxiosServerSide function.
- * The token property is optional and only used when withCredentials is true.
- * Useful when you don't want to get the token (accessToken or refreshToken) from the session.
- * If the withCredentials property is true, and the token is not provided, it will try to get the accessToken from the session.
- *
+ * @param withToken - (default = true) flag indicating whether to use a token in the request header
+ * @param token - optional token to use for authorization. 
+ * If there is no given token, and the withToken is true, then it will be fetch from the session.
  */
-export const createAxiosServerSide = async ({
-  withCredentials,
-  token,
-}: CreateAxiosServerSideProps) => {
+export const createAxiosServerSide = async (withToken = true, token = null) => {
   let session: Session | null;
-  const controller = new AbortController()
-  if (withCredentials) {
+  const controller = new AbortController();
+  if (withToken) {
     if (!token) {
       const { auth } = await import("@/lib/auth");
       session = await auth();
@@ -45,7 +35,7 @@ export const createAxiosServerSide = async ({
         return config;
       });
 
-      return {axiosBackend, controller};
+      return { axiosBackend, controller };
     }
 
     axiosBackend.interceptors.request.use((config) => {
@@ -55,7 +45,7 @@ export const createAxiosServerSide = async ({
     });
   }
 
-  return {axiosBackend, controller};
+  return { axiosBackend, controller };
 };
 
 /**
@@ -65,7 +55,7 @@ export const createAxiosServerSide = async ({
  */
 export const fetchDataServerSide = async (url: string) => {
   try {
-    const {axiosBackend: axios} = await createAxiosServerSide({ withCredentials: true });
+    const { axiosBackend: axios } = await createAxiosServerSide();
     const { data } = await axios.get(url);
     return data;
   } catch (error) {
