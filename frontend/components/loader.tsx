@@ -33,3 +33,11 @@ export const Loader: FC<LoaderProps> = ({ className, showAfterMs = 500 }) => {
 export const ButtonLoader = ({ className }: { className?: string }) => {
   return <Loader2 className={cn("mr-2 h-4 w-4 animate-spin", className)} />;
 };
+
+export const PageLoader = () => {
+  return (
+    <div className="w-full h-full flex items-center justify-center">
+      <Loader />
+    </div>
+  );
+};
